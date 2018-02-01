@@ -1,5 +1,6 @@
 package com.frobisher.linux.accelerate.noextend;
 
+import Jama.Matrix;
 import com.frobisher.linux.accelerate.DiagonalMatrixUtils;
 
 import javax.crypto.BadPaddingException;
@@ -109,15 +110,219 @@ public class HACTreeIndexBuilding {
 				Files.write(new File(encryptedFileName).toPath(), encrypt);
 
 				// 显示文件加密后的内容.
-				/*byte[] decrypt = EncryptionUtils.decrypt(encrypt);
-				String text = new String(decrypt);
-				System.out.println(text);
-				System.out.println();*/
+//				byte[] decrypt = EncryptionUtils.decrypt(encrypt);
+//				String text = new String(decrypt);
+//				System.out.println(text);
+//				System.out.println();
 			}
 		}
 
 		System.out.println("total time:" + (System.currentTimeMillis() - start) + "ms");
 		System.out.println("HACTreeIndexBuilding encryptFiles finish.");
+	}
+
+
+	/**
+	 * 构造索引
+	 * 新构造明文索引。然后才加密。加密是encryptHACTreeIndex函数。
+	 * @return
+	 * @throws NoSuchAlgorithmException
+	 */
+	public HACTreeNode buildHACTreeIndex() throws NoSuchAlgorithmException {
+		System.out.println("HACTreeIndexBuilding buildHACTreeIndex start.");
+		long start = System.currentTimeMillis();
+
+		maxComparator = new Comparator<HacTreeNodePairScore>() {
+			@Override
+			public int compare(HacTreeNodePairScore nodePairScore1, HacTreeNodePairScore nodePairScore2) {
+				if (Double.compare(nodePairScore1.score, nodePairScore2.score) > 0) {
+					return -1;
+				} else if (Double.compare(nodePairScore1.score, nodePairScore2.score) < 0) {
+					return 1;
+				} else {
+					return 0;
+				}
+			}
+		};
+
+		Set<HACTreeNode> currentProcessingHACTreeNodeSet = new HashSet<>();
+		Set<HACTreeNode> newGeneratedHACTreeNodeSet = new HashSet<>();
+
+		File parentFile = new File(initialization.PLAIN_DIR);
+		File[] files = parentFile.listFiles();
+
+		for (int i = 0; i < files.length; i++) {
+//			System.out.println(files[i].getName());
+
+			// 原来的P是M*1的矩阵。
+			double[] P = new double[initialization.DICTIONARY_SIZE + initialization.DUMMY_KEYWORD_NUMBER];
+
+			// 当前文档的长度.
+			int lengthOfFile = initialization.fileLength.get(files[i].getName());
+
+			Map<String, Integer> keywordFrequencyInCurrentDocument =
+					initialization.keywordFrequencyInDocument.get(files[i].getName());
+
+			double denominator = tfDenominator(keywordFrequencyInCurrentDocument, lengthOfFile);
+			double molecule = 0;
+
+			for (String key : keywordFrequencyInCurrentDocument.keySet()) {
+				int index = initialization.dict.indexOf(key);
+				if (index != -1) {
+					/*int score = (int)Math.ceil(upper * score(lengthOfFile, keywordFrequencyInCurrentDocument.get(key),
+							Initialization.numberOfDocumentContainsKeyword.get(key), files.length));
+					P.set(0, index, score);*/
+
+					// 本方案中， 文档向量中存储的是归一化的TF值.
+					molecule = (1 + Math.log(keywordFrequencyInCurrentDocument.get(key))) / lengthOfFile;
+					double tfValue = molecule / denominator;
+					/*System.out.printf("%-20s %10s  %-10s %-15s %-10s\n", "key", "freq", "molecule", "denominator", "tfValue");
+					System.out.printf("%-20s %10d  %-10f %-15f %-10f\n", key, keywordFrequencyInCurrentDocument.get(key)
+							,molecule, denominator, tfValue);*/
+					// P.set(index, 0, tfValue);
+					P[index] = tfValue;
+				}
+			}
+
+			// 拓展关键词的权重，但是为了代码的通用性，这里也写上了。
+			double[] sample = new double[initialization.DUMMY_KEYWORD_NUMBER];
+			for (int j = 0; j < (initialization.DUMMY_KEYWORD_NUMBER); j++) {
+				// P.set(Initialization.DICTIONARY_SIZE + j, 0, sample[j]);
+				P[initialization.DICTIONARY_SIZE + j] = sample[j];
+			}
+
+			// 获取消息摘要.
+			MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
+			byte[] keyBytes = mySecretKey.secretKey.getEncoded();
+
+			byte[] fileBytes = fileBytesMap.get(files[i].getName());
+			byte[] bytes = new byte[keyBytes.length + fileBytes.length];
+			System.arraycopy(keyBytes, 0, bytes, 0, keyBytes.length);
+			System.arraycopy(fileBytes, 0, bytes, keyBytes.length, fileBytes.length);
+			messageDigest.update(bytes);
+			// 先构造明文索引树.
+			// 然后在递归加密密文树.
+			HACTreeNode currentNode = new HACTreeNode(P, P, 1,
+					null, null, files[i].getName(), messageDigest);
+
+			/*HACTreeNode currentNode = new HACTreeNode(P, P, 1,
+					null, null, files[i].getName(), files[i].getName());*/
+			/*System.out.println(currentNode);*/
+
+			currentProcessingHACTreeNodeSet.add(currentNode);
+		}
+
+		System.out.println("leaf node numbers:" + currentProcessingHACTreeNodeSet.size());
+		System.out.println("start construct hac-tree.");
+		int round = 1;
+		while (currentProcessingHACTreeNodeSet.size() > 1) {
+			System.out.println("the " + (round++) + "'s round to build tree.");
+			System.out.println("currentProcessingHACTreeNodeSet.size():" + currentProcessingHACTreeNodeSet.size());
+
+			PriorityQueue<HacTreeNodePairScore> maxHeap = getPriorityQueue(currentProcessingHACTreeNodeSet);
+			Set<HACTreeNode> managedNodeSet = new HashSet<>();
+
+			/*System.out.println();*/
+			while (currentProcessingHACTreeNodeSet.size() > 1) {
+//				HACTreeNodePair mostCorrespondNodePair = findMostCorrespondNodePair(currentProcessingHACTreeNodeSet);
+				HacTreeNodePairScore mostSimilarNodePair = maxHeap.poll();
+				// 最相关的两个节点有节点是已经处理过了。
+				if (managedNodeSet.contains(mostSimilarNodePair.node1)
+						|| managedNodeSet.contains(mostSimilarNodePair.node2)) {
+					continue;
+				}
+
+				HACTreeNodePair mostCorrespondNodePair = new HACTreeNodePair(mostSimilarNodePair.node1,
+						mostSimilarNodePair.node2);
+				double[] parentNodePruningVector = getParentNodePruningVectorByOne(mostCorrespondNodePair);
+				double[] parentNodeCenterVector = getParentNodeCenterVector(mostCorrespondNodePair);
+				int parentNumberOfNodeInCurrentCluster = mostCorrespondNodePair.node1.numberOfNodeInCurrentCluster
+						+ mostCorrespondNodePair.node2.numberOfNodeInCurrentCluster;
+				HACTreeNode parentNode = new HACTreeNode(parentNodePruningVector,
+						parentNodeCenterVector, parentNumberOfNodeInCurrentCluster,
+						mostCorrespondNodePair.node1, mostCorrespondNodePair.node2, null, null);
+				currentProcessingHACTreeNodeSet.remove(mostCorrespondNodePair.node1);
+				currentProcessingHACTreeNodeSet.remove(mostCorrespondNodePair.node2);
+
+				// 更新待处理的节点集合。
+				managedNodeSet.add(mostCorrespondNodePair.node1);
+				managedNodeSet.add(mostCorrespondNodePair.node2);
+
+				newGeneratedHACTreeNodeSet.add(parentNode);
+			}
+			if (newGeneratedHACTreeNodeSet.size() > 0) {
+				currentProcessingHACTreeNodeSet.addAll(newGeneratedHACTreeNodeSet);
+				newGeneratedHACTreeNodeSet.clear();
+			}
+		}
+
+		System.out.println("currentProcessingHACTreeNodeSet.size():" + currentProcessingHACTreeNodeSet.size());
+		// currentProcessingHACTreeNodeSet中一定是有一个节点的.
+		HACTreeNode root = currentProcessingHACTreeNodeSet.iterator().next();
+		System.out.println("build hac tree index total time:" + (System.currentTimeMillis() - start) + "ms");
+		System.out.println("HACTreeIndexBuilding buildHACTreeIndex finished.");
+		return root;
+	}
+
+	private double[] getParentNodePruningVectorByOne(HACTreeNodePair pair) {
+		double[] parent = new double[initialization.DICTIONARY_SIZE + initialization.DUMMY_KEYWORD_NUMBER];
+		for (int i = 0; i < initialization.DUMMY_KEYWORD_NUMBER + initialization.DICTIONARY_SIZE; i++) {
+			parent[i] = Double.max(pair.node1.pruningVector[i], pair.node2.pruningVector[i]);
+		}
+		return parent;
+	}
+
+	/**
+	 * 加密root为根节点的树.
+	 * @param root
+	 */
+	public void encryptHACTreeIndex(HACTreeNode root) {
+		if (root == null) {
+			return;
+		}
+
+		double[] pa = new double[initialization.DICTIONARY_SIZE + initialization.DUMMY_KEYWORD_NUMBER];
+		double[] pb = new double[initialization.DICTIONARY_SIZE + initialization.DUMMY_KEYWORD_NUMBER];
+		// 剪枝向量
+		double[] P = root.pruningVector;
+		/**
+		 * S[i] = 0, pa[i] + pb[i] = P[i]
+		 * S[i] = 1, pa[i] = pb[i] = P[i]
+		 */
+		for (int j = 0; j < initialization.DICTIONARY_SIZE + initialization.DUMMY_KEYWORD_NUMBER; j++) {
+			// 置0相加
+			if (!mySecretKey.S.get(j)) {
+				double rand = random.nextDouble();
+				pa[j] = P[j] * rand;
+				pb[j] = P[j] * (1 - rand);
+
+				// 置1相等
+			} else {
+				pa[j] = P[j];
+				pb[j] = P[j];
+			}
+		}
+
+		// 加密剪枝子向量.
+		double[] paEncrypted = DiagonalMatrixUtils.times(AuxiliaryMatrix.M1Transpose, pa);
+		double[] pbEncrypted = DiagonalMatrixUtils.times(AuxiliaryMatrix.M2Transpose, pb);
+		Arrays.toString(paEncrypted);
+		Arrays.toString(pbEncrypted);
+
+		root.pruningVectorPart1 = paEncrypted;
+		root.pruningVectorPart2 = pbEncrypted;
+		// 因为加密后的密文树需要上传, 所以这些临时值就要置为 null or 0.
+		root.pruningVector = null;
+		root.clusterCenterVector = null;
+		root.numberOfNodeInCurrentCluster = 0;
+
+		if (root.left != null) {
+			encryptHACTreeIndex(root.left);
+		}
+		if (root.right != null) {
+			encryptHACTreeIndex(root.right);
+		}
+
 	}
 
 	/**
@@ -134,7 +339,7 @@ public class HACTreeIndexBuilding {
 	 *
 	 * @return
 	 */
-	public HACTreeNode buildHACTreeIndex() throws NoSuchAlgorithmException {
+	public HACTreeNode buildHACTreeIndex2() throws NoSuchAlgorithmException {
 		System.out.println("HACTreeIndexBuilding buildHACTreeIndex start.");
 		long start = System.currentTimeMillis();
 

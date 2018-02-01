@@ -129,6 +129,7 @@ public class SearchAlgorithm {
 					// 已经找到了 N-1个文档，然后将当前文档加入, 但是要更新现在的阈值评分.
 				} else if (size == (requestNumber - 1)) {
 					minHeap.add(root);
+					System.out.println(root.fileDescriptor + ":" + scoreForPrune);
 					HACTreeNode peekNode = minHeap.peek();
 					if (nodeScoreMapForThreshold.containsKey(peekNode)) {
 						thresholdScore = nodeScoreMapForThreshold.get(peekNode);
@@ -146,6 +147,7 @@ public class SearchAlgorithm {
 					if (/*scoreForPruning(root, trapdoor)*/ scoreForPrune > thresholdScore) {
 						HACTreeNode minScoreNode = minHeap.poll();
 						double score = scoreForPruning(minScoreNode, trapdoor);
+						System.out.println(root.fileDescriptor + ":" + scoreForPrune);
 						System.out.println("== (N) remove:" + minScoreNode.fileDescriptor + " socre:" + score);
 						minHeap.add(root);
 						HACTreeNode peekNode = minHeap.peek();
@@ -165,10 +167,6 @@ public class SearchAlgorithm {
 		} else {
 			double score = scoreForPruning(root, trapdoor);
 			computeCount++;
-			/*MatrixUitls.print(root.pruningVectorPart1);
-			MatrixUitls.print(root.pruningVectorPart2);
-			MatrixUitls.print(trapdoor.trapdoorPart1.transpose());
-			MatrixUitls.print(trapdoor.trapdoorPart2.transpose());*/
 			System.out.printf("%-10s\t%.8f\t%-20s\t%.8f\n", "score", score, "thresholdScore", thresholdScore);
 			if (score > thresholdScore) {
 				if (root.left != null) {
@@ -184,7 +182,6 @@ public class SearchAlgorithm {
 				pruneCount++;
 				System.out.println();
 			}
-
 		}
 	}
 

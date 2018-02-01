@@ -32,7 +32,7 @@ public class Initialization {
 	public int DICTIONARY_SIZE;
 	// 添加用于混淆的冗余关键词的数目
 	public int DUMMY_KEYWORD_NUMBER = 10;
-	public int DOC_NUMBER = 600;
+	public int DOC_NUMBER = 1000;
 
 	// 项目目录. 密钥目录. 明文文件目录. 密文文件目录. 40个文件
 

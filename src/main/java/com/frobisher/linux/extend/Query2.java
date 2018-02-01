@@ -30,7 +30,11 @@ public class Query2 {
 			hacTreeIndexBuilding.encryptFiles();
 			hacTreeIndexBuilding.generateAuxiliaryMatrix();
 			HACTreeNode root = hacTreeIndexBuilding.buildHACTreeIndex();
-			// System.out.println(root);
+			System.out.println("HACTreeIndexBuilding.encryptHACTreeIndex start...");
+			long start = System.currentTimeMillis();
+			hacTreeIndexBuilding.encryptHACTreeIndex(root);
+			System.out.println("time:" + (System.currentTimeMillis() - start) + "ms");
+			System.out.println("HACTreeIndexBuilding.encryptHACTreeIndex end.");
 
 			// for-16
 			// String query = "church China hospital performance British interview Democratic citizenship broadcasting voice";
@@ -45,8 +49,8 @@ public class Query2 {
 			SearchAlgorithm searchAlgorithm = new SearchAlgorithm();
 
 			// for-40
-			int requestNumber = 15;
-			// int requestNumber = 6;
+//			int requestNumber = 15;
+			 int requestNumber = 5;
 			PriorityQueue<HACTreeNode> priorityQueue = searchAlgorithm.search(root, trapdoor, requestNumber);
 			System.out.println("Query2 priorityQueue.size():" + priorityQueue.size());
 			for (HACTreeNode node : priorityQueue) {

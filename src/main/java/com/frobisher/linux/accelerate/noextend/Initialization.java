@@ -72,7 +72,6 @@ public class Initialization {
 	// filename -> {keyword: count}
 	public Map<String, Map<String, Integer>> keywordFrequencyInDocument = new HashMap<>();
 
-
 	static{
 		SEPERATOR = "\\";
 		if (System.getProperty("os.name").toLowerCase().startsWith("linux")) {

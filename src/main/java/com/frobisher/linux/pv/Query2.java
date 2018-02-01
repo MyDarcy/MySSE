@@ -23,7 +23,6 @@ public class Query2 {
 
 	public static void test2() {
 		try {
-
 			Initialization initialization = new Initialization();
 			// 没有写textrank和plain文档分离的版本。
 			// 只是new def了两个函数。
@@ -35,8 +34,13 @@ public class Query2 {
 			hacTreeIndexBuilding.encryptFiles();
 			hacTreeIndexBuilding.generateAuxiliaryMatrix();
 			HACTreeNode root = hacTreeIndexBuilding.buildHACTreeIndex();
+			// 基于TextRank.
 //			HACTreeNode root = hacTreeIndexBuilding.buildHACTreeIndexWithTextRank();
-			// System.out.println(root);
+			System.out.println("HACTreeIndexBuilding.encryptHACTreeIndex start...");
+			long start = System.currentTimeMillis();
+			hacTreeIndexBuilding.encryptHACTreeIndex(root);
+			System.out.println("time:" + (System.currentTimeMillis() - start) + "ms");
+			System.out.println("HACTreeIndexBuilding.encryptHACTreeIndex end.");
 
 			// for-16
 			// String query = "church China hospital performance British interview Democratic citizenship broadcasting voice";

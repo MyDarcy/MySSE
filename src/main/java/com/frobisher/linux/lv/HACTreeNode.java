@@ -33,6 +33,7 @@ public class HACTreeNode {
 
 	// 剪枝向量
 	// 因为需要对剪枝向量通过可逆矩阵来加密。
+	public Matrix pruningVector;
 	public Matrix pruningVectorPart1;
 	public Matrix pruningVectorPart2;
 
@@ -56,19 +57,21 @@ public class HACTreeNode {
 
 
 
-	public HACTreeNode() {
-	}
+//	public HACTreeNode() {
+//	}
+//
+//	public HACTreeNode(Matrix pruningVectorPart1, Matrix pruningVectorPart2, HACTreeNode left, HACTreeNode right, String fileDescriptor, MessageDigest signature) {
+//		this.pruningVectorPart1 = pruningVectorPart1;
+//		this.pruningVectorPart2 = pruningVectorPart2;
+//		this.left = left;
+//		this.right = right;
+//		this.fileDescriptor = fileDescriptor;
+//		this.digest = signature;
+//	}
 
-	public HACTreeNode(Matrix pruningVectorPart1, Matrix pruningVectorPart2, HACTreeNode left, HACTreeNode right, String fileDescriptor, MessageDigest signature) {
-		this.pruningVectorPart1 = pruningVectorPart1;
-		this.pruningVectorPart2 = pruningVectorPart2;
-		this.left = left;
-		this.right = right;
-		this.fileDescriptor = fileDescriptor;
-		this.digest = signature;
-	}
-
-	public HACTreeNode(Matrix pruningVectorPart1, Matrix pruningVectorPart2, Matrix clusterCenterVector, int numberOfNodeInCurrentCluster, HACTreeNode left, HACTreeNode right, String fileDescriptor, MessageDigest signature) {
+	public HACTreeNode(Matrix pruningVectorPart1, Matrix pruningVectorPart2,
+										 Matrix clusterCenterVector, int numberOfNodeInCurrentCluster,
+										 HACTreeNode left, HACTreeNode right, String fileDescriptor, MessageDigest signature) {
 		this.pruningVectorPart1 = pruningVectorPart1;
 		this.pruningVectorPart2 = pruningVectorPart2;
 		this.clusterCenterVector = clusterCenterVector;
@@ -79,60 +82,72 @@ public class HACTreeNode {
 		this.digest = signature;
 	}
 
-/*	@Override
-	public String toString() {
-		int pruningVectorLength = Initialization.DICTIONARY_SIZE + Initialization.DUMMY_KEYWORD_NUMBER;
-		int clusterCenterVectorLength = Initialization.DICTIONARY_SIZE + Initialization.DUMMY_KEYWORD_NUMBER;
-		if (clusterCenterVector == null) {
-			clusterCenterVectorLength = 0;
-		}
-		return "HACTreeNode{" +
-				"pruningVectorPart1.length=" + pruningVectorLength +
-				", pruningVectorPart2.length=" + pruningVectorLength +
-				", clusterCenterVector.length=" + clusterCenterVectorLength +
-				", numberOfNodeInCurrentCluster=" + numberOfNodeInCurrentCluster +
-				", left=" + left +
-				", right=" + right +
-				", fileDescriptor='" + fileDescriptor + '\'' +
-				", digest=" + digest +
-				'}';
-	}*/
-
-	/*public HACTreeNode(Matrix pruningVector, HACTreeNode left, HACTreeNode right, String fileDescriptor, String signature) {
-		this.pruningVector = pruningVector;
-		this.left = left;
-		this.right = right;
-		this.fileDescriptor = fileDescriptor;
-		this.signature = signature;
-	}
-
-	public HACTreeNode(Matrix pruningVector, Matrix clusterCenterVector, int numberOfNodeInCurrentCluster, HACTreeNode left, HACTreeNode right, String fileDescriptor, String signature) {
+	public HACTreeNode(Matrix pruningVector,
+										 Matrix clusterCenterVector, int numberOfNodeInCurrentCluster,
+										 HACTreeNode left, HACTreeNode right, String fileDescriptor, MessageDigest digest) {
 		this.pruningVector = pruningVector;
 		this.clusterCenterVector = clusterCenterVector;
 		this.numberOfNodeInCurrentCluster = numberOfNodeInCurrentCluster;
 		this.left = left;
 		this.right = right;
 		this.fileDescriptor = fileDescriptor;
-		this.signature = signature;
-	}*/
+		this.digest = digest;
+	}
 
-	/*@Override
-	public String toString() {
-		int pruningVectorLength = Initialization.DICTIONARY_SIZE + Initialization.DUMMY_KEYWORD_NUMBER + 1;
-		int clusterCenterVectorLength = Initialization.DICTIONARY_SIZE + Initialization.DUMMY_KEYWORD_NUMBER + 1;
-		if (clusterCenterVector == null) {
-			clusterCenterVectorLength = 0;
-		}
-		return "HACTreeNode{" +
-				"pruningVector.length=" + pruningVectorLength +
-				", clusterCenterVector.length=" + clusterCenterVectorLength +
-				", numberOfNodeInCurrentCluster=" + numberOfNodeInCurrentCluster +
-				", left=" + left +
-				", right=" + right +
-				", fileDescriptor='" + fileDescriptor + '\'' +
-				", signature='" + signature + '\'' +
-				'}';
-	}*/
+	//	@Override
+//	public String toString() {
+//		int pruningVectorLength = Initialization.DICTIONARY_SIZE + Initialization.DUMMY_KEYWORD_NUMBER;
+//		int clusterCenterVectorLength = Initialization.DICTIONARY_SIZE + Initialization.DUMMY_KEYWORD_NUMBER;
+//		if (clusterCenterVector == null) {
+//			clusterCenterVectorLength = 0;
+//		}
+//		return "HACTreeNode{" +
+//				"pruningVectorPart1.length=" + pruningVectorLength +
+//				", pruningVectorPart2.length=" + pruningVectorLength +
+//				", clusterCenterVector.length=" + clusterCenterVectorLength +
+//				", numberOfNodeInCurrentCluster=" + numberOfNodeInCurrentCluster +
+//				", left=" + left +
+//				", right=" + right +
+//				", fileDescriptor='" + fileDescriptor + '\'' +
+//				", digest=" + digest +
+//				'}';
+//	}
+
+//	public HACTreeNode(Matrix pruningVector, HACTreeNode left, HACTreeNode right, String fileDescriptor, String signature) {
+//		this.pruningVector = pruningVector;
+//		this.left = left;
+//		this.right = right;
+//		this.fileDescriptor = fileDescriptor;
+//		this.signature = signature;
+//	}
+//
+//	public HACTreeNode(Matrix pruningVector, Matrix clusterCenterVector, int numberOfNodeInCurrentCluster, HACTreeNode left, HACTreeNode right, String fileDescriptor, String signature) {
+//		this.pruningVector = pruningVector;
+//		this.clusterCenterVector = clusterCenterVector;
+//		this.numberOfNodeInCurrentCluster = numberOfNodeInCurrentCluster;
+//		this.left = left;
+//		this.right = right;
+//		this.fileDescriptor = fileDescriptor;
+//		this.signature = signature;
+//	}
+
+//	@Override
+//	public String toString() {
+//		int pruningVectorLength = Initialization.DICTIONARY_SIZE + Initialization.DUMMY_KEYWORD_NUMBER + 1;
+//		int clusterCenterVectorLength = Initialization.DICTIONARY_SIZE + Initialization.DUMMY_KEYWORD_NUMBER + 1;
+//		if (clusterCenterVector == null) {
+//			clusterCenterVectorLength = 0;
+//		}
+//		return "HACTreeNode{" +
+//				"pruningVector.length=" + pruningVectorLength +
+//				", clusterCenterVector.length=" + clusterCenterVectorLength +
+//				", numberOfNodeInCurrentCluster=" + numberOfNodeInCurrentCluster +
+//				", left=" + left +
+//				", right=" + right +
+//				", fileDescriptor='" + fileDescriptor + '\'' +
+//				", signature='" + signature + '\'' +
+//				'}';
+//	}
 }
 
 /*

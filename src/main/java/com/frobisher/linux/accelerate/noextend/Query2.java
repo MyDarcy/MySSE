@@ -27,13 +27,13 @@ public class Query2 {
 		try {
 			Initialization initialization = new Initialization();
 			MySecretKey mySecretKey = initialization.getMySecretKey();
-			HACTreeIndexBuilding hacTreeIndexBuilding = new HACTreeIndexBuilding(mySecretKey);
+			HACTreeIndexBuilding hacTreeIndexBuilding = new HACTreeIndexBuilding(mySecretKey, initialization);
 			hacTreeIndexBuilding.buildHACTreeIndex();
 
 			String query = "church China hospital performance British interview Democratic citizenship broadcasting voice";
 
 			System.out.println("Query2 start generating trapdoor.");
-			TrapdoorGenerating trapdoorGenerating = new TrapdoorGenerating(mySecretKey);
+			TrapdoorGenerating trapdoorGenerating = new TrapdoorGenerating(mySecretKey, initialization);
 			Trapdoor trapdoor = trapdoorGenerating.generateTrapdoor(query);
 
 		} catch (IOException e) {
@@ -102,6 +102,70 @@ public class Query2 {
 		}
 	}
 
+	public static void testMultiRounds() {
+		int round = 10;
+		List<List<String>> list = new ArrayList<>(round);
+		try {
+			for (int i = 0; i < round; i++) {
+				Initialization initialization = new Initialization();
+				MySecretKey mySecretKey = initialization.getMySecretKey();
+				HACTreeIndexBuilding hacTreeIndexBuilding = new HACTreeIndexBuilding(mySecretKey, initialization);
+				hacTreeIndexBuilding.encryptFiles();
+				hacTreeIndexBuilding.generateAuxiliaryMatrix();
+				// 构造明文树索引
+				HACTreeNode root = hacTreeIndexBuilding.buildHACTreeIndex();
+				// 加密树索引
+				hacTreeIndexBuilding.encryptHACTreeIndex(root);
+				String query = "church China hospital performance British interview Democratic citizenship broadcasting voice";
+				System.out.println("Query2 start generating trapdoor.");
+				TrapdoorGenerating trapdoorGenerating = new TrapdoorGenerating(mySecretKey, initialization);
+				Trapdoor trapdoor = trapdoorGenerating.generateTrapdoor(query);
+
+				int requestNumber1 = 6;
+				List<Integer> requestNumberList = new ArrayList<>();
+				int low = 4;
+				int high = 4;
+				for (int j = low; j <= high; j += low) {
+					requestNumberList.add(j);
+				}
+
+				for (int requestNumber : requestNumberList) {
+					SearchAlgorithm searchAlgorithm = new SearchAlgorithm();
+					PriorityQueue<HACTreeNode> priorityQueue = searchAlgorithm.search(root, trapdoor, requestNumber);
+					System.out.println("\nQuery2 priorityQueue.size():" + priorityQueue.size());
+
+					Map<String, Double> nodeScoreMap = new HashMap<>();
+					for (HACTreeNode node : priorityQueue) {
+						nodeScoreMap.put(node.fileDescriptor, scoreForPruning(node, trapdoor));
+					}
+					List<String> filenameList = priorityQueue.stream().map((node) -> node.fileDescriptor).collect(toList());
+					list.add(filenameList);
+//				String keywordPatternStr = getQueryPattern(query);
+//				System.out.println("\nrequestNumber:" + requestNumber + "\t" + query);
+//
+//				// 验证搜索结果是否包含特定的文档。
+//				searchResultVerify(initialization, filenameList, keywordPatternStr, nodeScoreMap);
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		} catch (InvalidKeyException e) {
+			e.printStackTrace();
+		} catch (IllegalBlockSizeException e) {
+			e.printStackTrace();
+		} catch (BadPaddingException e) {
+			e.printStackTrace();
+		}
+		List<String> result = new ArrayList<>(list.size());
+		list.stream().forEach((filenames) -> result.add(filenames.stream().collect(joining())));
+		String filenameString = result.get(0);
+		result.stream().forEach(System.out::println);
+		Boolean equalOrNot = result.stream().map(str -> str.equals(filenameString)).reduce((b1, b2) -> b1 && b2).get();
+		System.out.println(equalOrNot);
+	}
+
 	/**
 	 * 根节点和Trapdoor之间的相关性评分.
 	 *
@@ -157,9 +221,10 @@ public class Query2 {
 		System.out.println(Query2.class.getName() + " search.");
 		System.out.println("noextend4 search.");
 
-		/*test1();*/
+//		test1();
 
-		test2();
+//		test2();
 
+		testMultiRounds();
 	}
 }

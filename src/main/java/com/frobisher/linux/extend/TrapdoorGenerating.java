@@ -57,8 +57,9 @@ public class TrapdoorGenerating {
 			String keyword = keywordList.get(i);
 			int index = initialization.dict.indexOf(keyword);
 			if (index != -1) {
-				System.out.printf("%-30s\t%-10s\t%.8f\n", keyword, "idf-value", idfs.get(keyword));
-				Q.set(index, 0, idfs.get(keyword));
+//				System.out.printf("%-30s\t%-10s\t%.8f\n", keyword, "idf-value", idfs.get(keyword));
+//				Q.set(index, 0, idfs.get(keyword));
+				Q.set(index, 0, 1);
 				/*System.out.printf("%-10s\t%-10s\t%.8f\n", keyword, "Q.get(index, 0)", Q.get(index, 0));*/
 			}
 		}

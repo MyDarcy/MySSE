@@ -31,7 +31,7 @@ public class Initialization {
 	public int DICTIONARY_SIZE;
 	// 添加用于混淆的冗余关键词的数目
 	public final int DUMMY_KEYWORD_NUMBER = 10;
-	public int DOC_NUMBER = 16;
+	public int DOC_NUMBER = 40;
 
 //	// 项目目录. 密钥目录. 明文文件目录. 密文文件目录
 	public static String BASE = "D:\\MrDarcy\\ForGraduationWorks\\Code\\SSE";

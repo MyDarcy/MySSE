@@ -33,6 +33,7 @@ public class HACTreeNode {
 
 	// 剪枝向量
 	// 因为需要对剪枝向量通过可逆矩阵来加密。
+	public Matrix pruningVector;
 	public Matrix pruningVectorPart1;
 	public Matrix pruningVectorPart2;
 
@@ -55,17 +56,17 @@ public class HACTreeNode {
 	public MessageDigest digest;
 
 
-	public HACTreeNode() {
-	}
-
-	public HACTreeNode(Matrix pruningVectorPart1, Matrix pruningVectorPart2, HACTreeNode left, HACTreeNode right, String fileDescriptor, MessageDigest signature) {
-		this.pruningVectorPart1 = pruningVectorPart1;
-		this.pruningVectorPart2 = pruningVectorPart2;
-		this.left = left;
-		this.right = right;
-		this.fileDescriptor = fileDescriptor;
-		this.digest = signature;
-	}
+//	public HACTreeNode() {
+//	}
+//
+//	public HACTreeNode(Matrix pruningVectorPart1, Matrix pruningVectorPart2, HACTreeNode left, HACTreeNode right, String fileDescriptor, MessageDigest signature) {
+//		this.pruningVectorPart1 = pruningVectorPart1;
+//		this.pruningVectorPart2 = pruningVectorPart2;
+//		this.left = left;
+//		this.right = right;
+//		this.fileDescriptor = fileDescriptor;
+//		this.digest = signature;
+//	}
 
 	public HACTreeNode(Matrix pruningVectorPart1, Matrix pruningVectorPart2, Matrix clusterCenterVector, int numberOfNodeInCurrentCluster, HACTreeNode left, HACTreeNode right, String fileDescriptor, MessageDigest signature) {
 		this.pruningVectorPart1 = pruningVectorPart1;
@@ -78,7 +79,19 @@ public class HACTreeNode {
 		this.digest = signature;
 	}
 
-/*	@Override
+	public HACTreeNode(Matrix pruningVector,
+										 Matrix clusterCenterVector, int numberOfNodeInCurrentCluster,
+										 HACTreeNode left, HACTreeNode right, String fileDescriptor, MessageDigest digest) {
+		this.pruningVector = pruningVector;
+		this.clusterCenterVector = clusterCenterVector;
+		this.numberOfNodeInCurrentCluster = numberOfNodeInCurrentCluster;
+		this.left = left;
+		this.right = right;
+		this.fileDescriptor = fileDescriptor;
+		this.digest = digest;
+	}
+
+	/*	@Override
 	public String toString() {
 		int pruningVectorLength = Initialization.DICTIONARY_SIZE + Initialization.DUMMY_KEYWORD_NUMBER;
 		int clusterCenterVectorLength = Initialization.DICTIONARY_SIZE + Initialization.DUMMY_KEYWORD_NUMBER;
