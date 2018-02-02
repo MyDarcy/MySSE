@@ -111,18 +111,18 @@
     <!-- stanford npl -->
     <!-- https://mvnrepository.com/artifact/edu.stanford.nlp/stanford-corenlp -->
     <!-- https://nlp.stanford.edu/software/ -->
-    <dependency>
-      <groupId>edu.stanford.nlp</groupId>
-      <artifactId>stanford-corenlp</artifactId>
-      <version>${corenlp.version}</version>
-    </dependency>
+    <!--<dependency>-->
+      <!--<groupId>edu.stanford.nlp</groupId>-->
+      <!--<artifactId>stanford-corenlp</artifactId>-->
+      <!--<version>${corenlp.version}</version>-->
+    <!--</dependency>-->
 
-    <dependency>
-      <groupId>edu.stanford.nlp</groupId>
-      <artifactId>stanford-corenlp</artifactId>
-      <version>${corenlp.version}</version>
-      <classifier>models</classifier>
-    </dependency>
+    <!--<dependency>-->
+      <!--<groupId>edu.stanford.nlp</groupId>-->
+      <!--<artifactId>stanford-corenlp</artifactId>-->
+      <!--<version>${corenlp.version}</version>-->
+      <!--<classifier>models</classifier>-->
+    <!--</dependency>-->
 
     <!--		<dependency>
 					<groupId>edu.stanford.nlp</groupId>
@@ -260,7 +260,8 @@
               <!--<mainClass>com.darcy.linux.accelerate.pv.Query2</mainClass>-->
               <!--<mainClass>com.darcy.linux.pv.Query2</mainClass>-->
               <!--<mainClass>com.darcy.linux.accelerate.pv.Query2</mainClass>-->
-              <mainClass>com.darcy.linux.pv.Query2</mainClass>
+              <!--<mainClass>com.darcy.linux.pv.Query2</mainClass>-->
+              <mainClass>com.frobisher.auxiliary.MatrixTrasposeInverseTimeTest</mainClass>
             </manifest>
           </archive>
         </configuration>

@@ -2,7 +2,7 @@ package com.frobisher.linux.accelerate.pv;
 
 
 import com.frobisher.linux.accelerate.DiagonalMatrixUtils;
-import com.frobisher.linux.utils.StemLemmatizations;
+// import com.frobisher.linux.utils.StemLemmatizations;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
@@ -202,7 +202,7 @@ public class Initialization {
 					// 1000个文档，通过stem和lemmatization后， 24776维度。
 					// 100个文档，通过stem和lemmatization后， 7865维度。
 					// 综合结论，降维还是非常有效的。
-					line = StemLemmatizations.stemLemmatization(line);
+//					line = StemLemmatizations.stemLemmatization(line);
 					matcher = matcher.reset(line);
 					while (matcher.find()) {
 						// 忽略大小写.
