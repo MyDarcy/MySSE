@@ -2,7 +2,9 @@ package com.frobisher.linux.pv;
 
 
 import Jama.Matrix;
+import com.frobisher.linux.utils.DocumentGenerators;
 import com.frobisher.linux.utils.TextRankUtils;
+import org.ujmp.core.doublematrix.calculation.entrywise.creators.Rand;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
@@ -175,6 +177,55 @@ public class Initialization {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	public int simulationDocumentNumber = 1000;
+	public int simulationDictSize = 8000;
+	public List<Matrix> simulationDocuments = null;
+	public Set<Integer> simulationDummykeywordIndexSet;
+
+	/**
+	 * @return
+	 */
+	public MySecretKey getMySecretKeySimulation() {
+		return getMySecretKeySimulation(1000, 8000);
+	}
+
+	/**
+	 *
+	 * @param documentNumber
+	 * @param dictSize
+	 * @return
+	 */
+	public MySecretKey getMySecretKeySimulation(int documentNumber, int dictSize) {
+		this.simulationDictSize = dictSize;
+		this.simulationDocumentNumber = documentNumber;
+		Random random = new Random();
+		Set<Integer> dummykeywordIndexSet = new HashSet<>();
+		for (int i = 0; i < 10; i++) {
+			dummykeywordIndexSet.add(random.nextInt(simulationDictSize));
+		}
+		DocumentGenerators generators = new DocumentGenerators(dummykeywordIndexSet, 5, 50);
+		List<Matrix> documents = generators.generateDocumentsMatrix(simulationDocumentNumber, simulationDictSize);
+		this.simulationDummykeywordIndexSet = dummykeywordIndexSet;
+		this.simulationDocuments = documents;
+
+		MySecretKey sk = new MySecretKey();
+
+		BitSet bitSet = new BitSet(simulationDictSize);
+		for (int i = 0; i < (simulationDictSize); i++) {
+			if (random.nextBoolean()) {
+				bitSet.set(i);
+			}
+		}
+		bitSet.set(simulationDictSize);
+		Matrix m1 = Matrix.random(simulationDictSize, simulationDictSize);
+		Matrix m2 = Matrix.random(simulationDictSize, simulationDictSize);
+		sk.S = bitSet;
+		sk.M1 = m1;
+		sk.M2 = m2;
+		sk.secretKey = secretKey;
+		return sk;
 	}
 
 	/**

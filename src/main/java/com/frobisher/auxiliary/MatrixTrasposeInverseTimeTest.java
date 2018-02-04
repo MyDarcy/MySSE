@@ -19,10 +19,15 @@ public class MatrixTrasposeInverseTimeTest {
 	static Map<Integer, Long> transposeMap = new LinkedHashMap<>();
 	static Map<Integer, Long> inverseMap = new LinkedHashMap<>();
 
-	static List<Long> diagonalTranspose = new ArrayList<>();
-	static List<Long> diagonalInverse = new ArrayList<>();
-	static Map<Integer, Long> diagonalTransposeMap = new LinkedHashMap<>();
-	static Map<Integer, Long> diagonalInverseMap = new LinkedHashMap<>();
+//	static List<Long> diagonalTranspose = new ArrayList<>();
+//	static List<Long> diagonalInverse = new ArrayList<>();
+//	static Map<Integer, Long> diagonalTransposeMap = new LinkedHashMap<>();
+//	static Map<Integer, Long> diagonalInverseMap = new LinkedHashMap<>();
+
+	static List<Double> diagonalTranspose = new ArrayList<>();
+	static List<Double> diagonalInverse = new ArrayList<>();
+	static Map<Integer, Double> diagonalTransposeMap = new LinkedHashMap<>();
+	static Map<Integer, Double> diagonalInverseMap = new LinkedHashMap<>();
 
 	static List<Integer> dimensions = new ArrayList<Integer>();
 
@@ -30,7 +35,7 @@ public class MatrixTrasposeInverseTimeTest {
 
 	static {
 		dimensions = IntStream.rangeClosed(1000, 10000).filter((number) -> number % 1000 == 0).boxed().collect(Collectors.toList());
-		dimensions.addAll(Arrays.asList(12000, 15000, 16000, 18000, 20000, 25000));
+		dimensions.addAll(Arrays.asList(12000, 15000, 16000, 18000, 20000, 25000, 30000));
 //		dimensions = IntStream.rangeClosed(100, 2000).filter((number) -> (number % 100) == 0).boxed().collect(Collectors.toList());
 	}
 
@@ -48,23 +53,40 @@ public class MatrixTrasposeInverseTimeTest {
 		Random random = new Random();
 		/*for (int i = low; i <= high; i += low)*/
 		 for(Integer i : dimensions){
-			System.out.println("======= " + i + "=======");
-			double[] matrix1 = new double[i];
-			fillArray(matrix1);
-			double[] matrix2 = new double[i];
-			fillArray(matrix2);
-			long start = System.currentTimeMillis();
-			DiagonalMatrixUtils.transpose(matrix1);
-			DiagonalMatrixUtils.transpose(matrix2);
-			long cost = System.currentTimeMillis() - start;
-			diagonalTranspose.add(cost);
-			diagonalTransposeMap.put(i, cost);
-			start = System.currentTimeMillis();
-			DiagonalMatrixUtils.inverse(matrix1);
-			DiagonalMatrixUtils.inverse(matrix2);
-			long cost2 = System.currentTimeMillis() - start;
-			diagonalInverse.add(cost2);
-			diagonalInverseMap.put(i, cost2);
+			System.out.println(i);
+			double[] M1 = new double[i];
+			fillArray(M1);
+			double[] M2 = new double[i];
+			 fillArray(M2);
+
+			 long start = System.currentTimeMillis();
+			 long nstart = start;
+
+			 double[] M1Transpose = DiagonalMatrixUtils.transpose(M1);
+			 double[] M2Transpose = DiagonalMatrixUtils.transpose(M2);
+			 System.out.println("two transpose:" + (System.currentTimeMillis() - start) + "ms");
+
+			 start = System.currentTimeMillis();
+			 double[] M1Inverse = DiagonalMatrixUtils.inverse(M1);
+			 double[] M2Inverse = DiagonalMatrixUtils.inverse(M2);
+			 System.out.println("two inverse:" + (System.currentTimeMillis() - start) + "ms");
+//			fillArray(matrix2);
+////			long start = System.currentTimeMillis();
+//			long start = System.nanoTime();
+//			double[] x = DiagonalMatrixUtils.transpose(matrix1);
+//			double[] y = DiagonalMatrixUtils.transpose(matrix2);
+////			long cost = System.currentTimeMillis() - start;
+//			long cost = System.nanoTime() - start;
+//			diagonalTranspose.add(cost / 1000000.0);
+//			diagonalTransposeMap.put(i, cost / 1000000.0);
+////			start = System.currrentTimeMillis();
+//			start = System.nanoTime();
+//			double[] xi = DiagonalMatrixUtils.inverse(matrix1);
+//			double[] yi = DiagonalMatrixUtils.inverse(matrix2);
+////			long cost2 = System.currentTimeMillis() - start;
+//			long cost2 = System.nanoTime() - start;
+//			diagonalInverse.add(cost2 / 1000000.0);
+//			diagonalInverseMap.put(i, cost2 / 1000000.0);
 		}
 	}
 
@@ -81,7 +103,7 @@ public class MatrixTrasposeInverseTimeTest {
 
 	private static void fillArray(double[] matrix1) {
 		for (int i = 0; i < matrix1.length; i++) {
-			matrix1[i] = random.nextDouble();
+			matrix1[i] = random.nextDouble() * 3;
 		}
 	}
 
