@@ -198,15 +198,21 @@ public class Initialization {
 	 * @return
 	 */
 	public MySecretKey getMySecretKeySimulation(int documentNumber, int dictSize) {
+		return getMySecretKeySimulation(5, 80, documentNumber, dictSize);
+	}
+
+	public MySecretKey getMySecretKeySimulation(int low, int high, int documentNumber, int dictSize) {
 		this.simulationDictSize = dictSize;
 		this.simulationDocumentNumber = documentNumber;
-		Random random = new Random();
+		Random random = new Random(31);
 		Set<Integer> dummykeywordIndexSet = new HashSet<>();
 		for (int i = 0; i < 10; i++) {
 			dummykeywordIndexSet.add(random.nextInt(simulationDictSize));
 		}
-		DocumentGenerators generators = new DocumentGenerators(dummykeywordIndexSet, 5, 50);
-		List<Matrix> documents = generators.generateDocumentsMatrix(simulationDocumentNumber, simulationDictSize);
+		DocumentGenerators generators = new DocumentGenerators(dummykeywordIndexSet, low, high);
+		// 注意，此处为了模拟逻辑搜索，那么每个关键词应该设置为0, 1
+		List<Matrix> documents = generators.generateDocumentsMatrix01(simulationDocumentNumber, simulationDictSize);
+//		System.out.println("documents.size():" + documents.size());
 		this.simulationDummykeywordIndexSet = dummykeywordIndexSet;
 		this.simulationDocuments = documents;
 

@@ -1,19 +1,14 @@
-package com.frobisher.linux.pv;
+package com.frobisher.linux.accelerate.pv;
 
-import Jama.Matrix;
+import com.frobisher.linux.accelerate.DiagonalMatrixUtils;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 
 /*
@@ -29,7 +24,7 @@ public class QuerySimulation {
 			// 没有写textrank和plain文档分离的版本。
 			// 只是new def了两个函数。
 			MySecretKey mySecretKey = initialization.getMySecretKeySimulation(
-					1000, 2000);
+					2000, 6000);
 
 			// 这个的问题在于fileLength没有统计出来，生成消息摘要会出现问题。
 //			MySecretKey mySecretKey = initialization.getMySecretKeyWithTextRank();
@@ -70,16 +65,17 @@ public class QuerySimulation {
 				}
 			}
 
-			TrapdoorGeneratingSimulation trapdoorGenerating = new TrapdoorGeneratingSimulation(mySecretKey, initialization);
+			TrapdoorGeneratingSimulation trapdoorGenerating =
+					new TrapdoorGeneratingSimulation(mySecretKey, initialization);
 			Trapdoor trapdoor = trapdoorGenerating.generateTrapdoor(keywordsIndex);
 
 			// for-40
        int requestNumber1 = 4;
 			List<Integer> requestNumberList = new ArrayList<>();
-			int low = (int) Math.ceil(initialization.simulationDocumentNumber * 0.01);
-			int high = (int) Math.ceil(initialization.simulationDocumentNumber * 0.1);
-//			int low = 20;
-//			int high = low;
+			int low = (int) Math.ceil(initialization.simulationDocumentNumber * 0.001);
+			int high = (int) Math.ceil(initialization.simulationDocumentNumber * 0.01);
+//			int low = 2;
+//			int high = 10;
 			for (int i = low; i <= high; i += low) {
 				requestNumberList.add(i);
 			}
@@ -335,10 +331,10 @@ public class QuerySimulation {
 			System.out.println(filenameList.get(i) + "\tscore:" + nodeScoreMap.get(filenameList.get(i)));
 			String filename = filenameList.get(i);
 			int simulationFileIndex = Integer.valueOf(filename);
-			Matrix matrix = initialization.simulationDocuments.get(simulationFileIndex);
+			double[] matrix = initialization.simulationDocuments.get(simulationFileIndex);
 			for (int j = 0; j < keywordsIndex.size(); j++) {
-				if (Double.compare(matrix.get(keywordsIndex.get(j), 0), 0) > 0) {
-					System.out.printf("%-10s%-6f\n", keywordsIndex.get(j), matrix.get(keywordsIndex.get(j), 0));
+				if (Double.compare(matrix[keywordsIndex.get(j)], 0) > 0) {
+					System.out.printf("%-10s%-6f\n", keywordsIndex.get(j), matrix[keywordsIndex.get(j)]);
 				}
 			}
 		}
@@ -346,30 +342,20 @@ public class QuerySimulation {
 
 	private static double scoreForPruning(HACTreeNode root, Trapdoor trapdoor) {
 		/*return root.pruningVector.times(queryVector).get(0, 0);*/
-		/*return root.pruningVectorPart1.transpose().times(trapdoor.trapdoorPart1).get(0, 0)
-				+ root.pruningVectorPart2.transpose().times(trapdoor.trapdoorPart2).get(0, 0);*/
-
-		double[][] p1 = root.pruningVectorPart1.getArray();
-		double[][] p2 = root.pruningVectorPart2.getArray();
-		double[][] q1 = trapdoor.trapdoorPart1.getArray();
-		double[][] q2 = trapdoor.trapdoorPart2.getArray();
-		double sum = 0;
-		for (int i = 0; i < p1.length; i++) {
-			sum += p1[i][0] * q1[i][0] + p2[i][0] * q2[i][0];
-		}
-		return sum;
+		return DiagonalMatrixUtils.score(root.pruningVectorPart1, trapdoor.trapdoorPart1) +
+				DiagonalMatrixUtils.score(root.pruningVectorPart2, trapdoor.trapdoorPart2);
 	}
 
 	public static void main(String[] args) throws IOException, NoSuchAlgorithmException {
 		System.out.println(QuerySimulation.class.getName() + " search.");
 //		test2();
-//		System.err.println("testWithFixedDocumentNumberAndQueryNumber");
-//		testWithFixedDocumentNumberAndQueryNumber(6000, 20);
-//		System.out.println();
-//		System.out.println();
-//		System.out.println();
-//		System.err.println("testWithFixedDictSizeAndQueryNumber");
-//		testWithFixedDictSizeAndQueryNumber(4000, 20);
+		System.err.println("testWithFixedDocumentNumberAndQueryNumber");
+		testWithFixedDocumentNumberAndQueryNumber(6000, 20);
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.err.println("testWithFixedDictSizeAndQueryNumber");
+		testWithFixedDictSizeAndQueryNumber(4000, 20);
 
 		System.out.println();
 		System.out.println();

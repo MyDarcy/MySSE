@@ -1,15 +1,11 @@
-package com.frobisher.linux.pv;
+package com.frobisher.linux.accelerate.pv;
 
-import Jama.Matrix;
+import com.frobisher.linux.accelerate.DiagonalMatrixUtils;
 import com.frobisher.linux.utils.MathUtils;
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
-import org.ujmp.core.doublematrix.calculation.entrywise.creators.Rand;
 
 import java.io.IOException;
 import java.util.*;
 import java.util.regex.Matcher;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 /*
  * author: darcy
@@ -21,7 +17,7 @@ import java.util.stream.IntStream;
 public class TrapdoorGeneratingSimulation {
 
 	private MySecretKey mySecretKey;
-	public Initialization initialization;
+	private Initialization initialization;
 
 	public TrapdoorGeneratingSimulation(MySecretKey mySecretKey) {
 		this.mySecretKey = mySecretKey;
@@ -44,7 +40,7 @@ public class TrapdoorGeneratingSimulation {
 	 * @return
 	 */
 	public Trapdoor generateTrapdoor(List<Integer> keywordsIndex) {
-		System.out.println("TrapdoorGenerating trapdoorGenerating start.");
+		System.out.println("TrapdoorGeneratingSimulation trapdoorGenerating start.");
 		long start = System.currentTimeMillis();
 
 		/**
@@ -101,7 +97,7 @@ public class TrapdoorGeneratingSimulation {
 			interestModel.put(keywordsIndex.get(i), factors.get(i));
 		}
 
-		Matrix Q = new Matrix(initialization.simulationDictSize, 1);
+		double[] Q = new double[initialization.simulationDictSize];
 
 		// 超递增序列是关键词的偏好因子.
 		double factor = 0.2;
@@ -132,31 +128,31 @@ public class TrapdoorGeneratingSimulation {
 			Integer index = keywordsIndex.get(i);
 			double preferenceFactor = preferenceFactors.get(index);
 //			System.out.printf("%-20s%-15s%.8f\n", index, "preference", preferenceFactor);
-			Q.set(index, 0, preferenceFactor);
+			Q[index] = preferenceFactor;
 		}
 
 		// 之前一直都忘记了这一部分。
 		for (Integer index : initialization.simulationDummykeywordIndexSet) {
 			if (Initialization.RANDOM.nextBoolean()) {
-				Q.set(index, 0, 1);
+				Q[index] = 1;
 			}
 		}
 
-		Matrix qa = new Matrix(initialization.simulationDictSize, 1);
-		Matrix qb = new Matrix(initialization.simulationDictSize, 1);
+		double[] qa = new double[initialization.simulationDictSize];
+		double[] qb = new double[initialization.simulationDictSize];
 
 
 		for (int i = 0; i < initialization.simulationDictSize; i++) {
 			// S[i] == 1;
 			if (mySecretKey.S.get(i)) {
 				double v1 = random.nextDouble();
-				qa.set(i, 0, Q.get(i, 0) * v1);
-				qb.set(i, 0, Q.get(i, 0) * (1 - v1));
+				qa[i] = Q[i] * v1;
+				qb[i] = Q[i] * (1 - v1);
 
 				//S[i] == 0;
 			} else {
-				qa.set(i, 0, Q.get(i, 0));
-				qb.set(i, 0, Q.get(i, 0));
+				qa[i] = Q[i];
+				qb[i] = Q[i];
 			}
 		}
 
@@ -167,10 +163,10 @@ public class TrapdoorGeneratingSimulation {
 		System.out.println(inverseM1.getRowDimension() + "\t" +inverseM2.getColumnDimension());
 		System.out.println(qa.getRowDimension() + "\t" +qb.getColumnDimension());*/
 
-		Matrix part1 = AuxiliaryMatrix.M1Inverse.times(qa);
-		Matrix part2 = AuxiliaryMatrix.M2Inverse.times(qb);
-		System.out.println("generate trapdoor total time:" + (System.currentTimeMillis() - start) + "ms");
-		System.out.println("TrapdoorGenerating trapdoorGenerating finished.");
+		double[] part1 = DiagonalMatrixUtils.times(AuxiliaryMatrix.M1Inverse, qa);
+		double[] part2 = DiagonalMatrixUtils.times(AuxiliaryMatrix.M2Inverse, qb);
+		System.out.println("generate trapdoor cost:" + (System.currentTimeMillis() - start) + "ms");
+		System.out.println("TrapdoorGeneratingSimulation trapdoorGenerating finished.");
 		return new Trapdoor(part1, part2);
 	}
 

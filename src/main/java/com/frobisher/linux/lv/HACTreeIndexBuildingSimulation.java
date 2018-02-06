@@ -1,15 +1,18 @@
-package com.frobisher.linux.pv;
+package com.frobisher.linux.lv;
 
 import Jama.Matrix;
+import com.frobisher.linux.pv.AuxiliaryMatrix;
+import com.frobisher.linux.pv.HACTreeIndexBuilding;
+import com.frobisher.linux.pv.HACTreeNode;
+import com.frobisher.linux.pv.HACTreeNodePair;
+import com.frobisher.linux.pv.Initialization;
+import com.frobisher.linux.pv.MySecretKey;
 import org.apache.commons.math3.distribution.RealDistribution;
 import org.apache.commons.math3.distribution.UniformRealDistribution;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.security.InvalidKeyException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -22,7 +25,6 @@ import static java.util.stream.Collectors.toList;
  * date: 2017/12/18 22:22
  * description: 
 */
-
 
 
 public class HACTreeIndexBuildingSimulation {
@@ -73,7 +75,7 @@ public class HACTreeIndexBuildingSimulation {
 	// 添加的冗余关键词的权重取值范围
 	// 论文中取值 -0.01~0.01 -0.03~0.03 -0.05~0.05
 	// 因为本方案中文档向量中的tf-idf值是0.00x级别的。
-	public RealDistribution distribution = new UniformRealDistribution(-0.00001, 0.00001);
+//	public RealDistribution distribution = new UniformRealDistribution(-0.00001, 0.00001);
 	public Random random = new Random(System.currentTimeMillis());
 
 	/**
@@ -138,11 +140,13 @@ public class HACTreeIndexBuildingSimulation {
 			// System.out.println(files[i].getName());
 
 			Matrix P = initialization.simulationDocuments.get(i);
-			double[] sample = distribution.sample(initialization.simulationDummykeywordIndexSet.size());
-			int indexCount = 0;
-			for (int index : initialization.simulationDummykeywordIndexSet) {
-				P.set(index, 0, sample[indexCount++]);
-			}
+			// 不要这个部分，logic search的构造需求. 但是末位需要置1.
+			P.set(initialization.simulationDictSize - 1, 0, 1);
+//			double[] sample = distribution.sample(initialization.simulationDummykeywordIndexSet.size());
+//			int indexCount = 0;
+//			for (int index : initialization.simulationDummykeywordIndexSet) {
+//				P.set(index, 0, sample[indexCount++]);
+//			}
 			// 获取消息摘要.
 			MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
 			byte[] keyBytes = mySecretKey.secretKey.getEncoded();

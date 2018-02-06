@@ -5,6 +5,7 @@ import org.apache.commons.math3.linear.MatrixUtils;
 
 import javax.print.Doc;
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 
 /*
  * author: darcy
@@ -14,6 +15,7 @@ import java.util.*;
 
 class MyRandom {
 	Random random = new Random();
+	ThreadLocalRandom localRandom = ThreadLocalRandom.current();
 	int low = 0;
 	int high = 2;
 
@@ -30,7 +32,8 @@ class MyRandom {
 	}
 
 	public boolean next() {
-		return random.nextInt(high) == low;
+//		return random.nextInt(high) == low;
+		return localRandom.nextInt(high) == low;
 	}
 
 	/**
@@ -48,7 +51,16 @@ class MyRandom {
 	 */
 	public double get(int times) {
 		if (next()) {
-			return random.nextDouble() * times;
+//			return random.nextDouble() * times;
+			return localRandom.nextDouble(times);
+		} else {
+			return 0;
+		}
+	}
+
+	public int get01() {
+		if (next()) {
+			return 1;
 		} else {
 			return 0;
 		}
@@ -125,6 +137,45 @@ public class DocumentGenerators {
 		return documents;
 	}
 
+	public List<Matrix> generateDocumentsMatrix01(int documentNumber, int matrixSize) {
+		List<Matrix> documents = new ArrayList<>(documentNumber);
+		for (int i = 0; i < documentNumber; i++) {
+			documents.add(generateMatrix01(matrixSize));
+		}
+		return documents;
+	}
+
+	public List<double[]> generateDocumentsArray01(int documentNumber, int matrixSize) {
+		List<double[]> documents = new ArrayList<>(documentNumber);
+		for (int i = 0; i < documentNumber; i++) {
+			documents.add(generateDoubleArray01(matrixSize));
+		}
+		return documents;
+	}
+
+	private Matrix generateMatrix01(int size) {
+		double[][] array = new double[size][1];
+		Random selector = new Random();
+		MyRandom myRandom = randomList.get(selector.nextInt(randomList.size()));
+		// 字典维度是size, 那么假定的总的虚拟关键词的个数是 size - 1, 因为最后一个位置用
+		// 于构造查询需要的。
+		for (int i = 0; i < size - 1; i++) {
+			array[i][0] = myRandom.get01();
+		}
+		return new Matrix(array);
+	}
+
+	public double[] generateDoubleArray01(int size) {
+		double[] P = new double[size];
+		Random selector = new Random();
+		MyRandom myRandom = randomList.get(selector.nextInt(randomList.size()));
+		for (int i = 0; i < size - 1; i++) {
+			// 同理
+			P[i] = myRandom.get01();
+		}
+		return P;
+	}
+
 	/**
 	 * 获取一个MyRandom对象，其概率能反映文档的长度
 	 * @param size
@@ -146,7 +197,6 @@ public class DocumentGenerators {
 		double[] P = new double[size];
 		Random selector = new Random();
 		MyRandom myRandom = randomList.get(selector.nextInt(randomList.size()));
-		System.out.println(myRandom);
 		for (int i = 0; i < size; i++) {
 			// 不包含.
 			if (!dummykeywordIndexSet.contains(i)) {
@@ -187,7 +237,7 @@ public class DocumentGenerators {
 		System.out.println();
 
 		generators = new DocumentGenerators(5, 40);
-		List<Matrix> matrices = generators.generateDocumentsMatrix(30, 4000);
+		List<Matrix> matrices = generators.generateDocumentsMatrix01(30, 4000);
 		Double MIN = Double.MAX_VALUE;
 		for (int i = 0; i < matrices.size(); i++) {
 			int count = 0;
@@ -210,5 +260,4 @@ public class DocumentGenerators {
 		}
 		System.out.println("\n" + "MIN:" + MIN);
 	}
-
 }

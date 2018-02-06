@@ -261,7 +261,11 @@
               <!--<mainClass>com.darcy.linux.pv.Query2</mainClass>-->
               <!--<mainClass>com.darcy.linux.accelerate.pv.Query2</mainClass>-->
               <!--<mainClass>com.darcy.linux.pv.Query2</mainClass>-->
-              <mainClass>com.frobisher.auxiliary.MatrixTrasposeInverseTimeTest</mainClass>
+              <!--<mainClass>com.frobisher.auxiliary.MatrixTrasposeInverseTimeTest</mainClass>-->
+              <!--<mainClass>com.frobisher.linux.pv.QuerySimulation</mainClass>-->
+              <!--<mainClass>com.frobisher.linux.lv.QuerySimulation</mainClass>-->
+              <!--<mainClass>com.frobisher.linux.accelerate.pv.QuerySimulation</mainClass>-->
+              <mainClass>com.frobisher.linux.accelerate.lv.QuerySimulation</mainClass>
             </manifest>
           </archive>
         </configuration>

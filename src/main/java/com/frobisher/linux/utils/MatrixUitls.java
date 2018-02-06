@@ -15,9 +15,11 @@ public class MatrixUitls {
 			System.out.print("[");
 			for (int j = 0; j < array[i].length; j++) {
 				if (j < array[i].length - 1) {
-					System.out.printf("%4f,", array[i][j]);
+//					System.out.printf("%4f,", array[i][j]);
+					System.out.print(array[i][j] + "\t\t");
 				} else {
-					System.out.printf("%4f", array[i][j]);
+//					System.out.printf("%4f", array[i][j]);
+					System.out.print(array[i][j] + "\t\t");
 				}
 			}
 			System.out.println("]");

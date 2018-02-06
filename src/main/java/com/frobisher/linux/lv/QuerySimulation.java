@@ -1,19 +1,18 @@
-package com.frobisher.linux.pv;
+package com.frobisher.linux.lv;
 
 import Jama.Matrix;
+import com.frobisher.linux.pv.HACTreeNode;
+import com.frobisher.linux.pv.Initialization;
+import com.frobisher.linux.pv.MySecretKey;
+import com.frobisher.linux.pv.Trapdoor;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 
 /*
@@ -28,8 +27,8 @@ public class QuerySimulation {
 			Initialization initialization = new Initialization();
 			// 没有写textrank和plain文档分离的版本。
 			// 只是new def了两个函数。
-			MySecretKey mySecretKey = initialization.getMySecretKeySimulation(
-					1000, 2000);
+			MySecretKey mySecretKey = initialization.getMySecretKeySimulation(3, 5,
+					600, 600);
 
 			// 这个的问题在于fileLength没有统计出来，生成消息摘要会出现问题。
 //			MySecretKey mySecretKey = initialization.getMySecretKeyWithTextRank();
@@ -48,27 +47,11 @@ public class QuerySimulation {
 			System.out.println("build & encrypt cost:" + (System.currentTimeMillis() - start) + "ms");
 			System.out.println("HACTreeIndexBuilding build & encrypt index end.");
 
-			List<Integer> keywordsIndex = Arrays.asList(
-					18, 122, 144, 290, 450, 800, 1200, 2500, 3712, 4817, 5412, 6611, 7810
-			);
+			int orNumbers = 5;
+			int andNumbers = 2;
+			int notNumbers = 3;
 
-//			keywordsIndex = Arrays.asList(
-//					18, 45, 89, 198, 256, 390, 450, 680, 789, 812, 907, 1222, 1368
-//			);
-
-			Random random = new Random(31);
-			int queryNumber = 20;
-			keywordsIndex = new ArrayList<>(queryNumber);
-			int j = 0;
-			while (j < queryNumber) {
-				int queryIndex = random.nextInt(initialization.simulationDictSize);
-				if (!initialization.simulationDummykeywordIndexSet.contains(queryIndex)) {
-					if (keywordsIndex.indexOf(queryIndex) == -1) {
-						keywordsIndex.add(queryIndex);
-						j++;
-					}
-				}
-			}
+			List<List<Integer>> keywordsIndex = getThreeKindsOfKeywordsIndex(initialization, orNumbers, andNumbers, notNumbers);
 
 			TrapdoorGeneratingSimulation trapdoorGenerating = new TrapdoorGeneratingSimulation(mySecretKey, initialization);
 			Trapdoor trapdoor = trapdoorGenerating.generateTrapdoor(keywordsIndex);
@@ -76,10 +59,10 @@ public class QuerySimulation {
 			// for-40
        int requestNumber1 = 4;
 			List<Integer> requestNumberList = new ArrayList<>();
-			int low = (int) Math.ceil(initialization.simulationDocumentNumber * 0.01);
-			int high = (int) Math.ceil(initialization.simulationDocumentNumber * 0.1);
-//			int low = 20;
-//			int high = low;
+//			int low = (int) Math.ceil(initialization.simulationDocumentNumber * 0.001);
+//			int high = (int) Math.ceil(initialization.simulationDocumentNumber * 0.01);
+			int low = 2;
+			int high = 10;
 			for (int i = low; i <= high; i += low) {
 				requestNumberList.add(i);
 			}
@@ -96,10 +79,10 @@ public class QuerySimulation {
 				}
 				List<String> filenameList = priorityQueue.stream().map((node) -> node.fileDescriptor).collect(toList());
 
-//				System.out.println("\nrequestNumber:" + requestNumber + "\t" + keywordsIndex);
+				System.out.println("\nrequestNumber:" + requestNumber + "\t" + keywordsIndex);
 
 				// 验证搜索结果是否包含特定的文档。
-//				searchResultVerify(initialization, filenameList, keywordsIndex, nodeScoreMap);
+				searchResultVerify(initialization, filenameList, keywordsIndex, nodeScoreMap);
 			}
 
 		} catch (IOException e) {
@@ -113,6 +96,49 @@ public class QuerySimulation {
 		} catch (BadPaddingException e) {
 			e.printStackTrace();
 		}
+	}
+
+	/**
+	 * @param initialization
+	 * @param orNumbers
+	 * @param andNumbers
+	 * @param notNumbers
+	 * @return
+	 */
+	private static List<List<Integer>> getThreeKindsOfKeywordsIndex(Initialization initialization,
+			int orNumbers, int andNumbers, int notNumbers) {
+		Random random = new Random(31);
+		List<Integer> orKeywordsIndex = new ArrayList<>(orNumbers);
+		List<Integer> andKeywordsIndex = new ArrayList<>(andNumbers);
+		List<Integer> notKeywordsIndex = new ArrayList<>(notNumbers);
+
+		int j = 0;
+		while (j < orNumbers) {
+			int queryIndex = random.nextInt(initialization.simulationDictSize - 1);
+			orKeywordsIndex.add(queryIndex);
+			j++;
+		}
+
+		j = 0;
+		while (j < andNumbers) {
+			int queryIndex = random.nextInt(initialization.simulationDictSize - 1);
+			if (orKeywordsIndex.indexOf(queryIndex) == -1) {
+				andKeywordsIndex.add(queryIndex);
+				j++;
+			}
+		}
+
+		j = 0;
+		while (j < notNumbers) {
+			int queryIndex = random.nextInt(initialization.simulationDictSize - 1);
+			if (orKeywordsIndex.indexOf(queryIndex) == -1
+					&& andKeywordsIndex.indexOf(queryIndex) == -1) {
+				notKeywordsIndex.add(queryIndex);
+				j++;
+			}
+		}
+
+		return Arrays.asList(orKeywordsIndex, andKeywordsIndex, notKeywordsIndex);
 	}
 
 	public static void testWithFixedDocumentNumberAndQueryNumber() {
@@ -132,7 +158,7 @@ public class QuerySimulation {
 				System.err.println("documentNumber:" + documentNumber + "\trequestNumber:" + requestNumber + "\tdictSize:" + dictSizeList.get(i));
 				System.out.println("documentNumber:" + documentNumber + "\trequestNumber:" + requestNumber + "\tdictSize:" + dictSizeList.get(i));
 				Initialization initialization = new Initialization();
-				MySecretKey mySecretKey = initialization.getMySecretKeySimulation(
+				MySecretKey mySecretKey = initialization.getMySecretKeySimulation(3, 5,
 						documentNumber, dictSizeList.get(i));
 				HACTreeIndexBuildingSimulation hacTreeIndexBuilding = new HACTreeIndexBuildingSimulation(mySecretKey, initialization);
 				hacTreeIndexBuilding.encryptFiles();
@@ -148,18 +174,15 @@ public class QuerySimulation {
 				System.out.println("HACTreeIndexBuilding build & encrypt index end.");
 
 				Random random = new Random(31);
-				// attention, 此处的requestNumber和生成陷门处兴趣模型时的关键词是耦合的。
-				List<Integer> keywordsIndex = new ArrayList<>(requestNumber);
-				int j = 0;
-				while (j < requestNumber) {
-					int queryIndex = random.nextInt(initialization.simulationDictSize);
-					if (!initialization.simulationDummykeywordIndexSet.contains(queryIndex)) {
-						if (keywordsIndex.indexOf(queryIndex) == -1) {
-							keywordsIndex.add(queryIndex);
-							j++;
-						}
-					}
-				}
+
+				// attention, 和 prefer版本不同
+
+				int orNumbers = 5;
+				int andNumbers = 2;
+				int notNumbers = 3;
+
+				List<List<Integer>> keywordsIndex = getThreeKindsOfKeywordsIndex(initialization, orNumbers, andNumbers, notNumbers);
+
 
 				TrapdoorGeneratingSimulation trapdoorGenerating = new TrapdoorGeneratingSimulation(mySecretKey, initialization);
 				Trapdoor trapdoor = trapdoorGenerating.generateTrapdoor(keywordsIndex);
@@ -203,7 +226,7 @@ public class QuerySimulation {
 				System.err.println("documentNumber:" + documentNumber + "\trequestNumber:" + requestNumber + "\tdictSize:" + dictSize);
 				System.out.println("documentNumber:" + documentNumber + "\trequestNumber:" + requestNumber + "\tdictSize:" + dictSize);
 				Initialization initialization = new Initialization();
-				MySecretKey mySecretKey = initialization.getMySecretKeySimulation(
+				MySecretKey mySecretKey = initialization.getMySecretKeySimulation(3, 5,
 						documentNumber, dictSize);
 				HACTreeIndexBuildingSimulation hacTreeIndexBuilding = new HACTreeIndexBuildingSimulation(mySecretKey, initialization);
 				hacTreeIndexBuilding.encryptFiles();
@@ -218,19 +241,12 @@ public class QuerySimulation {
 				System.out.println("build & encrypt cost:" + (System.currentTimeMillis() - start) + "ms");
 				System.out.println("HACTreeIndexBuilding build & encrypt index end.");
 
-				Random random = new Random(31);
-				// attention, 此处的requestNumber和生成陷门处兴趣模型时的关键词是耦合的。
-				List<Integer> keywordsIndex = new ArrayList<>(requestNumber);
-				int j = 0;
-				while (j < requestNumber) {
-					int queryIndex = random.nextInt(initialization.simulationDictSize);
-					if (!initialization.simulationDummykeywordIndexSet.contains(queryIndex)) {
-						if (keywordsIndex.indexOf(queryIndex) == -1) {
-							keywordsIndex.add(queryIndex);
-							j++;
-						}
-					}
-				}
+				int orNumbers = 5;
+				int andNumbers = 2;
+				int notNumbers = 3;
+
+				List<List<Integer>> keywordsIndex = getThreeKindsOfKeywordsIndex(initialization, orNumbers, andNumbers, notNumbers);
+
 
 				TrapdoorGeneratingSimulation trapdoorGenerating = new TrapdoorGeneratingSimulation(mySecretKey, initialization);
 				Trapdoor trapdoor = trapdoorGenerating.generateTrapdoor(keywordsIndex);
@@ -275,7 +291,7 @@ public class QuerySimulation {
 				System.err.println("documentNumber:" + documentNumber + "\trequestNumber:" + requestNumber + "\tdictSize:" + dictSize);
 				System.out.println("documentNumber:" + documentNumber + "\trequestNumber:" + requestNumber + "\tdictSize:" + dictSize);
 				Initialization initialization = new Initialization();
-				MySecretKey mySecretKey = initialization.getMySecretKeySimulation(
+				MySecretKey mySecretKey = initialization.getMySecretKeySimulation(3, 5,
 						documentNumber, dictSize);
 				HACTreeIndexBuildingSimulation hacTreeIndexBuilding = new HACTreeIndexBuildingSimulation(mySecretKey, initialization);
 				hacTreeIndexBuilding.encryptFiles();
@@ -290,19 +306,12 @@ public class QuerySimulation {
 				System.out.println("build & encrypt cost:" + (System.currentTimeMillis() - start) + "ms");
 				System.out.println("HACTreeIndexBuilding build & encrypt index end.");
 
-				Random random = new Random(31);
-				// attention, 此处的requestNumber和生成陷门处兴趣模型时的关键词是耦合的。
-				List<Integer> keywordsIndex = new ArrayList<>(requestNumber);
-				int j = 0;
-				while (j < requestNumber) {
-					int queryIndex = random.nextInt(initialization.simulationDictSize);
-					if (!initialization.simulationDummykeywordIndexSet.contains(queryIndex)) {
-						if (keywordsIndex.indexOf(queryIndex) == -1) {
-							keywordsIndex.add(queryIndex);
-							j++;
-						}
-					}
-				}
+				int orNumbers = 5;
+				int andNumbers = 2;
+				int notNumbers = 3;
+
+				List<List<Integer>> keywordsIndex = getThreeKindsOfKeywordsIndex(initialization, orNumbers, andNumbers, notNumbers);
+
 
 				TrapdoorGeneratingSimulation trapdoorGenerating = new TrapdoorGeneratingSimulation(mySecretKey, initialization);
 				Trapdoor trapdoor = trapdoorGenerating.generateTrapdoor(keywordsIndex);
@@ -328,17 +337,20 @@ public class QuerySimulation {
 		}
 	}
 
-	private static void searchResultVerify(Initialization initialization, List<String> filenameList, List<Integer> keywordsIndex, Map<String, Double> nodeScoreMap) throws IOException {
+	private static void searchResultVerify(Initialization initialization, List<String> filenameList, List<List<Integer>> keywordsIndex, Map<String, Double> nodeScoreMap) throws IOException {
 		System.out.println();
-		for (int i = 0; i < filenameList.size(); i++) {
+		for (int fileIndex = 0; fileIndex < filenameList.size(); fileIndex++) {
 			System.out.println();
-			System.out.println(filenameList.get(i) + "\tscore:" + nodeScoreMap.get(filenameList.get(i)));
-			String filename = filenameList.get(i);
+			System.out.println(filenameList.get(fileIndex) + "\tscore:" + nodeScoreMap.get(filenameList.get(fileIndex)));
+			String filename = filenameList.get(fileIndex);
 			int simulationFileIndex = Integer.valueOf(filename);
 			Matrix matrix = initialization.simulationDocuments.get(simulationFileIndex);
 			for (int j = 0; j < keywordsIndex.size(); j++) {
-				if (Double.compare(matrix.get(keywordsIndex.get(j), 0), 0) > 0) {
-					System.out.printf("%-10s%-6f\n", keywordsIndex.get(j), matrix.get(keywordsIndex.get(j), 0));
+				List<Integer> keywordsIndexKinds = keywordsIndex.get(j);
+				for (int k = 0; k < keywordsIndexKinds.size(); k++) {
+					if (matrix.get(keywordsIndexKinds.get(k), 0) > 0) {
+						System.out.println(keywordsIndexKinds.get(k) + "\t\t\t" + matrix.get(keywordsIndexKinds.get(k), 0));
+					}
 				}
 			}
 		}
@@ -363,13 +375,13 @@ public class QuerySimulation {
 	public static void main(String[] args) throws IOException, NoSuchAlgorithmException {
 		System.out.println(QuerySimulation.class.getName() + " search.");
 //		test2();
-//		System.err.println("testWithFixedDocumentNumberAndQueryNumber");
-//		testWithFixedDocumentNumberAndQueryNumber(6000, 20);
-//		System.out.println();
-//		System.out.println();
-//		System.out.println();
-//		System.err.println("testWithFixedDictSizeAndQueryNumber");
-//		testWithFixedDictSizeAndQueryNumber(4000, 20);
+		System.err.println("testWithFixedDocumentNumberAndQueryNumber");
+		testWithFixedDocumentNumberAndQueryNumber(6000, 20);
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.err.println("testWithFixedDictSizeAndQueryNumber");
+		testWithFixedDictSizeAndQueryNumber(4000, 20);
 
 		System.out.println();
 		System.out.println();
