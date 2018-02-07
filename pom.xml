@@ -265,6 +265,10 @@
               <!--<mainClass>com.frobisher.linux.pv.QuerySimulation</mainClass>-->
               <!--<mainClass>com.frobisher.linux.lv.QuerySimulation</mainClass>-->
               <!--<mainClass>com.frobisher.linux.accelerate.pv.QuerySimulation</mainClass>-->
+              <!--<mainClass>com.frobisher.linux.accelerate.lv.QuerySimulation</mainClass>-->
+              <!--<mainClass>com.frobisher.linux.pv.QuerySimulation</mainClass>-->
+              <!--<mainClass>com.frobisher.linux.lv.QuerySimulation</mainClass>-->
+              <!--<mainClass>com.frobisher.linux.accelerate.pv.QuerySimulation</mainClass>-->
               <mainClass>com.frobisher.linux.accelerate.lv.QuerySimulation</mainClass>
             </manifest>
           </archive>

@@ -167,26 +167,8 @@ public class TrapdoorGeneratingSimulation {
 	}
 
 	public static void main(String[] args) throws IOException {
-		Initialization initialization = new Initialization();
-		MySecretKey mySecretKey = initialization.getMySecretKey();
-		TrapdoorGeneratingSimulation trapdoorGenerating = new TrapdoorGeneratingSimulation(mySecretKey, initialization);
-		String query = "Pope Francis honorary citizenship Democratic Revolution clinton owners oversee would half pick";
-		List<String> keywordList = new ArrayList<>();
-		Matcher matcher = Initialization.WORD_PATTERN.matcher(query);
-		while (matcher.find()) {
-			keywordList.add(matcher.group().toLowerCase());
-		}
-
-		System.out.println(initialization.dict.contains("clinton"));
-		System.out.println(initialization.numberOfDocumentContainsKeyword.keySet().contains("clinton"));
-
-		for (int i = 0; i < keywordList.size(); i++) {
-			String keyword = keywordList.get(i);
-			if (initialization.dict.contains(keyword)) {
-				System.out.printf("%-15s\t %6d\n", keyword, initialization.numberOfDocumentContainsKeyword.get(keyword));
-			} else {
-				System.out.printf("%-15s\t %6d\n", keyword, 0);
-			}
-		}
+		/**
+		 * 论文中是陷门生成是按照关键词的数目生成的.
+		 */
 	}
 }
