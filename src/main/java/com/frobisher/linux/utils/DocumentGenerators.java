@@ -1,9 +1,7 @@
 package com.frobisher.linux.utils;
 
 import Jama.Matrix;
-import org.apache.commons.math3.linear.MatrixUtils;
 
-import javax.print.Doc;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 

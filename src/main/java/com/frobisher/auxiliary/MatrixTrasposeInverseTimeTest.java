@@ -2,7 +2,6 @@ package com.frobisher.auxiliary;
 
 import Jama.Matrix;
 import com.frobisher.linux.accelerate.DiagonalMatrixUtils;
-import org.ujmp.core.doublematrix.calculation.entrywise.creators.Rand;
 
 import java.util.*;
 import java.util.stream.Collectors;

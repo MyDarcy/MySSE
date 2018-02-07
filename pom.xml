@@ -249,26 +249,6 @@
           </descriptorRefs>
           <archive>
             <manifest>
-              <!--<mainClass>com.darcy.Scheme2017MUSE.linux.plain4.Query2</mainClass>-->
-              <!--<mainClass>com.darcy.Scheme2017MUSE.linux.plain5.Query2</mainClass>-->
-              <!--<mainClass>com.darcy.linux.extend.Query2</mainClass>-->
-              <!--<mainClass>com.darcy.linux.extend.Query2</mainClass>-->
-              <!--<mainClass>com.darcy.linux.pv.Query2</mainClass>-->
-              <!--<mainClass>com.darcy.linux.lv.Query2</mainClass>-->
-              <!--<mainClass>com.darcy.linux.accelerate.extend.Query2</mainClass>-->
-              <!--<mainClass>com.darcy.linux.accelerate.lv.Query2</mainClass>-->
-              <!--<mainClass>com.darcy.linux.accelerate.pv.Query2</mainClass>-->
-              <!--<mainClass>com.darcy.linux.pv.Query2</mainClass>-->
-              <!--<mainClass>com.darcy.linux.accelerate.pv.Query2</mainClass>-->
-              <!--<mainClass>com.darcy.linux.pv.Query2</mainClass>-->
-              <!--<mainClass>com.frobisher.auxiliary.MatrixTrasposeInverseTimeTest</mainClass>-->
-              <!--<mainClass>com.frobisher.linux.pv.QuerySimulation</mainClass>-->
-              <!--<mainClass>com.frobisher.linux.lv.QuerySimulation</mainClass>-->
-              <!--<mainClass>com.frobisher.linux.accelerate.pv.QuerySimulation</mainClass>-->
-              <!--<mainClass>com.frobisher.linux.accelerate.lv.QuerySimulation</mainClass>-->
-              <!--<mainClass>com.frobisher.linux.pv.QuerySimulation</mainClass>-->
-              <!--<mainClass>com.frobisher.linux.lv.QuerySimulation</mainClass>-->
-              <!--<mainClass>com.frobisher.linux.accelerate.pv.QuerySimulation</mainClass>-->
               <mainClass>com.frobisher.linux.accelerate.lv.QuerySimulation</mainClass>
             </manifest>
           </archive>
