@@ -45,6 +45,8 @@ public class TextRankUtils {
 					if (array.length == 2) {
 						wordWeightMap.put(array[0], Double.parseDouble(array[1]));
 
+						// Gensim可能导致这种效果，
+						// 用Jieba则没有这种问题
 						// 可能提取出来包含多个关键词的短语。譬如 american influence  0.5633
 					} else {
 						Double score = Double.parseDouble(array[array.length - 1]);

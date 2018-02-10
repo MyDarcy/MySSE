@@ -418,7 +418,7 @@ public class Initialization {
 		// 初始化字典的长度和字典本身.
 		this.lengthOfDict = dict.size();
 
-		this.DICTIONARY_SIZE = lengthOfDict;
+		this.DICTIONARY_SIZE = this.lengthOfDict;
 		// 拓展字典
 		extendDummyDict = generateExtendDictPart(DUMMY_KEYWORD_NUMBER);
 		dict.addAll(extendDummyDict);

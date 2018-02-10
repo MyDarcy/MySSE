@@ -119,13 +119,17 @@ public class QuerySimulation {
 	 * @param documentNumber 实验中对比数据是 6000
 	 * @param requestNumber  实验中对比数据是 20
 	 */
-	public static void testWithFixedDocumentNumberKeywordNumberRequestNumber(int documentNumber, int keywordNumber, int requestNumber) {
+	public static void testWithFixedDocumentNumberKeywordNumberRequestNumber(int documentNumber,
+																																					 int keywordNumber,
+																																					 int requestNumber) {
 		try {
 			List<Integer> dictSizeList = Arrays.asList(2000, 4000, 6000, 8000, 10000);
 			for (int i = 0; i < dictSizeList.size(); i++) {
 				System.out.println();
-				System.err.println("documentNumber:" + documentNumber + "\tkeywordNumber:" + keywordNumber + "\trequestNumber:" + requestNumber + "\tdictSize:" + dictSizeList.get(i));
-				System.out.println("documentNumber:" + documentNumber + "\tkeywordNumber:" + keywordNumber + "\trequestNumber:" + requestNumber + "\tdictSize:" + dictSizeList.get(i));
+				System.err.println("documentNumber:" + documentNumber + "\tkeywordNumber:" + keywordNumber +
+						"\trequestNumber:" + requestNumber + "\tdictSize:" + dictSizeList.get(i));
+				System.out.println("documentNumber:" + documentNumber + "\tkeywordNumber:" + keywordNumber +
+						"\trequestNumber:" + requestNumber + "\tdictSize:" + dictSizeList.get(i));
 				Initialization initialization = new Initialization();
 				MySecretKey mySecretKey = initialization.getMySecretKeySimulation(
 						documentNumber, dictSizeList.get(i));
@@ -189,14 +193,18 @@ public class QuerySimulation {
 	 * @param dictSize
 	 * @param requestNumber
 	 */
-	public static void testWithFixedDictSizeKeywordNumberRequestNumber(int dictSize, int keywordNumber, int requestNumber) {
+	public static void testWithFixedDictSizeKeywordNumberRequestNumber(int dictSize,
+																																		 int keywordNumber,
+																																		 int requestNumber) {
 		try {
 			List<Integer> documentNumberList = Arrays.asList(2000, 4000, 6000, 8000, 10000);
 			for (int i = 0; i < documentNumberList.size(); i++) {
 				System.out.println();
 				int documentNumber = documentNumberList.get(i);
-				System.err.println("documentNumber:" + documentNumber + "\tkeywordNumber:" + keywordNumber + "\trequestNumber:" + requestNumber + "\tdictSize:" + dictSize);
-				System.out.println("documentNumber:" + documentNumber + "\tkeywordNumber:" + keywordNumber + "\trequestNumber:" + requestNumber + "\tdictSize:" + dictSize);
+				System.err.println("documentNumber:" + documentNumber + "\tkeywordNumber:" + keywordNumber +
+						"\trequestNumber:" + requestNumber + "\tdictSize:" + dictSize);
+				System.out.println("documentNumber:" + documentNumber + "\tkeywordNumber:" + keywordNumber +
+						"\trequestNumber:" + requestNumber + "\tdictSize:" + dictSize);
 				Initialization initialization = new Initialization();
 				MySecretKey mySecretKey = initialization.getMySecretKeySimulation(
 						documentNumber, dictSize);
@@ -270,8 +278,10 @@ public class QuerySimulation {
 					System.out.println();
 					int requestNumber = requestNumberList.get(i);
 					int keywordNumber = keywordNumberList.get(j);
-					System.err.println("documentNumber:" + documentNumber + "\tkeywordNumber:" + keywordNumber + "\trequestNumber:" + requestNumber + "\tdictSize:" + dictSize);
-					System.out.println("documentNumber:" + documentNumber + "\tkeywordNumber:" + keywordNumber + "\trequestNumber:" + requestNumber + "\tdictSize:" + dictSize);
+					System.err.println("documentNumber:" + documentNumber + "\tkeywordNumber:" + keywordNumber +
+							"\trequestNumber:" + requestNumber + "\tdictSize:" + dictSize);
+					System.out.println("documentNumber:" + documentNumber + "\tkeywordNumber:" + keywordNumber +
+							"\trequestNumber:" + requestNumber + "\tdictSize:" + dictSize);
 					Initialization initialization = new Initialization();
 					MySecretKey mySecretKey = initialization.getMySecretKeySimulation(
 							documentNumber, dictSize);

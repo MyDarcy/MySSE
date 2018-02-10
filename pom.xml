@@ -249,7 +249,8 @@
           </descriptorRefs>
           <archive>
             <manifest>
-              <mainClass>com.frobisher.linux.accelerate.lv.QuerySimulation</mainClass>
+              <!--<mainClass>com.frobisher.linux.accelerate.lv.QuerySimulation</mainClass>-->
+              <mainClass>com.frobisher.linux.ordinary.lv.QuerySimulation</mainClass>
             </manifest>
           </archive>
         </configuration>

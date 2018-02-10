@@ -1,8 +1,11 @@
 package com.frobisher.linux.accelerate.pv;
 
 
+import Jama.Matrix;
 import com.frobisher.linux.accelerate.DiagonalMatrixUtils;
 import com.frobisher.linux.utils.DocumentGenerators;
+import com.frobisher.linux.utils.MatrixUitls;
+import com.frobisher.linux.utils.TextRankUtils;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
@@ -81,6 +84,8 @@ public class Initialization {
 	public Map<String, Map<String, Integer>> keywordFrequencyInDocument = new HashMap<>();
 	// 冗余关键词.
 	public List<String> extendDummyDict;
+	//
+	public Map<String, Map<String, Double>> fileTextRankMap = null;
 
 	// 静态初始化块。
 	static{
@@ -337,12 +342,12 @@ public class Initialization {
 		// System.out.println(dict);
 
 		// 初始化字典的长度和字典本身.
-		lengthOfDict = dict.size();
+		this.lengthOfDict = dict.size();
 
-		DICTIONARY_SIZE = lengthOfDict;
+		this.DICTIONARY_SIZE = lengthOfDict;
 		// 拓展字典
-		extendDummyDict = generateExtendDictPart(DUMMY_KEYWORD_NUMBER);
-		dict.addAll(extendDummyDict);
+		this.extendDummyDict = generateExtendDictPart(this.DUMMY_KEYWORD_NUMBER);
+		dict.addAll(this.extendDummyDict);
 
 		// 现在拓展的关键词不在末尾而是按序排在合适的位置.
 		dict = dict.stream().sorted().collect(toList());
@@ -381,6 +386,79 @@ public class Initialization {
 		return sk;
 	}
 
+	/**
+	 * 预处理TextRank方法提取出来的值。
+	 * 100   plain:10054     textrank:1443
+	 * 1000  plain:32122     textrank:6780
+	 * 10000 plain:88754     textrank:23934
+	 *
+	 * 这里处理TextRank提取出来的keyword-weight
+	 * 用于后续的文档向量和索引的创建，但是这里用意是用这些关键词来代替原文档，所以如果要返回文档的话，
+	 * 是需要返回原来的文档的。
+	 * @return
+	 * @throws IOException
+	 */
+	public MySecretKey getMySecretKeyWithTextRank() throws IOException {
+
+		//String textrankFileName = "D:\\MrDarcy\\ForGraduationWorks\\Code\\TextRank-master\\textrank\\doc\\10000\\keywords";
+		File parentFile = new File(PLAIN_DIR);
+		Map<String, Map<String, Double>> fileTextRankMap = TextRankUtils.textRankAllFilesToMap(parentFile.getAbsolutePath());
+
+
+
+		Set<String> dictSet = new HashSet<>();
+
+		for (Map.Entry<String, Map<String, Double>> item : fileTextRankMap.entrySet()) {
+			dictSet.addAll(item.getValue().keySet());
+		}
+
+		// 将textrank提取出来的key:value中的key添加到字典中。
+		List<String> dict = dictSet.stream().collect(toList());
+
+		System.out.println("initialization dict.size():" + dict.size());
+		// System.out.println(dict);
+
+		// 初始化字典的长度和字典本身.
+		this.lengthOfDict = dict.size();
+
+		this.DICTIONARY_SIZE = this.lengthOfDict;
+		// 拓展字典
+		extendDummyDict = generateExtendDictPart(DUMMY_KEYWORD_NUMBER);
+		dict.addAll(extendDummyDict);
+
+		// 现在拓展的关键词不在末尾而是按序排在合适的位置.
+		// dict = dict.stream().sorted().collect(toList());
+		// 逻辑操作的话, 冗余关键词添加到dict的末尾。
+		this.dict = dict;
+
+		this.fileTextRankMap = fileTextRankMap;
+
+		// 问题是p'*q' + p"*q" = p * q, 虽然p拓展到了n+e维度, 但是问题在于
+		// q向量中冗余关键词并没有设置相应的位(虽然也是n+e维度， )，那么
+		System.out.println("add dummy keywords dict.size():" + this.dict.size());
+
+		MySecretKey sk = new MySecretKey();
+
+		BitSet bitSet = new BitSet(DICTIONARY_SIZE + DUMMY_KEYWORD_NUMBER);
+		Random random = new Random(System.currentTimeMillis());
+		for (int i = 0; i < (DICTIONARY_SIZE + DUMMY_KEYWORD_NUMBER); i++) {
+			if (random.nextBoolean()) {
+				bitSet.set(i);
+			}
+		}
+		// 设置了该位， 此BitSet的长度才是 (DICTIONARY_SIZE + DUMMY_KEYWORD_NUMBER + 1)的长度.
+		bitSet.set(DICTIONARY_SIZE + DUMMY_KEYWORD_NUMBER);
+		System.out.println("bitSet.length:"+ bitSet.length());
+
+		double[] m1 = DiagonalMatrixUtils.random(DICTIONARY_SIZE + DUMMY_KEYWORD_NUMBER);
+		double[] m2 = DiagonalMatrixUtils.random(DICTIONARY_SIZE + DUMMY_KEYWORD_NUMBER);
+		sk.S = bitSet;
+		sk.M1 = m1;
+		sk.M2 = m2;
+		sk.secretKey = secretKey;
+		return sk;
+	}
+
 	private static List<String> generateExtendDictPart(int dummyKeywordNumber) {
 		Random random = new Random(31);
 		List<String> result = new ArrayList<>(dummyKeywordNumber);
@@ -414,72 +492,6 @@ public class Initialization {
 		return true;
 	}
 
-	public SecretKey getSecretKey() {
-		SecretKey secretKey = null;
-		ObjectOutputStream oos = null;
-		ObjectInputStream ois = null;
-		try {
-			// 存储密钥的文件存在.
-			if (new File(SECRET_KEY_DIR).exists()) {
-				ois = new ObjectInputStream(new FileInputStream(SECRET_KEY_DIR));
-				try {
-					secretKey = (SecretKey) ois.readObject();
-					System.out.println("read");
-				} catch (ClassNotFoundException e) {
-					e.printStackTrace();
-				} finally {
-					ois.close();
-				}
-				// 没有此文件存储密钥.
-			} else {
-			 /*
-			方法getInstance（ ）的参数为字符串类型，指定加密算法的名称。
-			可以是 “Blowfish”、“DES”、“DESede”、“HmacMD5”或“HmacSHA1”等。
-			其中“DES”是目前最常用的对称加密算法，但安全性较差。针对DES安全性
-			的改进产生了能满足当前安全需要的TripleDES算法，即“DESede”。“Blowfish”
-			的密钥长度可达448位，安全性很好。“AES”是一种替代DES算法的新算法，
-			可提供很好的安全性。
-			 */
-				KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
-			/*
-			该步骤一般指定密钥的长度。如果该步骤省略的话，会根据算法自动使用默认的密钥长度。
-			指定长度时，若第一步密钥生成器使用的是“DES”算法，则密钥长度必须是56位；
-			若是“DESede”，则可以是112或168位，其中112位有效；若是“AES”，可以是
-			128, 192或256位；若是“Blowfish”，则可以是32至448之间可以被8整除的数；
-			“HmacMD5”和“HmacSHA1”默认的密钥长度都是64个字节。
-			 */
-				keyGenerator.init(128);
-
-				// 使用第一步获得的KeyGenerator类型的对象中generateKey( )方法可以获得密钥。
-				// 其类型为SecretKey类型，可用于以后的加密和解密。
-				secretKey = keyGenerator.generateKey();
-			}
-
-			// 是否写入密钥到文件中.
-			if (!new File(SECRET_KEY_DIR).exists()) {
-				System.out.println(new File(SECRET_KEY_DIR).getAbsolutePath());
-				oos = new ObjectOutputStream(new FileOutputStream(new File(SECRET_KEY_DIR)));
-				oos.writeObject(secretKey);
-				System.out.println("write");
-			}
-		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if (oos != null) {
-					oos.close();
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		return secretKey;
-	}
-
 	public static void dimensionTest() throws IOException {
 		List<Integer> documentNumber = IntStream.rangeClosed(100, 1000).filter((number) -> number % 100 == 0).boxed().collect(toList());
 		List<Integer> temp = IntStream.rangeClosed(2000, 10000).filter((number) -> number % 1000 == 0).boxed().collect(toList());
@@ -498,6 +510,55 @@ public class Initialization {
 		System.out.println();
 		fileLengthList.stream().forEach(System.out::println);
 	}
+
+	/**
+	 *
+	 * @throws IOException
+	 */
+	public static void abstractTest() throws IOException {
+		List<Integer> documentNumber = IntStream.rangeClosed(100, 1000).filter((number) -> number % 100 == 0).boxed().collect(toList());
+		List<Integer> temp = IntStream.rangeClosed(2000, 10000).filter((number) -> number % 1000 == 0).boxed().collect(toList());
+		documentNumber.addAll(temp);
+		List<Integer> fileLengthList = new ArrayList<>(documentNumber.size());
+		for (int i = 0; i < documentNumber.size(); i++) {
+			Initialization initialization = new Initialization();
+			initialization.DOC_NUMBER = documentNumber.get(i);
+			String base = "D:\\MrDarcy\\ForGraduationWorks\\Code\\TextRank-master\\textrank\\doc";
+			initialization.PLAIN_DIR = base + "\\" + initialization.DOC_NUMBER + "\\summaries" ;
+			initialization.ENCRYPTED_DIR = initialization.BASE_ENCRYPTED_DIR + initialization.DOC_NUMBER;
+			initialization.getMySecretKey();
+			fileLengthList.add(initialization.DICTIONARY_SIZE);
+		}
+		System.out.println();
+		documentNumber.stream().forEach(System.out::println);
+		System.out.println();
+		fileLengthList.stream().forEach(System.out::println);
+	}
+
+	/**
+	 *
+	 * @throws IOException
+	 */
+	public static void tfIdfTest() throws IOException {
+		List<Integer> documentNumber = IntStream.rangeClosed(100, 1000).filter((number) -> number % 100 == 0).boxed().collect(toList());
+		List<Integer> temp = IntStream.rangeClosed(2000, 10000).filter((number) -> number % 1000 == 0).boxed().collect(toList());
+		documentNumber.addAll(temp);
+		List<Integer> fileLengthList = new ArrayList<>(documentNumber.size());
+		for (int i = 0; i < documentNumber.size(); i++) {
+			Initialization initialization = new Initialization();
+			initialization.DOC_NUMBER = documentNumber.get(i);
+			String base = "D:\\MrDarcy\\ForGraduationWorks\\Code\\TextRank-master\\textrank\\doc";
+			initialization.PLAIN_DIR = base + "\\" + initialization.DOC_NUMBER + "\\tf_idf_keywords_20";
+			initialization.ENCRYPTED_DIR = initialization.BASE_ENCRYPTED_DIR + initialization.DOC_NUMBER;
+			initialization.getMySecretKeyWithTextRank();
+			fileLengthList.add(initialization.DICTIONARY_SIZE);
+		}
+		System.out.println();
+		documentNumber.stream().forEach(System.out::println);
+		System.out.println();
+		fileLengthList.stream().forEach(System.out::println);
+	}
+
 
 	public static void main(String[] args) throws IOException {
 
@@ -519,7 +580,9 @@ public class Initialization {
 		System.out.println();
 		System.out.println(Initialization.secretKey);*/
 
-   dimensionTest();
+//   dimensionTest();
+//		abstractTest();
+		tfIdfTest();
 	}
 }
 
