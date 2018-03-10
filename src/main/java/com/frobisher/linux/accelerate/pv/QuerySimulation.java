@@ -24,7 +24,7 @@ public class QuerySimulation {
 			// 没有写textrank和plain文档分离的版本。
 			// 只是new def了两个函数。
 			MySecretKey mySecretKey = initialization.getMySecretKeySimulation(
-					2000, 6000);
+					1000, 2000);
 
 			// 这个的问题在于fileLength没有统计出来，生成消息摘要会出现问题。
 //			MySecretKey mySecretKey = initialization.getMySecretKeyWithTextRank();
@@ -72,8 +72,8 @@ public class QuerySimulation {
 			// for-40
        int requestNumber1 = 4;
 			List<Integer> requestNumberList = new ArrayList<>();
-			int low = (int) Math.ceil(initialization.simulationDocumentNumber * 0.001);
-			int high = (int) Math.ceil(initialization.simulationDocumentNumber * 0.01);
+			int low = (int) Math.ceil(initialization.simulationDocumentNumber * 0.01);
+			int high = (int) Math.ceil(initialization.simulationDocumentNumber * 0.1);
 //			int low = 2;
 //			int high = 10;
 			for (int i = low; i <= high; i += low) {
@@ -95,7 +95,7 @@ public class QuerySimulation {
 //				System.out.println("\nrequestNumber:" + requestNumber + "\t" + keywordsIndex);
 
 				// 验证搜索结果是否包含特定的文档。
-//				searchResultVerify(initialization, filenameList, keywordsIndex, nodeScoreMap);
+				searchResultVerify(initialization, filenameList, keywordsIndex, nodeScoreMap);
 			}
 
 		} catch (IOException e) {
@@ -366,20 +366,20 @@ public class QuerySimulation {
 
 	public static void main(String[] args) throws IOException, NoSuchAlgorithmException {
 		System.out.println(QuerySimulation.class.getName() + " search.");
-//		test2();
-		System.err.println("testWithFixedDocumentNumberKeywordNumberRequestNumber");
-		testWithFixedDocumentNumberKeywordNumberRequestNumber(6000, 20, 20);
-		System.out.println();
-		System.out.println();
-		System.out.println();
-		System.err.println("testWithFixedDictSizeKeywordNumberRequestNumber");
-		testWithFixedDictSizeKeywordNumberRequestNumber(4000, 20, 20);
-
-		System.out.println();
-		System.out.println();
-		System.out.println();
-		System.err.println("testWithFixedDocumentNumberDictSize");
-		testWithFixedDocumentNumberDictSize(6000, 4000);
+		test2();
+//		System.err.println("testWithFixedDocumentNumberKeywordNumberRequestNumber");
+//		testWithFixedDocumentNumberKeywordNumberRequestNumber(6000, 20, 20);
+//		System.out.println();
+//		System.out.println();
+//		System.out.println();
+//		System.err.println("testWithFixedDictSizeKeywordNumberRequestNumber");
+//		testWithFixedDictSizeKeywordNumberRequestNumber(4000, 20, 20);
+//
+//		System.out.println();
+//		System.out.println();
+//		System.out.println();
+//		System.err.println("testWithFixedDocumentNumberDictSize");
+//		testWithFixedDocumentNumberDictSize(6000, 4000);
 
 	}
 }

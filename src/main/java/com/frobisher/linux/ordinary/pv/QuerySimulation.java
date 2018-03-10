@@ -94,7 +94,7 @@ public class QuerySimulation {
 //				System.out.println("\nrequestNumber:" + requestNumber + "\t" + keywordsIndex);
 
 				// 验证搜索结果是否包含特定的文档。
-//				searchResultVerify(initialization, filenameList, keywordsIndex, nodeScoreMap);
+				searchResultVerify(initialization, filenameList, keywordsIndex, nodeScoreMap);
 			}
 
 		} catch (IOException e) {

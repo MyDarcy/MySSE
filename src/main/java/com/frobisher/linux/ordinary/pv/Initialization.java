@@ -209,8 +209,8 @@ public class Initialization {
 			dummykeywordIndexSet.add(random.nextInt(simulationDictSize));
 		}
 		DocumentGenerators generators = new DocumentGenerators(dummykeywordIndexSet, low, high);
-		// 注意，此处为了模拟逻辑搜索，那么每个关键词应该设置为0, 1
-		List<Matrix> documents = generators.generateDocumentsMatrix01(simulationDocumentNumber, simulationDictSize);
+		// 这里是偏好搜索。所以不是产生0,1
+		List<Matrix> documents = generators.generateDocumentsMatrix(simulationDocumentNumber, simulationDictSize);
 //		System.out.println("documents.size():" + documents.size());
 		this.simulationDummykeywordIndexSet = dummykeywordIndexSet;
 		this.simulationDocuments = documents;
