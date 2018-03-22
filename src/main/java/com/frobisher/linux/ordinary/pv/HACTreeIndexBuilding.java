@@ -78,7 +78,7 @@ public class HACTreeIndexBuilding {
 	 * 求MySecretKey中两个矩阵的转置矩阵和逆矩阵, 因为在构造索引阶段要用。
 	 */
 	public void generateAuxiliaryMatrix() {
-		System.out.println("HACTreeIndexBuilding generateAuxiliaryMatirx start.");
+//		System.out.println("HACTreeIndexBuilding generateAuxiliaryMatirx start.");
 		long start = System.currentTimeMillis();
 		long nstart = start;
 
@@ -109,6 +109,7 @@ public class HACTreeIndexBuilding {
 		System.out.println("HACTreeIndexBuilding encryptFiles start.");
 		long start = System.currentTimeMillis();
 		File parentDir = new File(initialization.PLAIN_DIR);
+//		File parentDir = new File(initialization.TEXTRANK_WORD_WEIGHT_DIR);
 		if (parentDir.exists()) {
 			File[] files = parentDir.listFiles();
 			for (int i = 0; i < files.length; i++) {
@@ -124,11 +125,8 @@ public class HACTreeIndexBuilding {
 						+ Initialization.SEPERATOR + "encrypted_" + path.getFileName().toString();
 				// 二进制文件的后缀是.dat
 				encryptedFileName = encryptedFileName.substring(0, encryptedFileName.lastIndexOf('.')) + ".dat";
-
 				/*System.out.println(encryptedFileName);*/
-
 				Files.write(new File(encryptedFileName).toPath(), encrypt);
-
 				// 显示文件加密后的内容.
 				/*byte[] decrypt = EncryptionUtils.decrypt(encrypt);
 				String text = new String(decrypt);
@@ -142,8 +140,8 @@ public class HACTreeIndexBuilding {
 	}
 
 	public HACTreeNode buildHACTreeIndex() throws NoSuchAlgorithmException {
-		System.out.println("HACTreeIndexBuilding buildHACTreeIndex start.");
-		long start = System.currentTimeMillis();
+//		System.out.println("HACTreeIndexBuilding buildHACTreeIndex start.");
+//		long start = System.currentTimeMillis();
 		Set<HACTreeNode> currentProcessingHACTreeNodeSet = new HashSet<>();
 		Set<HACTreeNode> newGeneratedHACTreeNodeSet = new HashSet<>();
 
@@ -262,15 +260,17 @@ public class HACTreeIndexBuilding {
 			currentProcessingHACTreeNodeSet.add(currentNode);
 		}
 
-		System.out.println("min max tf-idf value");
-		while (!tfIdfMaxHeap.isEmpty()) {
-			System.out.print(tfIdfMaxHeap.poll() + " ");
-		}
-		System.out.println();
-		while (!tfIdfMinHeap.isEmpty()) {
-			System.out.print(tfIdfMinHeap.poll() + " ");
-		}
-		System.out.println();
+//		System.out.println("min max tf-idf value");
+//		while (!tfIdfMaxHeap.isEmpty()) {
+//			System.out.print(tfIdfMaxHeap.poll() + " ");
+//		}
+//		System.out.println();
+//		while (!tfIdfMinHeap.isEmpty()) {
+//			System.out.print(tfIdfMinHeap.poll() + " ");
+//		}
+//		System.out.println();
+
+
 		// 6.229580777634032E-4 6.229580777634032E-4 6.229580777634032E-4 6.229580777634032E-4 6.214128672705595E-4 6.214128672705595E-4 6.138840646709543E-4 6.126050661459377E-4 6.126050661459377E-4 5.863653013060231E-4 5.863653013060231E-4 5.826289298947782E-4 5.826289298947782E-4 5.554223438278012E-4 5.552570744117213E-4 5.552570744117213E-4 5.552570744117213E-4 5.166450368214655E-4 5.02378549053935E-4 4.4264451425788786E-4
 		// 0.01548389671941366 0.01548389671941366 0.01548389671941366 0.01548389671941366 0.016034326052022804 0.016034326052022804 0.016077196143216274 0.016133143828381706 0.01685631818262641 0.01749922606551377 0.01749922606551377 0.01760646100721609 0.018182924587935308 0.018182924587935308 0.0205980473479485 0.021298589001322744 0.022594144385877705 0.023242693164144068 0.02436700040456216 0.02668108522363412
 
@@ -278,10 +278,10 @@ public class HACTreeIndexBuilding {
 		 * 到这里已经加密了一轮文档,
 		 */
 
-		System.out.println("start construct hac-tree.");
+//		System.out.println("start construct hac-tree.");
 		int round = 1;
 		while (currentProcessingHACTreeNodeSet.size() > 1) {
-			System.out.println("the " + (round++) + "'s round to build tree.");
+//			System.out.println("the " + (round++) + "'s round to build tree.");
 
 			PriorityQueue<HacTreeNodePairScore> maxHeap = getPriorityQueue(currentProcessingHACTreeNodeSet);
 			Set<HACTreeNode> managedNodeSet = new HashSet<>();
@@ -322,11 +322,11 @@ public class HACTreeIndexBuilding {
 			}
 		}
 
-		System.out.println("currentProcessingHACTreeNodeSet.size():" + currentProcessingHACTreeNodeSet.size());
+//		System.out.println("currentProcessingHACTreeNodeSet.size():" + currentProcessingHACTreeNodeSet.size());
 		// currentProcessingHACTreeNodeSet中一定是有一个节点的.
 		HACTreeNode root = currentProcessingHACTreeNodeSet.iterator().next();
-		System.out.println("build hac tree index total time:" + (System.currentTimeMillis() - start) + "ms");
-		System.out.println("HACTreeIndexBuilding buildHACTreeIndex finished.");
+//		System.out.println("build hac tree index total time:" + (System.currentTimeMillis() - start) + "ms");
+//		System.out.println("HACTreeIndexBuilding buildHACTreeIndex finished.");
 		return root;
 	}
 
@@ -380,14 +380,14 @@ public class HACTreeIndexBuilding {
 	}
 
 	public HACTreeNode buildHACTreeIndexWithTextRank() throws NoSuchAlgorithmException {
-		System.out.println("HACTreeIndexBuilding buildHACTreeIndexWithTextRank start.");
+//		System.out.println("HACTreeIndexBuilding buildHACTreeIndexWithTextRank start.");
 		long start = System.currentTimeMillis();
 		Set<HACTreeNode> currentProcessingHACTreeNodeSet = new HashSet<>();
 		Set<HACTreeNode> newGeneratedHACTreeNodeSet = new HashSet<>();
 
 		// 为此文件夹下的文件创建文档向量。
-		File parentFile = new File(initialization.PLAIN_DIR);
-		File[] files = parentFile.listFiles();
+//		File parentFile = new File(initialization.PLAIN_DIR);
+//		File[] files = parentFile.listFiles();
 
 		PriorityQueue<Double> tfIdfMinHeap = new PriorityQueue<>(20, Double::compare);
 		PriorityQueue<Double> tfIdfMaxHeap = new PriorityQueue<>(20, Comparator.reverseOrder());
@@ -433,6 +433,8 @@ public class HACTreeIndexBuilding {
 			byte[] keyBytes = mySecretKey.secretKey.getEncoded();
 
 			byte[] fileBytes = fileBytesMap.get(/*files[i].getName()*/filename);
+//			System.out.println(fileBytes != null);
+//			System.out.println(keyBytes != null);
 			byte[] bytes = new byte[keyBytes.length + fileBytes.length];
 			System.arraycopy(keyBytes, 0, bytes, 0, keyBytes.length);
 			System.arraycopy(fileBytes, 0, bytes, keyBytes.length, fileBytes.length);
@@ -443,23 +445,24 @@ public class HACTreeIndexBuilding {
 			currentProcessingHACTreeNodeSet.add(currentNode);
 		}
 
-		System.out.println("min max tf-idf value");
-		while (!tfIdfMaxHeap.isEmpty()) {
-			System.out.print(tfIdfMaxHeap.poll() + " ");
-		}
-		System.out.println();
-		while (!tfIdfMinHeap.isEmpty()) {
-			System.out.print(tfIdfMinHeap.poll() + " ");
-		}
-		System.out.println();
+//		System.out.println("min max tf-idf value");
+//		while (!tfIdfMaxHeap.isEmpty()) {
+//			System.out.print(tfIdfMaxHeap.poll() + " ");
+//		}
+//		System.out.println();
+//		while (!tfIdfMinHeap.isEmpty()) {
+//			System.out.print(tfIdfMinHeap.poll() + " ");
+//		}
+//		System.out.println();
+
 		// 6.229580777634032E-4 6.229580777634032E-4 6.229580777634032E-4 6.229580777634032E-4 6.214128672705595E-4 6.214128672705595E-4 6.138840646709543E-4 6.126050661459377E-4 6.126050661459377E-4 5.863653013060231E-4 5.863653013060231E-4 5.826289298947782E-4 5.826289298947782E-4 5.554223438278012E-4 5.552570744117213E-4 5.552570744117213E-4 5.552570744117213E-4 5.166450368214655E-4 5.02378549053935E-4 4.4264451425788786E-4
 		// 0.01548389671941366 0.01548389671941366 0.01548389671941366 0.01548389671941366 0.016034326052022804 0.016034326052022804 0.016077196143216274 0.016133143828381706 0.01685631818262641 0.01749922606551377 0.01749922606551377 0.01760646100721609 0.018182924587935308 0.018182924587935308 0.0205980473479485 0.021298589001322744 0.022594144385877705 0.023242693164144068 0.02436700040456216 0.02668108522363412
 
 		// 叶子结点生成完毕，开始树的构造过程。
-		System.out.println("start construct hac-tree.");
+//		System.out.println("start construct hac-tree.");
 		int round = 1;
 		while (currentProcessingHACTreeNodeSet.size() > 1) {
-			System.out.println("the " + (round++) + "'s round to build tree.");
+//			System.out.println("the " + (round++) + "'s round to build tree.");
 
 			PriorityQueue<HacTreeNodePairScore> maxHeap = getPriorityQueue(currentProcessingHACTreeNodeSet);
 			Set<HACTreeNode> managedNodeSet = new HashSet<>();
@@ -500,11 +503,11 @@ public class HACTreeIndexBuilding {
 			}
 		}
 
-		System.out.println("currentProcessingHACTreeNodeSet.size():" + currentProcessingHACTreeNodeSet.size());
+//		System.out.println("currentProcessingHACTreeNodeSet.size():" + currentProcessingHACTreeNodeSet.size());
 		// currentProcessingHACTreeNodeSet中一定是有一个节点的.
 		HACTreeNode root = currentProcessingHACTreeNodeSet.iterator().next();
-		System.out.println("build hac tree index total time:" + (System.currentTimeMillis() - start) + "ms");
-		System.out.println("HACTreeIndexBuilding buildHACTreeIndexWithTextRank finished.");
+//		System.out.println("build hac tree index total time:" + (System.currentTimeMillis() - start) + "ms");
+//		System.out.println("HACTreeIndexBuilding buildHACTreeIndexWithTextRank finished.");
 		return root;
 	}
 
@@ -916,7 +919,7 @@ public class HACTreeIndexBuilding {
 	}
 
 	private PriorityQueue<HacTreeNodePairScore> getPriorityQueue(Set<HACTreeNode> hacTreeNodePairScoreSet) {
-		System.out.println("getPriorityQueue start.");
+//		System.out.println("getPriorityQueue start.");
 		long start = System.currentTimeMillis();
 		List<HACTreeNode> list = hacTreeNodePairScoreSet.stream().collect(toList());
 		PriorityQueue<HacTreeNodePairScore> maxHeap = new PriorityQueue<>(maxComparator);
@@ -926,8 +929,8 @@ public class HACTreeIndexBuilding {
 						correspondingScore(list.get(i), list.get(j))));
 			}
 		}
-		System.out.println("time:" + (System.currentTimeMillis() - start));
-		System.out.println("getPriorityQueue end.");
+//		System.out.println("time:" + (System.currentTimeMillis() - start));
+//		System.out.println("getPriorityQueue end.");
 		return maxHeap;
 	}
 

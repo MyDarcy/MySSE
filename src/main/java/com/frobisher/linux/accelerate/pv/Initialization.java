@@ -46,12 +46,24 @@ public class Initialization {
 //	public static final String PLAIN_DIR = BASE + "\\doc\\muse\\extend\\plain40";
 //	public static final String ENCRYPTED_DIR = BASE + "\\doc\\muse\\extend\\encrypted40";
 
-	public static String BASE = "D:\\MrDarcy\\ForGraduationWorks\\Code\\SSE";
-	public static String SECRET_KEY_DIR = BASE + "\\doc\\muse\\extend\\key\\aesKey.dat";
-	public String BASE_PLAIN_DIR = BASE + "\\doc\\muse\\extend\\plain";
-	public String BASE_ENCRYPTED_DIR = BASE + "\\doc\\muse\\extend\\encrypted";
+//	public static String BASE = "D:\\MrDarcy\\ForGraduationWorks\\Code\\SSE";
+//	public static String SECRET_KEY_DIR = BASE + "\\doc\\muse\\extend\\key\\aesKey.dat";
+//	public String BASE_PLAIN_DIR = BASE + "\\doc\\muse\\extend\\plain";
+//	public String BASE_ENCRYPTED_DIR = BASE + "\\doc\\muse\\extend\\encrypted";
+//	public String PLAIN_DIR = BASE_PLAIN_DIR + DOC_NUMBER;
+//	public String ENCRYPTED_DIR =  BASE_ENCRYPTED_DIR + DOC_NUMBER;
+//	public String TEXTRANK_WORD_WEIGHT_DIR = "D:\\MrDarcy\\ForGraduationWorks\\Code" +
+//			"\\TextRank-master\\textrank\\doc\\" + DOC_NUMBER + "\\keywords";
+
+
+	public String TEXTRANK_WORD_WEIGHT_DIR = "/home/zqhe/data/doc/textrank/"
+			+ DOC_NUMBER + "/tf_idf_keywords_20";
+	public static String BASE = "/home/zqhe/data";
+	public static String SECRET_KEY_DIR = BASE + "/doc/muse/pv/key/aesKey.dat";
+	public String BASE_PLAIN_DIR = BASE + "/doc/muse/pv/plain";
+	public String BASE_ENCRYPTED_DIR = BASE + "/doc/muse/pv/encrypted";
 	public String PLAIN_DIR = BASE_PLAIN_DIR + DOC_NUMBER;
-	public String ENCRYPTED_DIR =  BASE_ENCRYPTED_DIR + DOC_NUMBER;
+	public String ENCRYPTED_DIR = BASE_ENCRYPTED_DIR + DOC_NUMBER;
 
 	// 明文文件目录 	密文文件目录. 16个文件
 	/*public static final String PLAIN_DIR = BASE + "\\doc\\plvmuse\\tf_idf_base_1\\plain";
@@ -311,23 +323,23 @@ public class Initialization {
 		System.out.println("keywordFrequencyInDocument.size():" + keywordFrequencyInDocument.size());
 		System.out.println("numberOfDocumentContainsKeyword.size():" + numberOfDocumentContainsKeyword.size());
 
-		Map<String, Integer> duplicateNumberOfDocumentContainsKeyword = new HashMap<>();
-		for (Map.Entry<String, Integer> entry : numberOfDocumentContainsKeyword.entrySet()) {
-			duplicateNumberOfDocumentContainsKeyword.put(new String(entry.getKey()), new Integer(entry.getValue()));
-		}
-		List<Map.Entry<String, Integer>> duplicate = new ArrayList<>(duplicateNumberOfDocumentContainsKeyword.entrySet());
-		Collections.sort(duplicate, new Comparator<Map.Entry<String, Integer>>() {
-			@Override
-			public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
-				if (Integer.compare(o1.getValue(), o2.getValue()) > 0) {
-					return -1;
-				} else if (Integer.compare(o1.getValue(), o2.getValue()) == 0) {
-					return 0;
-				} else {
-					return 1;
-				}
-			}
-		});
+//		Map<String, Integer> duplicateNumberOfDocumentContainsKeyword = new HashMap<>();
+//		for (Map.Entry<String, Integer> entry : numberOfDocumentContainsKeyword.entrySet()) {
+//			duplicateNumberOfDocumentContainsKeyword.put(new String(entry.getKey()), new Integer(entry.getValue()));
+//		}
+//		List<Map.Entry<String, Integer>> duplicate = new ArrayList<>(duplicateNumberOfDocumentContainsKeyword.entrySet());
+//		Collections.sort(duplicate, new Comparator<Map.Entry<String, Integer>>() {
+//			@Override
+//			public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
+//				if (Integer.compare(o1.getValue(), o2.getValue()) > 0) {
+//					return -1;
+//				} else if (Integer.compare(o1.getValue(), o2.getValue()) == 0) {
+//					return 0;
+//				} else {
+//					return 1;
+//				}
+//			}
+//		});
 
 //		System.out.println("keyword - documentNumber");
 //		System.out.println(duplicate);
@@ -338,6 +350,9 @@ public class Initialization {
 
 		List<String> dict = globalDictSet.stream().sorted().collect(toList());
 
+		System.out.println("initialization dict.size():" + dict.size());
+		dict = dict.stream().filter((number) -> !number.matches("\\d+.*")).collect(toList());
+		dict = dict.stream().filter((word) -> word.length() >= 2).collect(toList());
 		System.out.println("initialization dict.size():" + dict.size());
 		// System.out.println(dict);
 
@@ -368,7 +383,7 @@ public class Initialization {
 		}
 		// 设置了该位， 此BitSet的长度才是 (DICTIONARY_SIZE + DUMMY_KEYWORD_NUMBER + 1)的长度.
 		bitSet.set(DICTIONARY_SIZE + DUMMY_KEYWORD_NUMBER);
-		System.out.println("bitSet.length:"+ bitSet.length());
+//		System.out.println("bitSet.length:"+ bitSet.length());
 
 //		Matrix m1 = Matrix.random(lengthOfDict + 1, lengthOfDict + 1);
 //		Matrix m2 = Matrix.random(lengthOfDict + 1, lengthOfDict + 1);
@@ -401,10 +416,9 @@ public class Initialization {
 	public MySecretKey getMySecretKeyWithTextRank() throws IOException {
 
 		//String textrankFileName = "D:\\MrDarcy\\ForGraduationWorks\\Code\\TextRank-master\\textrank\\doc\\10000\\keywords";
-		File parentFile = new File(PLAIN_DIR);
-		Map<String, Map<String, Double>> fileTextRankMap = TextRankUtils.textRankAllFilesToMap(parentFile.getAbsolutePath());
-
-
+		File parentFile = new File(TEXTRANK_WORD_WEIGHT_DIR);
+		Map<String, Map<String, Double>> fileTextRankMap =
+				TextRankUtils.textRankAllFilesToMap(parentFile.getAbsolutePath());
 
 		Set<String> dictSet = new HashSet<>();
 

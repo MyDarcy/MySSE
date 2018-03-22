@@ -33,7 +33,7 @@ public class SearchAlgorithmSimulation {
 	 * @return
 	 */
 	public PriorityQueue<HACTreeNode> search(HACTreeNode root, Trapdoor trapdoor, int requestNumber) {
-		System.out.println("SearchAlgorithmSimulation search start.");
+
 		minComparator = new Comparator<HACTreeNode>() {
 			@Override
 			public int compare(HACTreeNode o1, HACTreeNode o2) {
@@ -65,9 +65,10 @@ public class SearchAlgorithmSimulation {
 			}
 		};
 
-		nodeScoreMapForThreshold = new HashMap<>(requestNumber);
+		System.out.println("\nSearchAlgorithmSimulation search start.");
 
-		allDocumentSocreQueue = new PriorityQueue<>(maxComparator);
+		nodeScoreMapForThreshold = new HashMap<>(requestNumber);
+//		allDocumentSocreQueue = new PriorityQueue<>(maxComparator);
 		PriorityQueue<HACTreeNode> minHeap = new PriorityQueue<>(minComparator);
 
 		long start = System.currentTimeMillis();
@@ -76,12 +77,12 @@ public class SearchAlgorithmSimulation {
 
 		List<HACTreeNode> leafNodes = new ArrayList<>();
 		getLeafNodes(root, leafNodes);
-		System.out.println("leafNodes.size():" + leafNodes.size());
+//		System.out.println("leafNodes.size():" + leafNodes.size());
 		PriorityQueue<HACTreeNode> minHeap2 = new PriorityQueue<>(minComparator);
 		start = System.currentTimeMillis();
 		sequential(leafNodes, trapdoor, requestNumber, minHeap2);
 		System.out.println("sequential time:" + (System.currentTimeMillis() - start) + "ms");
-		System.out.println("minHeap2.size():" + minHeap2.size());
+//		System.out.println("minHeap2.size():" + minHeap2.size());
 //		while (!minHeap2.isEmpty()) {
 //			HACTreeNode node = minHeap2.poll();
 //			System.out.println(node.fileDescriptor + "\t\t" + scoreForPruning(node, trapdoor));
@@ -90,7 +91,7 @@ public class SearchAlgorithmSimulation {
 		maxHeap.addAll(minHeap);
 		// 服务器端排序，然后返回top-K个最相关的文档.
 
-		System.out.println("SearchAlgorithmSimulation search end.");
+		System.out.println("SearchAlgorithmSimulation search end.\n");
 
 		System.out.println("requestNumber:" + requestNumber);
 		System.out.println("leafNodeCount:" + leafNodeCount);
@@ -200,12 +201,11 @@ public class SearchAlgorithmSimulation {
 
 					// 仍然时叶子节点，但是候选结果集合中已经有了N个文档.
 				} else {
-					// 那么此时如果当前结点跟查询之间的相关性评分大于阈值，那么是需要更新
-					// 候选结果集合的。
+					// 那么此时如果当前结点跟查询之间的相关性评分大于阈值，那么是需要更新候选结果集合的。
 					if (/*scoreForPruning(root, trapdoor)*/ scoreForPrune > thresholdScore) {
 						HACTreeNode minScoreNode = minHeap.poll();
-						double score = scoreForPruning(minScoreNode, trapdoor);
-						// System.out.println("== (N) remove:" + minScoreNode.fileDescriptor + " socre:" + score);
+//						double score = scoreForPruning(minScoreNode, trapdoor);
+//						System.out.println("== (N) remove:" + minScoreNode.fileDescriptor + " socre:" + score);
 						minHeap.add(root);
 						HACTreeNode peekNode = minHeap.peek();
 						if (nodeScoreMapForThreshold.containsKey(peekNode)) {
@@ -218,9 +218,11 @@ public class SearchAlgorithmSimulation {
 //						System.out.println("new thresholdSocre:" + thresholdScore);
 					}
 				}
-			} else {
-//				System.out.println("leaf node not add for score < " + PRUNE_THRESHOLD_SCORE);
 			}
+
+//			else {
+////				System.out.println("leaf node not add for score < " + PRUNE_THRESHOLD_SCORE);
+//			}
 
 		} else {
 			double score = scoreForPruning(root, trapdoor);

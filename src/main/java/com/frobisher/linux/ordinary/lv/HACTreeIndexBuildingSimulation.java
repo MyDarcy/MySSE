@@ -1,12 +1,6 @@
 package com.frobisher.linux.ordinary.lv;
 
 import Jama.Matrix;
-import com.frobisher.linux.ordinary.pv.AuxiliaryMatrix;
-import com.frobisher.linux.ordinary.pv.HACTreeIndexBuilding;
-import com.frobisher.linux.ordinary.pv.HACTreeNode;
-import com.frobisher.linux.ordinary.pv.HACTreeNodePair;
-import com.frobisher.linux.ordinary.pv.Initialization;
-import com.frobisher.linux.ordinary.pv.MySecretKey;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
@@ -106,7 +100,7 @@ public class HACTreeIndexBuildingSimulation {
 	 * @throws IllegalBlockSizeException
 	 */
 	public void encryptFiles() throws IOException, BadPaddingException, InvalidKeyException, IllegalBlockSizeException {
-		System.out.println("HACTreeIndexBuilding encryptFiles start.");
+//		System.out.println("HACTreeIndexBuilding encryptFiles start.");
 		long start = System.currentTimeMillis();
 		for (int i = 0; i < initialization.simulationDocuments.size(); i++) {
 			Matrix matrix = initialization.simulationDocuments.get(i);

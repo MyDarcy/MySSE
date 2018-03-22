@@ -41,34 +41,39 @@ public class MatrixTrasposeInverseTimeTest {
 	public static void main(String[] args) {
 
 		testDiagonalTransposeInverse();
-		testDiagonalTransposeInversePrint();
-		testTransposeInverse();
-		testTransposeInversePrint();
+//		testDiagonalTransposeInversePrint();
+//		testTransposeInverse();
+//		testTransposeInversePrint();
 	}
 
 	private static void testDiagonalTransposeInverse() {
 		int low = 100;
 		int high = 2000;
+		List<Long> transpose = new ArrayList<>(dimensions.size());
+		List<Long> inverse = new ArrayList<>(dimensions.size());
 		Random random = new Random();
 		/*for (int i = low; i <= high; i += low)*/
 		 for(Integer i : dimensions){
-			System.out.println(i);
 			double[] M1 = new double[i];
 			fillArray(M1);
 			double[] M2 = new double[i];
 			 fillArray(M2);
 
-			 long start = System.currentTimeMillis();
-			 long nstart = start;
+			 long start = System.nanoTime();
 
 			 double[] M1Transpose = DiagonalMatrixUtils.transpose(M1);
 			 double[] M2Transpose = DiagonalMatrixUtils.transpose(M2);
-			 System.out.println("two transpose:" + (System.currentTimeMillis() - start) + "ms");
+			 long transposeTime = System.nanoTime() - start;
+			 System.out.println("two transpose:" + transposeTime + "ns");
+			 transpose.add(transposeTime);
 
-			 start = System.currentTimeMillis();
+			 start = System.nanoTime();
 			 double[] M1Inverse = DiagonalMatrixUtils.inverse(M1);
 			 double[] M2Inverse = DiagonalMatrixUtils.inverse(M2);
-			 System.out.println("two inverse:" + (System.currentTimeMillis() - start) + "ms");
+			 long inverseTime = System.nanoTime() - start;
+			 System.out.println("two inverse:" + inverseTime + "ns");
+			 inverse.add(inverseTime);
+
 //			fillArray(matrix2);
 ////			long start = System.currentTimeMillis();
 //			long start = System.nanoTime();
@@ -87,6 +92,14 @@ public class MatrixTrasposeInverseTimeTest {
 //			diagonalInverse.add(cost2 / 1000000.0);
 //			diagonalInverseMap.put(i, cost2 / 1000000.0);
 		}
+
+		System.out.println();
+		System.out.println("transpose:");
+		transpose.stream().forEach(System.out::println);
+		System.out.println();
+
+		System.out.println("inverse:");
+		inverse.stream().forEach(System.out::println);
 	}
 
 	public static void testDiagonalTransposeInversePrint() {

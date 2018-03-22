@@ -31,7 +31,7 @@ public class SearchAlgorithmSimulation {
 	 * @return
 	 */
 	public PriorityQueue<HACTreeNode> search(HACTreeNode root, Trapdoor trapdoor, int requestNumber) {
-		System.out.println("SearchAlgorithmSimulation search start.");
+		System.out.println("\nSearchAlgorithmSimulation search start.");
 		minComparator = new Comparator<HACTreeNode>() {
 			@Override
 			public int compare(HACTreeNode o1, HACTreeNode o2) {
@@ -93,12 +93,12 @@ public class SearchAlgorithmSimulation {
 		System.out.println("computeCount:" + computeCount);
 		System.out.println("pruneCount:" + pruneCount);
 
-		System.out.println("all document-size:" + allDocumentSocreQueue.size());
-		System.out.println("all document-score.");
-		while (!allDocumentSocreQueue.isEmpty()) {
-			HACTreeNode node = allDocumentSocreQueue.poll();
-			System.out.printf("%-60s%.8f\n", node.fileDescriptor, scoreForPruning(node, trapdoor));
-		}
+//		System.out.println("all document-size:" + allDocumentSocreQueue.size());
+//		System.out.println("all document-score.");
+//		while (!allDocumentSocreQueue.isEmpty()) {
+//			HACTreeNode node = allDocumentSocreQueue.poll();
+//			System.out.printf("%-60s%.8f\n", node.fileDescriptor, scoreForPruning(node, trapdoor));
+//		}
 
 //		System.out.println("\nresult document-score.");
 		PriorityQueue<HACTreeNode> result = new PriorityQueue<>(maxComparator);
@@ -189,7 +189,7 @@ public class SearchAlgorithmSimulation {
 					// 候选结果集合的。
 					if (/*scoreForPruning(root, trapdoor)*/ scoreForPrune > thresholdScore) {
 						HACTreeNode minScoreNode = minHeap.poll();
-						double score = scoreForPruning(minScoreNode, trapdoor);
+//						double score = scoreForPruning(minScoreNode, trapdoor);
 //						System.out.println(root.fileDescriptor + ":" + scoreForPrune);
 //						System.out.println("== (N) remove:" + minScoreNode.fileDescriptor + " socre:" + score);
 						minHeap.add(root);

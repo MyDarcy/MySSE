@@ -1,8 +1,5 @@
 package com.frobisher.linux.ordinary.lv;
 
-import com.frobisher.linux.ordinary.pv.HACTreeNode;
-import com.frobisher.linux.ordinary.pv.Trapdoor;
-
 import java.util.*;
 
 /*
@@ -34,7 +31,6 @@ public class SearchAlgorithmSimulation {
 	 * @return
 	 */
 	public PriorityQueue<HACTreeNode> search(HACTreeNode root, Trapdoor trapdoor, int requestNumber) {
-		System.out.println("SearchAlgorithmSimulation search start.");
 		minComparator = new Comparator<HACTreeNode>() {
 			@Override
 			public int compare(HACTreeNode o1, HACTreeNode o2) {
@@ -65,10 +61,10 @@ public class SearchAlgorithmSimulation {
 				}
 			}
 		};
+//		allDocumentSocreQueue = new PriorityQueue<>(maxComparator);
 
+		System.out.println("\nSearchAlgorithmSimulation search start.");
 		nodeScoreMapForThreshold = new HashMap<>(requestNumber);
-
-		allDocumentSocreQueue = new PriorityQueue<>(maxComparator);
 		PriorityQueue<HACTreeNode> minHeap = new PriorityQueue<>(minComparator);
 
 		long start = System.currentTimeMillis();
@@ -77,37 +73,38 @@ public class SearchAlgorithmSimulation {
 
 		List<HACTreeNode> leafNodes = new ArrayList<>();
 		getLeafNodes(root, leafNodes);
-		System.out.println("leafNodes.size():" + leafNodes.size());
+//		System.out.println("leafNodes.size():" + leafNodes.size());
 		PriorityQueue<HACTreeNode> minHeap2 = new PriorityQueue<>(minComparator);
 		start = System.currentTimeMillis();
 		sequential(leafNodes, trapdoor, requestNumber, minHeap2);
 		System.out.println("sequential time:" + (System.currentTimeMillis() - start) + "ms");
-		System.out.println("minHeap2.size():" + minHeap2.size());
+//		System.out.println("minHeap2.size():" + minHeap2.size());
 
 		PriorityQueue<HACTreeNode> maxHeap = new PriorityQueue<>(maxComparator);
 		maxHeap.addAll(minHeap);
 		// 服务器端排序，然后返回top-K个最相关的文档.
 
 		System.out.println("SearchAlgorithmSimulation search end.");
-
 		System.out.println("requestNumber:" + requestNumber);
 		System.out.println("leafNodeCount:" + leafNodeCount);
 		System.out.println("containsCount:" + containsCount);
 		System.out.println("computeCount:" + computeCount);
 		System.out.println("pruneCount:" + pruneCount);
 
-		System.out.println("all document-size:" + allDocumentSocreQueue.size());
-		System.out.println("all document-score.");
-		while (!allDocumentSocreQueue.isEmpty()) {
-			HACTreeNode node = allDocumentSocreQueue.poll();
-			System.out.printf("%-60s%.8f\n", node.fileDescriptor, scoreForPruning(node, trapdoor));
-		}
+//		System.out.println("all document-size:" + allDocumentSocreQueue.size());
+//		System.out.println("all document-score.");
+//		while (!allDocumentSocreQueue.isEmpty()) {
+//			HACTreeNode node = allDocumentSocreQueue.poll();
+//			System.out.printf("%-60s%.8f\n", node.fileDescriptor, scoreForPruning(node, trapdoor));
+//		}
 
 //		System.out.println("\nresult document-score.");
 		PriorityQueue<HACTreeNode> result = new PriorityQueue<>(maxComparator);
 		while (!maxHeap.isEmpty()) {
 			HACTreeNode node = maxHeap.poll();
 			result.add(node);
+
+			// 这里可以构造验证对象。
 //			System.out.printf("%-60s%.8f\n", node.fileDescriptor,scoreForPruning(node, trapdoor));
 		}
 
@@ -192,7 +189,7 @@ public class SearchAlgorithmSimulation {
 					// 候选结果集合的。
 					if (/*scoreForPruning(root, trapdoor)*/ scoreForPrune > thresholdScore) {
 						HACTreeNode minScoreNode = minHeap.poll();
-						double score = scoreForPruning(minScoreNode, trapdoor);
+//						double score = scoreForPruning(minScoreNode, trapdoor);
 //						System.out.println(root.fileDescriptor + ":" + scoreForPrune);
 //						System.out.println("== (N) remove:" + minScoreNode.fileDescriptor + " socre:" + score);
 						minHeap.add(root);
@@ -207,9 +204,11 @@ public class SearchAlgorithmSimulation {
 //					  System.out.println("new thresholdSocre:" + thresholdScore);
 					}
 				}
-			} else {
-//				System.out.println("leaf node not add for score < 0.0004");
 			}
+
+//			else {
+////				System.out.println("leaf node not add for score < 0.0004");
+//			}
 		} else {
 			double score = scoreForPruning(root, trapdoor);
 			computeCount++;

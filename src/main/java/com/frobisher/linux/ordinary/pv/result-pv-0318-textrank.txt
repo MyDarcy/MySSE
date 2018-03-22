@@ -1,0 +1,761 @@
+com.frobisher.linux.ordinary.pv.Query2 search.
+Sun Mar 18 21:17:08 CST 2018
+initialization dict.size():6773
+generate extend dict part:[mugvnxze, pzfv, eyka, lnxaztl, ojsmlbwl, ytvxcgw, gmudki, pti, mafhtemkw, dnwyhprlrd]
+add dummy keywords dict.size():6783
+bitSet.length:6784
+HACTreeIndexBuilding encryptFiles start.
+total time:3289ms
+HACTreeIndexBuilding encryptFiles finish.
+two transpose:4915ms
+two inverse:2033833ms
+total time:2038752ms
+HACTreeIndexBuilding generateAuxiliaryMatrix finished.
+HACTreeIndexBuilding build & encrypt start...
+HACTreeIndexBuilding buildHACTreeIndexWithTextRank start.
+start construct hac-tree.
+the 1's round to build tree.
+the 2's round to build tree.
+the 3's round to build tree.
+the 4's round to build tree.
+the 5's round to build tree.
+the 6's round to build tree.
+the 7's round to build tree.
+the 8's round to build tree.
+the 9's round to build tree.
+the 10's round to build tree.
+currentProcessingHACTreeNodeSet.size():1
+build hac tree index total time:46412ms
+HACTreeIndexBuilding buildHACTreeIndexWithTextRank finished.
+time:464052ms
+HACTreeIndexBuilding buildHACTreeIndex & encryptHACTreeIndex end.
+
+
+
+
+------------------------------------------------------------------------------
+query:suspected approach panama luke taseer
+
+TrapdoorGenerating trapdoorGenerating start.
+generate trapdoor total time:1283ms
+TrapdoorGenerating trapdoorGenerating finished.
+SearchAlgorithm search start.
+tree time:1089ms
+SearchAlgorithm search end.
+requestNumber:2
+leafNodeCount:482
+containsCount:5
+computeCount:1003
+pruneCount:20
+requestNumber:2	priorityQueue.size():2
+------------------------------------------------------------------------------
+QUERY: suspected approach panama luke taseer
+01170d9c6028d852e4240b27f99f46ae5336414a.story	score:695.1449503035169
+taseer	0.303769606966
+count:1
+
+00ac882e1a7f4862fa9f1e863b738966625f554d.story	score:41.05078155007129
+luke	0.107583425389
+count:1
+
+
+
+
+
+------------------------------------------------------------------------------
+query:cause coptic naturally shell authors
+
+TrapdoorGenerating trapdoorGenerating start.
+generate trapdoor total time:225ms
+TrapdoorGenerating trapdoorGenerating finished.
+SearchAlgorithm search start.
+tree time:24ms
+SearchAlgorithm search end.
+requestNumber:2
+leafNodeCount:98
+containsCount:4
+computeCount:237
+pruneCount:21
+requestNumber:2	priorityQueue.size():2
+------------------------------------------------------------------------------
+QUERY: cause coptic naturally shell authors
+025c8069f148d69490998d48ed65c2db49d06f1e.story	score:256.09859452096316
+naturally	0.109748869296
+count:1
+
+013014b6116265bc6fb30847cf9162d89a63dba2.story	score:93.4000342925633
+cause	0.241414519324
+count:1
+
+
+
+
+
+------------------------------------------------------------------------------
+query:negotiated regional labor funded pharmacies
+
+TrapdoorGenerating trapdoorGenerating start.
+generate trapdoor total time:222ms
+TrapdoorGenerating trapdoorGenerating finished.
+SearchAlgorithm search start.
+tree time:26ms
+SearchAlgorithm search end.
+requestNumber:2
+leafNodeCount:110
+containsCount:3
+computeCount:229
+pruneCount:5
+requestNumber:2	priorityQueue.size():2
+------------------------------------------------------------------------------
+QUERY: negotiated regional labor funded pharmacies
+0139524211de51f23bed66156da66d61abeef0b1.story	score:370.1444729258774
+funded	0.132681538441
+count:1
+
+02510723978086825e670230d955102239f54547.story	score:41.239335025223454
+negotiated	0.0882462107202
+count:1
+
+
+
+
+
+------------------------------------------------------------------------------
+query:unions laws instant provision christie
+
+TrapdoorGenerating trapdoorGenerating start.
+generate trapdoor total time:219ms
+TrapdoorGenerating trapdoorGenerating finished.
+SearchAlgorithm search start.
+tree time:29ms
+SearchAlgorithm search end.
+requestNumber:2
+leafNodeCount:120
+containsCount:6
+computeCount:289
+pruneCount:25
+requestNumber:2	priorityQueue.size():2
+------------------------------------------------------------------------------
+QUERY: unions laws instant provision christie
+026fd6276bb556edf984499ad8a345b3d6547e9a.story	score:447.84782983229934
+instant	0.156072622878
+count:1
+
+019224d69e5d1ecd533f87daeef60c17c021c84e.story	score:132.19860562122233
+christie	0.259764502556
+laws	0.0952889867252
+count:2
+
+
+
+
+
+------------------------------------------------------------------------------
+query:polio pakistanis worth disorders effect
+
+TrapdoorGenerating trapdoorGenerating start.
+generate trapdoor total time:203ms
+TrapdoorGenerating trapdoorGenerating finished.
+SearchAlgorithm search start.
+tree time:4ms
+SearchAlgorithm search end.
+requestNumber:2
+leafNodeCount:16
+containsCount:2
+computeCount:51
+pruneCount:10
+requestNumber:2	priorityQueue.size():2
+------------------------------------------------------------------------------
+QUERY: polio pakistanis worth disorders effect
+01bf74602a899672112ab97d24e629eaf104c6cf.story	score:243.93663234083056
+disorders	0.10803246864
+count:1
+
+0068a4b536d5c968ae74540d550a6adacee6a8f9.story	score:35.135046079365
+effect	0.0941486650063
+count:1
+
+
+
+
+
+------------------------------------------------------------------------------
+query:infected hostage football zarutsky traumatized firm lenz germans comment jeremy
+
+TrapdoorGenerating trapdoorGenerating start.
+generate trapdoor total time:233ms
+TrapdoorGenerating trapdoorGenerating finished.
+SearchAlgorithm search start.
+tree time:31ms
+SearchAlgorithm search end.
+requestNumber:2
+leafNodeCount:64
+containsCount:8
+computeCount:189
+pruneCount:31
+requestNumber:2	priorityQueue.size():2
+------------------------------------------------------------------------------
+QUERY: infected hostage football zarutsky traumatized firm lenz germans comment jeremy
+0226e9462111993cd81ef588d239403585240200.story	score:2197693.8039136473
+infected	0.10123029535
+count:1
+
+018439cc4a72c711bef718b3820c2ac89e1b3c53.story	score:391627.3171416884
+traumatized	0.10823486747
+count:1
+
+
+
+
+
+------------------------------------------------------------------------------
+query:unconscious components zimbabwe duke republic created feeling odegaard good horses
+
+TrapdoorGenerating trapdoorGenerating start.
+generate trapdoor total time:227ms
+TrapdoorGenerating trapdoorGenerating finished.
+SearchAlgorithm search start.
+tree time:67ms
+SearchAlgorithm search end.
+requestNumber:2
+leafNodeCount:252
+containsCount:7
+computeCount:573
+pruneCount:35
+requestNumber:2	priorityQueue.size():2
+------------------------------------------------------------------------------
+QUERY: unconscious components zimbabwe duke republic created feeling odegaard good horses
+00d95d676d70a8f6b4a4619f021465a01c2b404f.story	score:2821762.7778609004
+components	0.0983738992507
+count:1
+
+015676ab8ff8282a6acd422f73b6f098260e17f2.story	score:895291.6474152999
+feeling	0.187273052643
+count:1
+
+
+
+
+
+------------------------------------------------------------------------------
+query:critical anatolia includes dioxide shiite treatments burger inappropriate footballs poverty
+
+TrapdoorGenerating trapdoorGenerating start.
+generate trapdoor total time:217ms
+TrapdoorGenerating trapdoorGenerating finished.
+SearchAlgorithm search start.
+tree time:20ms
+SearchAlgorithm search end.
+requestNumber:2
+leafNodeCount:64
+containsCount:6
+computeCount:173
+pruneCount:23
+requestNumber:2	priorityQueue.size():2
+------------------------------------------------------------------------------
+QUERY: critical anatolia includes dioxide shiite treatments burger inappropriate footballs poverty
+011a75eaed3c114857f6da9d56900c2879cf5b5d.story	score:4776949.677771544
+anatolia	0.152167274948
+count:1
+
+0186a4e9ef5cd3d4b50d6592b85aaf3d769530dd.story	score:1388915.784380949
+burger	0.2654591694
+count:1
+
+
+
+
+
+------------------------------------------------------------------------------
+query:lampard infection exploded bags figures deficits nominee oppenheimer heists player
+
+TrapdoorGenerating trapdoorGenerating start.
+generate trapdoor total time:211ms
+TrapdoorGenerating trapdoorGenerating finished.
+SearchAlgorithm search start.
+tree time:16ms
+SearchAlgorithm search end.
+requestNumber:2
+leafNodeCount:72
+containsCount:4
+computeCount:179
+pruneCount:18
+requestNumber:2	priorityQueue.size():2
+------------------------------------------------------------------------------
+QUERY: lampard infection exploded bags figures deficits nominee oppenheimer heists player
+01b8b9f6fd67fa732b759bda829daf922b28e345.story	score:5759173.426846144
+exploded	0.201024639912
+count:1
+
+006754d905db204ca0ab0d99ac8a2594bdcffe62.story	score:535166.1575593385
+nominee	0.112080282524
+count:1
+
+
+
+
+
+------------------------------------------------------------------------------
+query:bodyguards gender conditional flooding shepherd blacked shelton exalted talk retired
+
+TrapdoorGenerating trapdoorGenerating start.
+generate trapdoor total time:225ms
+TrapdoorGenerating trapdoorGenerating finished.
+SearchAlgorithm search start.
+tree time:20ms
+SearchAlgorithm search end.
+requestNumber:2
+leafNodeCount:52
+containsCount:9
+computeCount:173
+pruneCount:35
+requestNumber:2	priorityQueue.size():2
+------------------------------------------------------------------------------
+QUERY: bodyguards gender conditional flooding shepherd blacked shelton exalted talk retired
+01244c2c92f5f1a6deb8c1d92f20df22f00c329f.story	score:4569097.545752574
+retired	0.159826286008
+count:1
+
+01cfe9b24b55f199112656ba703c1d62acde5fd7.story	score:1876331.5585205238
+retired	0.0656337715092
+count:1
+
+
+
+
+
+------------------------------------------------------------------------------
+query:plame infants regret reader rogers drilling instinctively rouge turbulence way chadians spectacular kurdistan https weber
+
+TrapdoorGenerating trapdoorGenerating start.
+generate trapdoor total time:230ms
+TrapdoorGenerating trapdoorGenerating finished.
+SearchAlgorithm search start.
+tree time:20ms
+SearchAlgorithm search end.
+requestNumber:2
+leafNodeCount:18
+containsCount:8
+computeCount:117
+pruneCount:41
+requestNumber:2	priorityQueue.size():2
+------------------------------------------------------------------------------
+QUERY: plame infants regret reader rogers drilling instinctively rouge turbulence way chadians spectacular kurdistan https weber
+025eefd2069953534a02800c4a8a02aac730a0fe.story	score:2.368582548015979E10
+infants	0.131312040402
+count:1
+
+004e6e14b9498ae85e92cbb81adf76ac8b21f472.story	score:9.046583410168564E9
+weber	0.300920563804
+count:1
+
+
+
+
+
+------------------------------------------------------------------------------
+query:pets praised role globalized riot kerry warner wdtn gold kross lubbock success unharmed boarding peacekeepers
+
+TrapdoorGenerating trapdoorGenerating start.
+generate trapdoor total time:233ms
+TrapdoorGenerating trapdoorGenerating finished.
+SearchAlgorithm search start.
+tree time:24ms
+SearchAlgorithm search end.
+requestNumber:2
+leafNodeCount:26
+containsCount:10
+computeCount:123
+pruneCount:36
+requestNumber:2	priorityQueue.size():2
+------------------------------------------------------------------------------
+QUERY: pets praised role globalized riot kerry warner wdtn gold kross lubbock success unharmed boarding peacekeepers
+02ab1348b5217cc3df52a1c22430c97a34f38b8a.story	score:9.32928700298974E10
+kerry	0.48516119878
+count:1
+
+0150c9bf4797679c3c73d60685c4e0f5799baaf4.story	score:2.3803086201213547E10
+kerry	0.123785813775
+count:1
+
+
+
+
+
+------------------------------------------------------------------------------
+query:waters obsidian handover winning cpr caused videos monsters angelou defenses provide inquiry pls census immigrants
+
+TrapdoorGenerating trapdoorGenerating start.
+generate trapdoor total time:286ms
+TrapdoorGenerating trapdoorGenerating finished.
+SearchAlgorithm search start.
+tree time:26ms
+SearchAlgorithm search end.
+requestNumber:2
+leafNodeCount:12
+containsCount:4
+computeCount:65
+pruneCount:21
+requestNumber:2	priorityQueue.size():2
+------------------------------------------------------------------------------
+QUERY: waters obsidian handover winning cpr caused videos monsters angelou defenses provide inquiry pls census immigrants
+01c0a9d2ec6df2fe80dcc9ebd0138f702891539a.story	score:4.0006073615211006E10
+videos	0.217587803262
+count:1
+
+028c5205b899cd26e0226b679e34f7a4baaa7c43.story	score:3.3346678860785328E10
+videos	0.181368225965
+count:1
+
+
+
+
+
+------------------------------------------------------------------------------
+query:carlos factory tuareg belgian mainlanders schwartzel hot opening finishing parks swing morehouse tottenham rises sami
+
+TrapdoorGenerating trapdoorGenerating start.
+generate trapdoor total time:242ms
+TrapdoorGenerating trapdoorGenerating finished.
+SearchAlgorithm search start.
+tree time:24ms
+SearchAlgorithm search end.
+requestNumber:2
+leafNodeCount:20
+containsCount:10
+computeCount:125
+pruneCount:43
+requestNumber:2	priorityQueue.size():2
+------------------------------------------------------------------------------
+QUERY: carlos factory tuareg belgian mainlanders schwartzel hot opening finishing parks swing morehouse tottenham rises sami
+01266530a77b160357d6a3d8e86d04fc80d41b13.story	score:2.4541569924523346E10
+finishing	0.0907051844329
+count:1
+
+0024a4404120db4544060c11050acaaae185f315.story	score:5.597642189479492E9
+swing	0.124132686389
+count:1
+
+
+
+
+
+------------------------------------------------------------------------------
+query:digital slicing new biochar ballet peachtree dai million amanpour jeep visit lines liev guide ministry
+
+TrapdoorGenerating trapdoorGenerating start.
+generate trapdoor total time:226ms
+TrapdoorGenerating trapdoorGenerating finished.
+SearchAlgorithm search start.
+tree time:27ms
+SearchAlgorithm search end.
+requestNumber:2
+leafNodeCount:26
+containsCount:16
+computeCount:125
+pruneCount:37
+requestNumber:2	priorityQueue.size():2
+------------------------------------------------------------------------------
+QUERY: digital slicing new biochar ballet peachtree dai million amanpour jeep visit lines liev guide ministry
+0160b5e1ba9a05ec771d2b24a2cf3f77e44744c5.story	score:2.907984881780935E10
+slicing	0.105608548765
+count:1
+
+0222d97ad9ce4940230adebab2ece19b4276419d.story	score:1.847196603859999E10
+new	0.402505020924
+count:1
+
+
+
+
+
+------------------------------------------------------------------------------
+query:fda exploded cartoon social insulted bombs acid stage superheroes hamon percentage armed rizana henson wayne ridge flow apps coroner described
+
+TrapdoorGenerating trapdoorGenerating start.
+generate trapdoor total time:211ms
+TrapdoorGenerating trapdoorGenerating finished.
+SearchAlgorithm search start.
+tree time:23ms
+SearchAlgorithm search end.
+requestNumber:2
+leafNodeCount:24
+containsCount:11
+computeCount:119
+pruneCount:36
+requestNumber:2	priorityQueue.size():2
+------------------------------------------------------------------------------
+QUERY: fda exploded cartoon social insulted bombs acid stage superheroes hamon percentage armed rizana henson wayne ridge flow apps coroner described
+00ba4ffac8d6adb056293063ada921a22bfa3f33.story	score:4.648010711417431E14
+armed	0.214294117701
+count:1
+
+0004306354494f090ee2d7bc5ddbf80b63e80de6.story	score:2.6054736508335038E14
+armed	0.120124008283
+count:1
+
+
+
+
+
+------------------------------------------------------------------------------
+query:student dyana book tutoring yoon faculty puts administrator ships pivit form assaulted filmmakers transplantation popularize treasure attempted energy specifics senators
+
+TrapdoorGenerating trapdoorGenerating start.
+generate trapdoor total time:215ms
+TrapdoorGenerating trapdoorGenerating finished.
+SearchAlgorithm search start.
+tree time:10ms
+SearchAlgorithm search end.
+requestNumber:2
+leafNodeCount:26
+containsCount:11
+computeCount:119
+pruneCount:34
+requestNumber:2	priorityQueue.size():2
+------------------------------------------------------------------------------
+QUERY: student dyana book tutoring yoon faculty puts administrator ships pivit form assaulted filmmakers transplantation popularize treasure attempted energy specifics senators
+019bb86cd16c831beaa37fbbe0bcf484b3fee676.story	score:1.7206183400049188E14
+dyana	0.0845798362039
+count:1
+
+0165014e696a45a24a4fced48466b57faa176a3d.story	score:4.134531238401044E13
+attempted	0.121943826861
+count:1
+
+
+
+
+
+------------------------------------------------------------------------------
+query:ammunition aquariums homicidal dollars portrayal appeals candidates highlight generalized ramadan deciding chiefs protected turning fema atp cable illness taking player
+
+TrapdoorGenerating trapdoorGenerating start.
+generate trapdoor total time:207ms
+TrapdoorGenerating trapdoorGenerating finished.
+SearchAlgorithm search start.
+tree time:15ms
+SearchAlgorithm search end.
+requestNumber:2
+leafNodeCount:28
+containsCount:14
+computeCount:127
+pruneCount:36
+requestNumber:2	priorityQueue.size():2
+------------------------------------------------------------------------------
+QUERY: ammunition aquariums homicidal dollars portrayal appeals candidates highlight generalized ramadan deciding chiefs protected turning fema atp cable illness taking player
+01b7ed864e966ca34db640a774a8288988f84ba3.story	score:3.5376286392719594E14
+aquariums	0.165881294223
+count:1
+
+00189f37b1c8bdc2b132b40270bb28ffcc622af1.story	score:3.3508004975678125E13
+chiefs	0.0942724937917
+count:1
+
+
+
+
+
+------------------------------------------------------------------------------
+query:calas enterovirus prosthetic munoz enforcement bhutto bottle flood shelly fernandez prevalence seve species mikolajczyk aggressive uranium rhetoric touted offerings handguns
+
+TrapdoorGenerating trapdoorGenerating start.
+generate trapdoor total time:225ms
+TrapdoorGenerating trapdoorGenerating finished.
+SearchAlgorithm search start.
+tree time:11ms
+SearchAlgorithm search end.
+requestNumber:2
+leafNodeCount:18
+containsCount:8
+computeCount:87
+pruneCount:26
+requestNumber:2	priorityQueue.size():2
+------------------------------------------------------------------------------
+QUERY: calas enterovirus prosthetic munoz enforcement bhutto bottle flood shelly fernandez prevalence seve species mikolajczyk aggressive uranium rhetoric touted offerings handguns
+00c45eb98a06f9218170edf5767617cc20991840.story	score:1.7196910021358238E14
+aggressive	0.0885877773674
+count:1
+
+01eb746ddfa75a18650158e762406c0342a53ac5.story	score:1.6822422758349206E14
+aggressive	0.086658652064
+count:1
+
+
+
+
+
+------------------------------------------------------------------------------
+query:sponsoring enforcement garbage recording apes motorcycle candidates contribution defendant philadelphia drunken givens armed offering snows hills hospital returned incumbents dance
+
+TrapdoorGenerating trapdoorGenerating start.
+generate trapdoor total time:205ms
+TrapdoorGenerating trapdoorGenerating finished.
+SearchAlgorithm search start.
+tree time:9ms
+SearchAlgorithm search end.
+requestNumber:2
+leafNodeCount:22
+containsCount:10
+computeCount:101
+pruneCount:29
+requestNumber:2	priorityQueue.size():2
+------------------------------------------------------------------------------
+QUERY: sponsoring enforcement garbage recording apes motorcycle candidates contribution defendant philadelphia drunken givens armed offering snows hills hospital returned incumbents dance
+0226cd790152d3b68eadb4e11be794e6799c29ff.story	score:2.2504315948799788E14
+motorcycle	0.107232814077
+count:1
+
+028310a745cf62edade6d651479c75a46a1ab073.story	score:6.452484203796525E13
+recording	0.184476090858
+count:1
+
+
+
+
+
+------------------------------------------------------------------------------
+query:wiseman cards factories investments scholarship surveillance upwave casualty town witeck fashions spirit hurricane thai munich recommended questioner conduct jawans baby travelocity bombing shocks conditions liberal
+
+TrapdoorGenerating trapdoorGenerating start.
+generate trapdoor total time:197ms
+TrapdoorGenerating trapdoorGenerating finished.
+SearchAlgorithm search start.
+tree time:20ms
+SearchAlgorithm search end.
+requestNumber:2
+leafNodeCount:22
+containsCount:11
+computeCount:117
+pruneCount:37
+requestNumber:2	priorityQueue.size():2
+------------------------------------------------------------------------------
+QUERY: wiseman cards factories investments scholarship surveillance upwave casualty town witeck fashions spirit hurricane thai munich recommended questioner conduct jawans baby travelocity bombing shocks conditions liberal
+0010c870d3fc53ea7f2a4a50f6496dc2df17e02f.story	score:1.36736135590595712E18
+munich	0.0991500832512
+count:1
+
+01886c549638375d76d0079488b1e5e6fba4d9eb.story	score:3.2010373690478387E17
+recommended	0.139268140167
+count:1
+
+
+
+
+
+------------------------------------------------------------------------------
+query:methods prophet solar beef storage beaches reported locavore victims gifs peoples art danish rates eighth bone esperanza rayo cuban doctors speaker buddhist denied christopher defender
+
+TrapdoorGenerating trapdoorGenerating start.
+generate trapdoor total time:219ms
+TrapdoorGenerating trapdoorGenerating finished.
+SearchAlgorithm search start.
+tree time:12ms
+SearchAlgorithm search end.
+requestNumber:2
+leafNodeCount:22
+containsCount:11
+computeCount:109
+pruneCount:33
+requestNumber:2	priorityQueue.size():2
+------------------------------------------------------------------------------
+QUERY: methods prophet solar beef storage beaches reported locavore victims gifs peoples art danish rates eighth bone esperanza rayo cuban doctors speaker buddhist denied christopher defender
+00512126d65bf2a36801e4ef37f28c86c29deb28.story	score:1.51368485301976986E18
+danish	0.104047691418
+count:1
+
+02bb6879a7a844062794e0244ad6ebaa35a4b714.story	score:3.6305071424858189E17
+victims	0.14973231162
+count:1
+
+
+
+
+
+------------------------------------------------------------------------------
+query:assaulting goose maintain trees lee shipbuilding accessing evangelical decline dynamic models past macintosh teaspoon remaining rapidly mango amazon concepts buddhist hawking animated requires stuff liberal
+
+TrapdoorGenerating trapdoorGenerating start.
+generate trapdoor total time:205ms
+TrapdoorGenerating trapdoorGenerating finished.
+SearchAlgorithm search start.
+tree time:25ms
+SearchAlgorithm search end.
+requestNumber:2
+leafNodeCount:22
+containsCount:11
+computeCount:153
+pruneCount:55
+requestNumber:2	priorityQueue.size():2
+------------------------------------------------------------------------------
+QUERY: assaulting goose maintain trees lee shipbuilding accessing evangelical decline dynamic models past macintosh teaspoon remaining rapidly mango amazon concepts buddhist hawking animated requires stuff liberal
+014136b976abf7cab02d2441611ec915960ca466.story	score:1.56911081195610266E18
+models	0.136877254008
+count:1
+
+02b840e0d53d83fbf885632ded4424b1683d32f8.story	score:3.136486745871913E17
+accessing	0.164161902321
+count:1
+
+
+
+
+
+------------------------------------------------------------------------------
+query:conference sail aclu beef mcconnell primaries bauer sawyer defense highland connections redding recorder mugabe propose stovell superyacht separatists watchmakers drought yearlings popularize danced chocolate fencing
+
+TrapdoorGenerating trapdoorGenerating start.
+generate trapdoor total time:209ms
+TrapdoorGenerating trapdoorGenerating finished.
+SearchAlgorithm search start.
+tree time:32ms
+SearchAlgorithm search end.
+requestNumber:2
+leafNodeCount:28
+containsCount:12
+computeCount:125
+pruneCount:35
+requestNumber:2	priorityQueue.size():2
+------------------------------------------------------------------------------
+QUERY: conference sail aclu beef mcconnell primaries bauer sawyer defense highland connections redding recorder mugabe propose stovell superyacht separatists watchmakers drought yearlings popularize danced chocolate fencing
+013b4d8104c422222344bc8263022820e6524ad1.story	score:1.94277696211818906E18
+superyacht	0.149460759249
+count:1
+
+00e8a1c6e038a833ed30d92f911267a2f8f238be.story	score:5.1058578018059008E17
+mugabe	0.235680800791
+count:1
+
+
+
+
+
+------------------------------------------------------------------------------
+query:castro donna directors illinois exclamation discussion kenya farming sitcom gulf gardeners kan bissau vietnamese biography giddiness corps dub donates kabul nasa refugee scenes evolutionary sanctions
+
+TrapdoorGenerating trapdoorGenerating start.
+generate trapdoor total time:209ms
+TrapdoorGenerating trapdoorGenerating finished.
+SearchAlgorithm search start.
+tree time:5ms
+SearchAlgorithm search end.
+requestNumber:2
+leafNodeCount:8
+containsCount:6
+computeCount:45
+pruneCount:15
+requestNumber:2	priorityQueue.size():2
+------------------------------------------------------------------------------
+QUERY: castro donna directors illinois exclamation discussion kenya farming sitcom gulf gardeners kan bissau vietnamese biography giddiness corps dub donates kabul nasa refugee scenes evolutionary sanctions
+003c99210ffb08a21ff004000cac7e2efcfd48de.story	score:1.19242306550606182E18
+donates	0.114303930024
+count:1
+
+0103efaf0741c10bef99df6d7a9d26a4fe6fbe38.story	score:1.73856685948523008E17
+exclamation	0.0999938849137
+count:1
+
+0hours-41minutes-59seconds
+Sun Mar 18 21:59:08 CST 2018
+
+Process finished with exit code 0

@@ -30,8 +30,11 @@ public class TextRankUtils {
 	}
 
 	public static Map<String, Double> textRankFileToMap(Path path) throws IOException {
+//		System.out.println(path.getFileName().toString());
 		List<String> wordWeightLines = Files.readAllLines(path);
-		String separator = "\\s+";
+//		wordWeightLines.stream().forEach(System.out::println);
+
+		String separator = "(\\s+|:)";
 		Map<String, Double> wordWeightMap = new HashMap<>();
 		/*wordWeightLines.stream()
 				.map((str) -> str.split(separator))
@@ -43,7 +46,7 @@ public class TextRankUtils {
 				.map((line) -> line.split(separator))
 				.forEach((String[] array) -> {
 					if (array.length == 2) {
-						wordWeightMap.put(array[0], Double.parseDouble(array[1]));
+						wordWeightMap.put(array[0].toLowerCase(), Double.parseDouble(array[1]));
 
 						// Gensim可能导致这种效果，
 						// 用Jieba则没有这种问题
@@ -51,7 +54,7 @@ public class TextRankUtils {
 					} else {
 						Double score = Double.parseDouble(array[array.length - 1]);
 						for (int i = 0; i < array.length - 1; i++) {
-							wordWeightMap.put(array[i], score);
+							wordWeightMap.put(array[i].toLowerCase(), score);
 						}
 					}
 				});
@@ -78,5 +81,18 @@ public class TextRankUtils {
 		for (Map.Entry<String, Map<String, Double>> item : fileTextRankMap.entrySet()) {
 			System.out.println(item.getKey() + "  " + item.getValue().size());
 		}
+	}
+
+	public static Map<String, Integer> textRankFileLength(String parentName) {
+		Map<String, Integer> fileLength = new HashMap<>();
+		File[] allFiles = new File(parentName).listFiles();
+		try {
+			for (int i = 0; i < allFiles.length; i++) {
+				fileLength.put(allFiles[i].getName(), Files.readAllBytes(allFiles[i].toPath()).length);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return fileLength;
 	}
 }

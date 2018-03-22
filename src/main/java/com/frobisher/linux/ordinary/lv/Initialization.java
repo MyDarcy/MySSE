@@ -47,11 +47,12 @@ public class Initialization {
 //	public static final String PLAIN_DIR = BASE + "\\doc\\plvmuse\\tf_idf_base_1\\plain";
 //	public static final String ENCRYPTED_DIR = BASE + "\\doc\\plvmuse\\tf_idf_base_1\\encrypted";
 
-	// linux下.
-//	public static /*final*/ String BASE = "/home/zqhe/data";
-//	public static /*final*/ String SECRET_KEY_DIR = BASE + "/doc/muse/extend/key/aesKey.dat";
-//	public static /*final*/ String PLAIN_DIR = BASE + "/doc/muse/extend/plain" + DOC_NUMBER;
-//	public static /*final*/ String ENCRYPTED_DIR = BASE + "/doc/muse/ex/encrypted" + DOC_NUMBER;
+//	public static String BASE = "/home/zqhe/data";
+//	public static String SECRET_KEY_DIR = BASE + "/doc/muse/pv/key/aesKey.dat";
+//	public String BASE_PLAIN_DIR = BASE + "/doc/muse/pv/plain";
+//	public String BASE_ENCRYPTED_DIR = BASE + "/doc/muse/pv/encrypted";
+//	public String PLAIN_DIR = BASE_PLAIN_DIR + DOC_NUMBER;
+//	public String ENCRYPTED_DIR = BASE_ENCRYPTED_DIR + DOC_NUMBER;
 
 
 	public static String SEPERATOR;
@@ -347,6 +348,8 @@ public class Initialization {
 			dummykeywordIndexSet.add(random.nextInt(simulationDictSize));
 		}
 		DocumentGenerators generators = new DocumentGenerators(dummykeywordIndexSet, low, high);
+
+		// 逻辑搜索，所以文档向量是0,1
 		List<Matrix> documents = generators.generateDocumentsMatrix01(simulationDocumentNumber, simulationDictSize);
 //		System.out.println("documents.size():" + documents.size());
 		this.simulationDummykeywordIndexSet = dummykeywordIndexSet;

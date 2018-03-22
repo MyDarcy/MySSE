@@ -36,17 +36,14 @@ public class TrapdoorGenerating {
 	}
 
 	/**
-	 * @param query
+	 * @param queryList
 	 * @return
 	 */
-	public Trapdoor generateTrapdoor(String query) {
-		System.out.println("TrapdoorGenerating trapdoorGenerating start.");
+	public Trapdoor generateTrapdoor(List<String> queryList) { // String query
+		System.out.println("\nTrapdoorGenerating trapdoorGenerating start.");
 		long start = System.currentTimeMillis();
 
-		/**
-		 * 关键词的偏好因子.
-		 *
-		 */
+    // 关键词的偏好因子.
 		Map<String, Integer> interestModel = new HashMap<>();
 		for (String str : initialization.dict) {
 			interestModel.put(str, 0);
@@ -54,24 +51,31 @@ public class TrapdoorGenerating {
 
 		// church China hospital performance British
 		// interview Democratic citizenship broadcasting voice
-		interestModel.put("church", 4);
-		interestModel.put("china", 9);
-		interestModel.put("hospital", 2);
-		interestModel.put("performance", 5);
-		interestModel.put("british", 17);
-		interestModel.put("interview", 3);
-		interestModel.put("democratic", 5);
-		interestModel.put("citizenship", 4);
-		interestModel.put("broadcasting", 2);
-		interestModel.put("voice", 1);
+//		interestModel.put("church", 4);
+//		interestModel.put("china", 9);
+//		interestModel.put("hospital", 2);
+//		interestModel.put("performance", 5);
+//		interestModel.put("british", 17);
+//		interestModel.put("interview", 3);
+//		interestModel.put("democratic", 5);
+//		interestModel.put("citizenship", 4);
+//		interestModel.put("broadcasting", 2);
+//		interestModel.put("voice", 1);
 
 		/**
 		 * 先根据重要性进行排序.这里重要性是根据用户指定的来生成的.
 		 */
+//		List<String> keywordList = new ArrayList<>();
+//		Matcher matcher = Initialization.WORD_PATTERN.matcher(query);
+//		while (matcher.find()) {
+//			keywordList.add(matcher.group().toLowerCase());
+//		}
+
+		Random random = new Random();
 		List<String> keywordList = new ArrayList<>();
-		Matcher matcher = Initialization.WORD_PATTERN.matcher(query);
-		while (matcher.find()) {
-			keywordList.add(matcher.group().toLowerCase());
+		for (String keyword : queryList) {
+			keywordList.add(keyword);
+			interestModel.put(keyword, 1 + random.nextInt(20));
 		}
 
 		double[] Q = new double[initialization.DICTIONARY_SIZE + initialization.DUMMY_KEYWORD_NUMBER];
@@ -97,7 +101,7 @@ public class TrapdoorGenerating {
 			int index = keywordList.indexOf(item.getKey());
 			if (index != -1) {
 				double pFactor = hyperIncreasingSequence[count++];
-				System.err.printf("%-20s%-15d%.8f\n", item.getKey(), interestModel.get(item.getKey()), pFactor);
+//				System.err.printf("%-20s%-15d%.8f\n", item.getKey(), interestModel.get(item.getKey()), pFactor);
 				preferenceFactors.put(item.getKey(), pFactor);
 				// 找不到, 那么构建查询陷门也用不到此关键词
 			}
@@ -114,7 +118,6 @@ public class TrapdoorGenerating {
 		china               9              6341892.87149841
 		british             17             38051349.95250095
 		 */
-		System.out.println();
 		// Map<String, Double> idfs = generateIDFs(keywordList);
 
 		for (int i = 0; i < keywordList.size(); i++) {
@@ -122,7 +125,7 @@ public class TrapdoorGenerating {
 			int index = initialization.dict.indexOf(keyword);
 			if (index != -1) {
 				Double preferenceFacotr = preferenceFactors.get(keyword);
-				System.err.printf("%-20s%-15s%.8f\n", keyword, "preference", preferenceFacotr);
+//				System.out.printf("%-20s%-15s%.8f\n", keyword, "preference", preferenceFacotr);
 				/*Q.set(index, 0, idfs.get(keyword));*/
 
 				Q[index] = preferenceFacotr;
@@ -158,9 +161,6 @@ public class TrapdoorGenerating {
 		/*System.out.println("Q Qa Qb transponse.");
 		MatrixUitls.print(Q.transpose());*/
 
-
-		Random random = new Random(31);
-
 		double[] qa = new double[initialization.DICTIONARY_SIZE + initialization.DUMMY_KEYWORD_NUMBER];
 		double[] qb = new double[initialization.DICTIONARY_SIZE + initialization.DUMMY_KEYWORD_NUMBER];
 
@@ -188,7 +188,7 @@ public class TrapdoorGenerating {
 
 		double[] part1 = DiagonalMatrixUtils.times(AuxiliaryMatrix.M1Inverse, qa);
 		double[] part2 = DiagonalMatrixUtils.times(AuxiliaryMatrix.M2Inverse, qb);
-		System.out.println("generate trapdoor total time: " + (System.currentTimeMillis() - start) + " ms");
+		System.out.println("generate trapdoor time: " + (System.currentTimeMillis() - start) + " ms");
 		System.out.println("TrapdoorGenerating trapdoorGenerating finished.");
 		return new Trapdoor(part1, part2);
 	}

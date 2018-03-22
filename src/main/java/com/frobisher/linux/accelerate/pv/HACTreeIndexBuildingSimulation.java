@@ -89,7 +89,7 @@ public class HACTreeIndexBuildingSimulation {
 	 * @throws IllegalBlockSizeException
 	 */
 	public void encryptFiles() throws IOException, BadPaddingException, InvalidKeyException, IllegalBlockSizeException {
-		System.out.println("HACTreeIndexBuildingSimulation encryptFiles start.");
+//		System.out.println("HACTreeIndexBuildingSimulation encryptFiles start.");
 		long start = System.currentTimeMillis();
 		for (int i = 0; i < initialization.simulationDocuments.size(); i++) {
 			double[]  array = initialization.simulationDocuments.get(i);
@@ -102,7 +102,7 @@ public class HACTreeIndexBuildingSimulation {
 			byte[] bytes = sb.toString().trim().getBytes();
 			fileBytesMap.put(i, bytes);
 		}
-		System.out.println("HACTreeIndexBuildingSimulation encryptFiles end.");
+//		System.out.println("HACTreeIndexBuildingSimulation encryptFiles end.");
 	}
 
 	public HACTreeNode buildHACTreeIndex() throws NoSuchAlgorithmException {

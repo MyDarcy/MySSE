@@ -39,7 +39,7 @@ public class TrapdoorGeneratingSimulation {
 	 * @return
 	 */
 	public Trapdoor generateTrapdoor(List<Integer> keywordsIndex) {
-		System.out.println("TrapdoorGenerating trapdoorGenerating start.");
+		System.out.println("\nTrapdoorGenerating trapdoorGenerating start.");
 		long start = System.currentTimeMillis();
 
 		/**

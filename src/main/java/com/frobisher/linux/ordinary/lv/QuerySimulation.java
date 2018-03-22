@@ -1,10 +1,6 @@
 package com.frobisher.linux.ordinary.lv;
 
 import Jama.Matrix;
-import com.frobisher.linux.ordinary.pv.HACTreeNode;
-import com.frobisher.linux.ordinary.pv.Initialization;
-import com.frobisher.linux.ordinary.pv.MySecretKey;
-import com.frobisher.linux.ordinary.pv.Trapdoor;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
@@ -27,8 +23,8 @@ public class QuerySimulation {
 			Initialization initialization = new Initialization();
 			// 没有写textrank和plain文档分离的版本。
 			// 只是new def了两个函数。
-			MySecretKey mySecretKey = initialization.getMySecretKeySimulation(3, 5,
-					600, 600);
+			MySecretKey mySecretKey = initialization.getMySecretKeySimulation(2, 4,
+					4000, 6000);
 
 			// 这个的问题在于fileLength没有统计出来，生成消息摘要会出现问题。
 //			MySecretKey mySecretKey = initialization.getMySecretKeyWithTextRank();
@@ -57,19 +53,19 @@ public class QuerySimulation {
 			Trapdoor trapdoor = trapdoorGenerating.generateTrapdoor(keywordsIndex);
 
 			// for-40
-       int requestNumber1 = 4;
+//       int requestNumber1 = 4;
 			List<Integer> requestNumberList = new ArrayList<>();
 //			int low = (int) Math.ceil(initialization.simulationDocumentNumber * 0.001);
 //			int high = (int) Math.ceil(initialization.simulationDocumentNumber * 0.01);
-			int low = 2;
-			int high = 10;
+			int low = 5;
+			int high = 50;
 			for (int i = low; i <= high; i += low) {
 				requestNumberList.add(i);
 			}
 
 			// Arrays.asList(5, 10, 15, 20, 25, 30, 40, 50, 60, 80)
 			for (int requestNumber : requestNumberList) {
-				System.out.println();
+				printDash();
 				SearchAlgorithmSimulation searchAlgorithm = new SearchAlgorithmSimulation();
 				PriorityQueue<HACTreeNode> priorityQueue = searchAlgorithm.search(root, trapdoor, requestNumber);
 				System.out.println("requestNumber:"+ requestNumber + "\tpriorityQueue.size():" + priorityQueue.size());
@@ -153,13 +149,14 @@ public class QuerySimulation {
 	public static void testWithFixedDocumentNumberKeywordNumberRequestNumber(int documentNumber, int keywordNumber,  int requestNumber) {
 		try {
 			List<Integer> dictSizeList = Arrays.asList(2000, 4000, 6000, 8000, 10000);
+//			List<Integer> dictSizeList = Arrays.asList(200, 400, 600, 800, 1000);
 			for (int i = 0; i < dictSizeList.size(); i++) {
-				System.out.println();
+				printDash();
 				int dictSize = dictSizeList.get(i);
-				System.err.println("documentNumber:" + documentNumber + "\tkeywordNumber:" + keywordNumber + "\trequestNumber:" + requestNumber + "\tdictSize:" + dictSize);
+				System.out.println("documentNumber:" + documentNumber + "\tkeywordNumber:" + keywordNumber + "\trequestNumber:" + requestNumber + "\tdictSize:" + dictSize);
 				System.out.println("documentNumber:" + documentNumber + "\tkeywordNumber:" + keywordNumber + "\trequestNumber:" + requestNumber + "\tdictSize:" + dictSize);
 				Initialization initialization = new Initialization();
-				MySecretKey mySecretKey = initialization.getMySecretKeySimulation(3, 5,
+				MySecretKey mySecretKey = initialization.getMySecretKeySimulation(2, 4,
 						documentNumber, dictSizeList.get(i));
 				HACTreeIndexBuildingSimulation hacTreeIndexBuilding = new HACTreeIndexBuildingSimulation(mySecretKey, initialization);
 				hacTreeIndexBuilding.encryptFiles();
@@ -191,11 +188,12 @@ public class QuerySimulation {
 				SearchAlgorithmSimulation searchAlgorithm = new SearchAlgorithmSimulation();
 				PriorityQueue<HACTreeNode> priorityQueue = searchAlgorithm.search(root, trapdoor, requestNumber);
 				System.out.println("requestNumber:"+ requestNumber + "\tpriorityQueue.size():" + priorityQueue.size());
-				Map<String, Double> nodeScoreMap = new HashMap<>();
-				for (HACTreeNode node : priorityQueue) {
-					nodeScoreMap.put(node.fileDescriptor, scoreForPruning(node, trapdoor));
-				}
-				List<String> filenameList = priorityQueue.stream().map((node) -> node.fileDescriptor).collect(toList());
+				printDash();
+//				Map<String, Double> nodeScoreMap = new HashMap<>();
+//				for (HACTreeNode node : priorityQueue) {
+//					nodeScoreMap.put(node.fileDescriptor, scoreForPruning(node, trapdoor));
+//				}
+//				List<String> filenameList = priorityQueue.stream().map((node) -> node.fileDescriptor).collect(toList());
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -222,18 +220,19 @@ public class QuerySimulation {
 	public static void testWithFixedDictSizeKeywordNumberRequestNumber(int dictSize, int keywordNumber, int requestNumber) {
 		try {
 			List<Integer> documentNumberList = Arrays.asList(2000, 4000, 6000, 8000, 10000);
+//			List<Integer> documentNumberList = Arrays.asList(200, 400, 600, 800, 1000);
 			for (int i = 0; i < documentNumberList.size(); i++) {
-				System.out.println();
+				printDash();
 				int documentNumber = documentNumberList.get(i);
-				System.err.println("documentNumber:" + documentNumber + "\tkeywordNumber" + keywordNumber + "\trequestNumber:" + requestNumber + "\tdictSize:" + dictSize);
+				System.out.println("documentNumber:" + documentNumber + "\tkeywordNumber" + keywordNumber + "\trequestNumber:" + requestNumber + "\tdictSize:" + dictSize);
 				System.out.println("documentNumber:" + documentNumber + "\tkeywordNumber" + keywordNumber + "\trequestNumber:" + requestNumber + "\tdictSize:" + dictSize);
 				Initialization initialization = new Initialization();
-				MySecretKey mySecretKey = initialization.getMySecretKeySimulation(3, 5,
+				MySecretKey mySecretKey = initialization.getMySecretKeySimulation(2, 4,
 						documentNumber, dictSize);
 				HACTreeIndexBuildingSimulation hacTreeIndexBuilding = new HACTreeIndexBuildingSimulation(mySecretKey, initialization);
 				hacTreeIndexBuilding.encryptFiles();
 				hacTreeIndexBuilding.generateAuxiliaryMatrix();
-				System.out.println("HACTreeIndexBuilding build & encrypt index start...");
+				System.out.println("\nHACTreeIndexBuilding build & encrypt index start...");
 				long start = System.currentTimeMillis();
 				HACTreeNode root = hacTreeIndexBuilding.buildHACTreeIndex();
 //				System.out.println("HACTreeIndexBuilding.encryptHACTreeIndex start...");
@@ -254,11 +253,12 @@ public class QuerySimulation {
 				SearchAlgorithmSimulation searchAlgorithm = new SearchAlgorithmSimulation();
 				PriorityQueue<HACTreeNode> priorityQueue = searchAlgorithm.search(root, trapdoor, requestNumber);
 				System.out.println("requestNumber:"+ requestNumber + "\tpriorityQueue.size():" + priorityQueue.size());
-				Map<String, Double> nodeScoreMap = new HashMap<>();
-				for (HACTreeNode node : priorityQueue) {
-					nodeScoreMap.put(node.fileDescriptor, scoreForPruning(node, trapdoor));
-				}
-				List<String> filenameList = priorityQueue.stream().map((node) -> node.fileDescriptor).collect(toList());
+				printDash();
+//				Map<String, Double> nodeScoreMap = new HashMap<>();
+//				for (HACTreeNode node : priorityQueue) {
+//					nodeScoreMap.put(node.fileDescriptor, scoreForPruning(node, trapdoor));
+//				}
+//				List<String> filenameList = priorityQueue.stream().map((node) -> node.fileDescriptor).collect(toList());
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -285,34 +285,44 @@ public class QuerySimulation {
 	 */
 	public static void testWithFixedDocumentNumberFixedDictSize(int documentNumber, int dictSize) {
 		try {
-			List<Integer> requestNumberList = Arrays.asList(10, 20, 30, 40, 50);
-			List<Integer> keywordNumberList = Arrays.asList(10, 20, 30, 40, 50);
-			for (int i = 0; i < requestNumberList.size(); i++) {
-				for (int j = 0; j < keywordNumberList.size(); j++) {
-					System.out.println();
-					int requestNumber = requestNumberList.get(i);
-					int keywordNumber = keywordNumberList.get(j);
-					System.err.println("documentNumber:" + documentNumber + "\tkeywordNumber" + keywordNumber + "\trequestNumber:" + requestNumber + "\tdictSize:" + dictSize);
-					System.out.println("documentNumber:" + documentNumber + "\tkeywordNumber" + keywordNumber + "\trequestNumber:" + requestNumber + "\tdictSize:" + dictSize);
-					Initialization initialization = new Initialization();
-					MySecretKey mySecretKey = initialization.getMySecretKeySimulation(3, 5,
-							documentNumber, dictSize);
-					HACTreeIndexBuildingSimulation hacTreeIndexBuilding = new HACTreeIndexBuildingSimulation(mySecretKey, initialization);
-					hacTreeIndexBuilding.encryptFiles();
-					hacTreeIndexBuilding.generateAuxiliaryMatrix();
-					System.out.println("HACTreeIndexBuilding build & encrypt index start...");
-					long start = System.currentTimeMillis();
-					HACTreeNode root = hacTreeIndexBuilding.buildHACTreeIndex();
+
+			Initialization initialization = new Initialization();
+			MySecretKey mySecretKey = initialization.getMySecretKeySimulation(2, 4,
+					documentNumber, dictSize);
+			HACTreeIndexBuildingSimulation hacTreeIndexBuilding = new HACTreeIndexBuildingSimulation(mySecretKey, initialization);
+			hacTreeIndexBuilding.encryptFiles();
+			hacTreeIndexBuilding.generateAuxiliaryMatrix();
+			System.out.println("HACTreeIndexBuilding build & encrypt index start...");
+			long start = System.currentTimeMillis();
+			HACTreeNode root = hacTreeIndexBuilding.buildHACTreeIndex();
 //				System.out.println("HACTreeIndexBuilding.encryptHACTreeIndex start...");
 //				long start = System.currentTimeMillis();
-					hacTreeIndexBuilding.encryptHACTreeIndex(root);
+			hacTreeIndexBuilding.encryptHACTreeIndex(root);
 //				System.out.println("time:" + (System.currentTimeMillis() - start) + "ms");
-					System.out.println("build & encrypt cost:" + (System.currentTimeMillis() - start) + "ms");
-					System.out.println("HACTreeIndexBuilding build & encrypt index end.");
+			System.out.println("build & encrypt cost:" + (System.currentTimeMillis() - start) + "ms");
+			System.out.println("HACTreeIndexBuilding build & encrypt index end.");
+
+			List<Integer> requestNumberList = Arrays.asList(5, 10, 20, 30, 40, 50);
+			List<Integer> keywordNumberList = Arrays.asList(5, 10, 20, 30, 40, 50);
+//			List<Integer> requestNumberList = Arrays.asList(5, 10, 15, 20, 25);
+//			List<Integer> keywordNumberList = Arrays.asList(5, 10, 15, 20, 25);
+			for (int i = 0; i < requestNumberList.size(); i++) {
+				for (int j = 0; j < keywordNumberList.size(); j++) {
+					printDash();
+					int requestNumber = requestNumberList.get(i);
+					int keywordNumber = keywordNumberList.get(j);
+					System.out.println("documentNumber:" + documentNumber + "\tkeywordNumber" + keywordNumber + "\trequestNumber:" + requestNumber + "\tdictSize:" + dictSize);
+					System.out.println("documentNumber:" + documentNumber + "\tkeywordNumber" + keywordNumber + "\trequestNumber:" + requestNumber + "\tdictSize:" + dictSize);
 
 					int andNumbers = 2;
 					int notNumbers = 3;
 					int orNumbers = keywordNumber - andNumbers - notNumbers;
+
+					if (keywordNumber == 5) {
+						andNumbers = 1;
+						notNumbers = 1;
+						orNumbers = 3;
+					}
 
 					List<List<Integer>> keywordsIndex = getThreeKindsOfKeywordsIndex(initialization, orNumbers, andNumbers, notNumbers);
 
@@ -322,11 +332,12 @@ public class QuerySimulation {
 					SearchAlgorithmSimulation searchAlgorithm = new SearchAlgorithmSimulation();
 					PriorityQueue<HACTreeNode> priorityQueue = searchAlgorithm.search(root, trapdoor, requestNumber);
 					System.out.println("requestNumber:"+ requestNumber + "\tpriorityQueue.size():" + priorityQueue.size());
-					Map<String, Double> nodeScoreMap = new HashMap<>();
-					for (HACTreeNode node : priorityQueue) {
-						nodeScoreMap.put(node.fileDescriptor, scoreForPruning(node, trapdoor));
-					}
-					List<String> filenameList = priorityQueue.stream().map((node) -> node.fileDescriptor).collect(toList());
+					printDash();
+//					Map<String, Double> nodeScoreMap = new HashMap<>();
+//					for (HACTreeNode node : priorityQueue) {
+//						nodeScoreMap.put(node.fileDescriptor, scoreForPruning(node, trapdoor));
+//					}
+//					List<String> filenameList = priorityQueue.stream().map((node) -> node.fileDescriptor).collect(toList());
 				}
 			}
 		} catch (IOException e) {
@@ -341,6 +352,11 @@ public class QuerySimulation {
 			e.printStackTrace();
 		}
 	}
+
+	private static void printDash() {
+		System.out.println("----------------------------------------------------------------------------------");
+	}
+
 
 	private static void searchResultVerify(Initialization initialization, List<String> filenameList, List<List<Integer>> keywordsIndex, Map<String, Double> nodeScoreMap) throws IOException {
 		System.out.println();
@@ -379,20 +395,33 @@ public class QuerySimulation {
 
 	public static void main(String[] args) throws IOException, NoSuchAlgorithmException {
 		System.out.println(QuerySimulation.class.getName() + " search.");
+		System.out.println(new Date());
+		long start = System.currentTimeMillis();
+
 //		test2();
-		System.err.println("testWithFixedDocumentNumberKeywordNumberRequestNumber");
+		System.out.println("testWithFixedDocumentNumberKeywordNumberRequestNumber");
 		testWithFixedDocumentNumberKeywordNumberRequestNumber(6000, 20, 20);
+//		testWithFixedDocumentNumberKeywordNumberRequestNumber(600, 20, 20);
 		System.out.println();
 		System.out.println();
 		System.out.println();
-		System.err.println("testWithFixedDictSizeKeywordNumberRequestNumber");
+		System.out.println("testWithFixedDictSizeKeywordNumberRequestNumber");
 		testWithFixedDictSizeKeywordNumberRequestNumber(4000, 20, 20);
+//		testWithFixedDictSizeKeywordNumberRequestNumber(400, 20, 20);
 
 		System.out.println();
 		System.out.println();
 		System.out.println();
-		System.err.println("testWithFixedDocumentNumberFixedDictSize");
+		System.out.println("testWithFixedDocumentNumberFixedDictSize");
 		testWithFixedDocumentNumberFixedDictSize(6000, 4000);
+//		testWithFixedDocumentNumberFixedDictSize(600, 400);
 
+		long end = System.currentTimeMillis();
+		long s = (start - end) / 1000;
+		long h = s / 3600;
+		long m = (s - h * 3600) / 60;
+		s = s - h * 3600 - m * 60;
+		System.out.println(h + "hours" + m + "minutes" + s + "seconds");
+		System.out.println(new Date());
 	}
 }

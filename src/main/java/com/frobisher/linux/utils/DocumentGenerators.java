@@ -182,7 +182,7 @@ public class DocumentGenerators {
 	 */
 	public Matrix generateMatrix(int size) {
 		double[][] array = new double[size][1];
-		Random selector = new Random(31);
+		Random selector = new Random();
 		MyRandom myRandom = randomList.get(selector.nextInt(randomList.size()));
 		for (int i = 0; i < size; i++) {
 			if (!dummykeywordIndexSet.contains(i)) {
@@ -194,7 +194,7 @@ public class DocumentGenerators {
 
 	public double[] generateDoubleArray(int size) {
 		double[] P = new double[size];
-		Random selector = new Random(31);
+		Random selector = new Random();
 		MyRandom myRandom = randomList.get(selector.nextInt(randomList.size()));
 		for (int i = 0; i < size; i++) {
 			// 不包含.

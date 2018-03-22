@@ -1,0 +1,1011 @@
+"D:\Program Files\Java\jdk1.8.0_101\bin\java" "-javaagent:D:\Program Files\JetBrains\IntelliJ IDEA 2017.2.5\lib\idea_rt.jar=9930:D:\Program Files\JetBrains\IntelliJ IDEA 2017.2.5\bin" -Dfile.encoding=UTF-8 -classpath "D:\Program Files\Java\jdk1.8.0_101\jre\lib\charsets.jar;D:\Program Files\Java\jdk1.8.0_101\jre\lib\deploy.jar;D:\Program Files\Java\jdk1.8.0_101\jre\lib\ext\access-bridge-64.jar;D:\Program Files\Java\jdk1.8.0_101\jre\lib\ext\cldrdata.jar;D:\Program Files\Java\jdk1.8.0_101\jre\lib\ext\dnsns.jar;D:\Program Files\Java\jdk1.8.0_101\jre\lib\ext\jaccess.jar;D:\Program Files\Java\jdk1.8.0_101\jre\lib\ext\jfxrt.jar;D:\Program Files\Java\jdk1.8.0_101\jre\lib\ext\localedata.jar;D:\Program Files\Java\jdk1.8.0_101\jre\lib\ext\nashorn.jar;D:\Program Files\Java\jdk1.8.0_101\jre\lib\ext\sunec.jar;D:\Program Files\Java\jdk1.8.0_101\jre\lib\ext\sunjce_provider.jar;D:\Program Files\Java\jdk1.8.0_101\jre\lib\ext\sunmscapi.jar;D:\Program Files\Java\jdk1.8.0_101\jre\lib\ext\sunpkcs11.jar;D:\Program Files\Java\jdk1.8.0_101\jre\lib\ext\zipfs.jar;D:\Program Files\Java\jdk1.8.0_101\jre\lib\javaws.jar;D:\Program Files\Java\jdk1.8.0_101\jre\lib\jce.jar;D:\Program Files\Java\jdk1.8.0_101\jre\lib\jfr.jar;D:\Program Files\Java\jdk1.8.0_101\jre\lib\jfxswt.jar;D:\Program Files\Java\jdk1.8.0_101\jre\lib\jsse.jar;D:\Program Files\Java\jdk1.8.0_101\jre\lib\management-agent.jar;D:\Program Files\Java\jdk1.8.0_101\jre\lib\plugin.jar;D:\Program Files\Java\jdk1.8.0_101\jre\lib\resources.jar;D:\Program Files\Java\jdk1.8.0_101\jre\lib\rt.jar;D:\MrDarcy\ForGraduationWorks\Code\MySSE\target\classes;D:\MrDarcy\repo\maven_repo\mysql\mysql-connector-java\5.1.39\mysql-connector-java-5.1.39.jar;D:\MrDarcy\repo\maven_repo\gov\nist\math\jama\1.0.3\jama-1.0.3.jar;D:\MrDarcy\repo\maven_repo\org\ujmp\ujmp-core\0.3.0\ujmp-core-0.3.0.jar;D:\MrDarcy\repo\maven_repo\org\json\json\20141113\json-20141113.jar;D:\MrDarcy\repo\maven_repo\org\ujmp\ujmp-gui\0.3.0\ujmp-gui-0.3.0.jar;D:\MrDarcy\repo\maven_repo\org\apache\commons\commons-math3\3.6.1\commons-math3-3.6.1.jar;D:\MrDarcy\repo\maven_repo\colt\colt\1.2.0\colt-1.2.0.jar;D:\MrDarcy\repo\maven_repo\concurrent\concurrent\1.3.4\concurrent-1.3.4.jar;D:\MrDarcy\repo\maven_repo\org\apache\lucene\lucene-core\7.1.0\lucene-core-7.1.0.jar;D:\MrDarcy\repo\maven_repo\org\apache\lucene\lucene-queryparser\7.1.0\lucene-queryparser-7.1.0.jar;D:\MrDarcy\repo\maven_repo\org\apache\lucene\lucene-sandbox\7.1.0\lucene-sandbox-7.1.0.jar;D:\MrDarcy\repo\maven_repo\org\apache\lucene\lucene-analyzers-common\7.1.0\lucene-analyzers-common-7.1.0.jar;D:\MrDarcy\repo\maven_repo\org\apache\lucene\lucene-queries\7.1.0\lucene-queries-7.1.0.jar;D:\MrDarcy\repo\maven_repo\org\apache\commons\commons-text\1.2\commons-text-1.2.jar;D:\MrDarcy\repo\maven_repo\org\apache\commons\commons-lang3\3.7\commons-lang3-3.7.jar;D:\MrDarcy\repo\maven_repo\com\hankcs\hanlp\portable-1.5.3\hanlp-portable-1.5.3.jar;D:\MrDarcy\repo\maven_repo\dom4j\dom4j\1.6.1\dom4j-1.6.1.jar;D:\MrDarcy\repo\maven_repo\xml-apis\xml-apis\1.0.b2\xml-apis-1.0.b2.jar;D:\MrDarcy\repo\maven_repo\com\clearspring\analytics\stream\2.9.5\stream-2.9.5.jar;D:\MrDarcy\repo\maven_repo\it\unimi\dsi\fastutil\7.0.6\fastutil-7.0.6.jar;D:\MrDarcy\repo\maven_repo\org\slf4j\slf4j-api\1.7.7\slf4j-api-1.7.7.jar;D:\MrDarcy\repo\maven_repo\edu\washington\cs\knowitall\morpha-stemmer\1.0.5\morpha-stemmer-1.0.5.jar;D:\MrDarcy\repo\maven_repo\edu\mit\jwi\2.2.3\jwi-2.2.3.jar;D:\MrDarcy\repo\maven_repo\org\slf4j\slf4j-simple\1.7.25\slf4j-simple-1.7.25.jar" com.frobisher.linux.accelerate.pv.QuerySimulation
+com.frobisher.linux.accelerate.pv.QuerySimulation search.
+Sun Mar 18 16:08:39 CST 2018
+testWithFixedDocumentNumberKeywordNumberRequestNumber
+----------------------------------------------------------------------------------
+documentNumber:6000	keywordNumber:20	requestNumber:20	dictSize:2000
+documentNumber:6000	keywordNumber:20	requestNumber:20	dictSize:2000
+HACTreeIndexBuildingSimulation encryptFiles start.
+HACTreeIndexBuildingSimulation encryptFiles end.
+HACTreeIndexBuilding generateAuxiliaryMatirx start.
+two transpose:10ms
+two inverse:0ms
+total time:10ms
+HACTreeIndexBuilding generateAuxiliaryMatrix finished.
+HACTreeIndexBuilding build & encrypt index start...
+HACTreeIndexBuildingSimulation buildHACTreeIndex start.
+build & encrypt cost:190814ms
+HACTreeIndexBuilding build & encrypt index end.
+
+TrapdoorGeneratingSimulation trapdoorGenerating start.
+generate trapdoor cost:4ms
+TrapdoorGeneratingSimulation trapdoorGenerating finished.
+SearchAlgorithmSimulation search start.
+tree time:23ms
+map.size():6000, count:6000
+sequential time:81ms
+SearchAlgorithmSimulation search end.
+requestNumber:20
+leafNodeCount:210
+containsCount:96
+computeCount:1001
+pruneCount:291
+requestNumber:20	priorityQueue.size():20
+----------------------------------------------------------------------------------
+----------------------------------------------------------------------------------
+documentNumber:6000	keywordNumber:20	requestNumber:20	dictSize:4000
+documentNumber:6000	keywordNumber:20	requestNumber:20	dictSize:4000
+HACTreeIndexBuildingSimulation encryptFiles start.
+HACTreeIndexBuildingSimulation encryptFiles end.
+HACTreeIndexBuilding generateAuxiliaryMatirx start.
+two transpose:0ms
+two inverse:1ms
+total time:1ms
+HACTreeIndexBuilding generateAuxiliaryMatrix finished.
+HACTreeIndexBuilding build & encrypt index start...
+HACTreeIndexBuildingSimulation buildHACTreeIndex start.
+build & encrypt cost:323901ms
+HACTreeIndexBuilding build & encrypt index end.
+
+TrapdoorGeneratingSimulation trapdoorGenerating start.
+generate trapdoor cost:1ms
+TrapdoorGeneratingSimulation trapdoorGenerating finished.
+SearchAlgorithmSimulation search start.
+tree time:56ms
+map.size():6000, count:6000
+sequential time:161ms
+SearchAlgorithmSimulation search end.
+requestNumber:20
+leafNodeCount:290
+containsCount:119
+computeCount:1451
+pruneCount:436
+requestNumber:20	priorityQueue.size():20
+----------------------------------------------------------------------------------
+----------------------------------------------------------------------------------
+documentNumber:6000	keywordNumber:20	requestNumber:20	dictSize:6000
+documentNumber:6000	keywordNumber:20	requestNumber:20	dictSize:6000
+HACTreeIndexBuildingSimulation encryptFiles start.
+HACTreeIndexBuildingSimulation encryptFiles end.
+HACTreeIndexBuilding generateAuxiliaryMatirx start.
+two transpose:0ms
+two inverse:0ms
+total time:1ms
+HACTreeIndexBuilding generateAuxiliaryMatrix finished.
+HACTreeIndexBuilding build & encrypt index start...
+HACTreeIndexBuildingSimulation buildHACTreeIndex start.
+build & encrypt cost:415755ms
+HACTreeIndexBuilding build & encrypt index end.
+
+TrapdoorGeneratingSimulation trapdoorGenerating start.
+generate trapdoor cost:1ms
+TrapdoorGeneratingSimulation trapdoorGenerating finished.
+SearchAlgorithmSimulation search start.
+tree time:76ms
+map.size():6000, count:6000
+sequential time:238ms
+SearchAlgorithmSimulation search end.
+requestNumber:20
+leafNodeCount:286
+containsCount:113
+computeCount:1367
+pruneCount:398
+requestNumber:20	priorityQueue.size():20
+----------------------------------------------------------------------------------
+----------------------------------------------------------------------------------
+documentNumber:6000	keywordNumber:20	requestNumber:20	dictSize:8000
+documentNumber:6000	keywordNumber:20	requestNumber:20	dictSize:8000
+HACTreeIndexBuildingSimulation encryptFiles start.
+HACTreeIndexBuildingSimulation encryptFiles end.
+HACTreeIndexBuilding generateAuxiliaryMatirx start.
+two transpose:0ms
+two inverse:1ms
+total time:1ms
+HACTreeIndexBuilding generateAuxiliaryMatrix finished.
+HACTreeIndexBuilding build & encrypt index start...
+HACTreeIndexBuildingSimulation buildHACTreeIndex start.
+build & encrypt cost:533709ms
+HACTreeIndexBuilding build & encrypt index end.
+
+TrapdoorGeneratingSimulation trapdoorGenerating start.
+generate trapdoor cost:2ms
+TrapdoorGeneratingSimulation trapdoorGenerating finished.
+SearchAlgorithmSimulation search start.
+tree time:99ms
+map.size():6000, count:6000
+sequential time:338ms
+SearchAlgorithmSimulation search end.
+requestNumber:20
+leafNodeCount:282
+containsCount:107
+computeCount:1321
+pruneCount:379
+requestNumber:20	priorityQueue.size():20
+----------------------------------------------------------------------------------
+----------------------------------------------------------------------------------
+documentNumber:6000	keywordNumber:20	requestNumber:20	dictSize:10000
+documentNumber:6000	keywordNumber:20	requestNumber:20	dictSize:10000
+HACTreeIndexBuildingSimulation encryptFiles start.
+HACTreeIndexBuildingSimulation encryptFiles end.
+HACTreeIndexBuilding generateAuxiliaryMatirx start.
+two transpose:1ms
+two inverse:1ms
+total time:6ms
+HACTreeIndexBuilding generateAuxiliaryMatrix finished.
+HACTreeIndexBuilding build & encrypt index start...
+HACTreeIndexBuildingSimulation buildHACTreeIndex start.
+build & encrypt cost:650145ms
+HACTreeIndexBuilding build & encrypt index end.
+
+TrapdoorGeneratingSimulation trapdoorGenerating start.
+generate trapdoor cost:0ms
+TrapdoorGeneratingSimulation trapdoorGenerating finished.
+SearchAlgorithmSimulation search start.
+tree time:110ms
+map.size():6000, count:6000
+sequential time:370ms
+SearchAlgorithmSimulation search end.
+requestNumber:20
+leafNodeCount:230
+containsCount:96
+computeCount:1107
+pruneCount:324
+requestNumber:20	priorityQueue.size():20
+----------------------------------------------------------------------------------
+
+
+
+testWithFixedDictSizeKeywordNumberRequestNumber
+----------------------------------------------------------------------------------
+documentNumber:2000	keywordNumber:20	requestNumber:20	dictSize:4000
+documentNumber:2000	keywordNumber:20	requestNumber:20	dictSize:4000
+HACTreeIndexBuildingSimulation encryptFiles start.
+HACTreeIndexBuildingSimulation encryptFiles end.
+HACTreeIndexBuilding generateAuxiliaryMatirx start.
+two transpose:0ms
+two inverse:0ms
+total time:0ms
+HACTreeIndexBuilding generateAuxiliaryMatrix finished.
+HACTreeIndexBuilding build & encrypt index start...
+HACTreeIndexBuildingSimulation buildHACTreeIndex start.
+build & encrypt cost:30560ms
+HACTreeIndexBuilding build & encrypt index end.
+
+TrapdoorGeneratingSimulation trapdoorGenerating start.
+generate trapdoor cost:0ms
+TrapdoorGeneratingSimulation trapdoorGenerating finished.
+SearchAlgorithmSimulation search start.
+tree time:30ms
+map.size():2000, count:2000
+sequential time:60ms
+SearchAlgorithmSimulation search end.
+requestNumber:20
+leafNodeCount:182
+containsCount:79
+computeCount:717
+pruneCount:177
+requestNumber:20	priorityQueue.size():20
+----------------------------------------------------------------------------------
+----------------------------------------------------------------------------------
+documentNumber:4000	keywordNumber:20	requestNumber:20	dictSize:4000
+documentNumber:4000	keywordNumber:20	requestNumber:20	dictSize:4000
+HACTreeIndexBuildingSimulation encryptFiles start.
+HACTreeIndexBuildingSimulation encryptFiles end.
+HACTreeIndexBuilding generateAuxiliaryMatirx start.
+two transpose:0ms
+two inverse:0ms
+total time:0ms
+HACTreeIndexBuilding generateAuxiliaryMatrix finished.
+HACTreeIndexBuilding build & encrypt index start...
+HACTreeIndexBuildingSimulation buildHACTreeIndex start.
+build & encrypt cost:126421ms
+HACTreeIndexBuilding build & encrypt index end.
+
+TrapdoorGeneratingSimulation trapdoorGenerating start.
+generate trapdoor cost:0ms
+TrapdoorGeneratingSimulation trapdoorGenerating finished.
+SearchAlgorithmSimulation search start.
+tree time:40ms
+map.size():4000, count:4000
+sequential time:110ms
+SearchAlgorithmSimulation search end.
+requestNumber:20
+leafNodeCount:284
+containsCount:95
+computeCount:1143
+pruneCount:288
+requestNumber:20	priorityQueue.size():20
+----------------------------------------------------------------------------------
+----------------------------------------------------------------------------------
+documentNumber:6000	keywordNumber:20	requestNumber:20	dictSize:4000
+documentNumber:6000	keywordNumber:20	requestNumber:20	dictSize:4000
+HACTreeIndexBuildingSimulation encryptFiles start.
+HACTreeIndexBuildingSimulation encryptFiles end.
+HACTreeIndexBuilding generateAuxiliaryMatirx start.
+two transpose:0ms
+two inverse:0ms
+total time:0ms
+HACTreeIndexBuilding generateAuxiliaryMatrix finished.
+HACTreeIndexBuilding build & encrypt index start...
+HACTreeIndexBuildingSimulation buildHACTreeIndex start.
+build & encrypt cost:303982ms
+HACTreeIndexBuilding build & encrypt index end.
+
+TrapdoorGeneratingSimulation trapdoorGenerating start.
+generate trapdoor cost:1ms
+TrapdoorGeneratingSimulation trapdoorGenerating finished.
+SearchAlgorithmSimulation search start.
+tree time:37ms
+map.size():6000, count:6000
+sequential time:154ms
+SearchAlgorithmSimulation search end.
+requestNumber:20
+leafNodeCount:236
+containsCount:93
+computeCount:1089
+pruneCount:309
+requestNumber:20	priorityQueue.size():20
+----------------------------------------------------------------------------------
+----------------------------------------------------------------------------------
+documentNumber:8000	keywordNumber:20	requestNumber:20	dictSize:4000
+documentNumber:8000	keywordNumber:20	requestNumber:20	dictSize:4000
+HACTreeIndexBuildingSimulation encryptFiles start.
+HACTreeIndexBuildingSimulation encryptFiles end.
+HACTreeIndexBuilding generateAuxiliaryMatirx start.
+two transpose:0ms
+two inverse:0ms
+total time:0ms
+HACTreeIndexBuilding generateAuxiliaryMatrix finished.
+HACTreeIndexBuilding build & encrypt index start...
+HACTreeIndexBuildingSimulation buildHACTreeIndex start.
+build & encrypt cost:553214ms
+HACTreeIndexBuilding build & encrypt index end.
+
+TrapdoorGeneratingSimulation trapdoorGenerating start.
+generate trapdoor cost:10ms
+TrapdoorGeneratingSimulation trapdoorGenerating finished.
+SearchAlgorithmSimulation search start.
+tree time:50ms
+map.size():8000, count:8000
+sequential time:210ms
+SearchAlgorithmSimulation search end.
+requestNumber:20
+leafNodeCount:300
+containsCount:108
+computeCount:1433
+pruneCount:417
+requestNumber:20	priorityQueue.size():20
+----------------------------------------------------------------------------------
+----------------------------------------------------------------------------------
+documentNumber:10000	keywordNumber:20	requestNumber:20	dictSize:4000
+documentNumber:10000	keywordNumber:20	requestNumber:20	dictSize:4000
+HACTreeIndexBuildingSimulation encryptFiles start.
+HACTreeIndexBuildingSimulation encryptFiles end.
+HACTreeIndexBuilding generateAuxiliaryMatirx start.
+two transpose:0ms
+two inverse:0ms
+total time:0ms
+HACTreeIndexBuilding generateAuxiliaryMatrix finished.
+HACTreeIndexBuilding build & encrypt index start...
+HACTreeIndexBuildingSimulation buildHACTreeIndex start.
+build & encrypt cost:986546ms
+HACTreeIndexBuilding build & encrypt index end.
+
+TrapdoorGeneratingSimulation trapdoorGenerating start.
+generate trapdoor cost:30ms
+TrapdoorGeneratingSimulation trapdoorGenerating finished.
+SearchAlgorithmSimulation search start.
+tree time:60ms
+map.size():10000, count:10000
+sequential time:230ms
+SearchAlgorithmSimulation search end.
+requestNumber:20
+leafNodeCount:276
+containsCount:113
+computeCount:1611
+pruneCount:530
+requestNumber:20	priorityQueue.size():20
+----------------------------------------------------------------------------------
+
+
+
+testWithFixedDocumentNumberDictSize
+HACTreeIndexBuildingSimulation encryptFiles start.
+HACTreeIndexBuildingSimulation encryptFiles end.
+HACTreeIndexBuilding generateAuxiliaryMatirx start.
+two transpose:0ms
+two inverse:0ms
+total time:0ms
+HACTreeIndexBuilding generateAuxiliaryMatrix finished.
+HACTreeIndexBuilding build & encrypt index start...
+HACTreeIndexBuildingSimulation buildHACTreeIndex start.
+build & encrypt cost:314152ms
+HACTreeIndexBuilding build & encrypt index end.
+----------------------------------------------------------------------------------
+documentNumber:6000	keywordNumber:5	requestNumber:5	dictSize:4000
+documentNumber:6000	keywordNumber:5	requestNumber:5	dictSize:4000
+
+TrapdoorGeneratingSimulation trapdoorGenerating start.
+generate trapdoor cost:0ms
+TrapdoorGeneratingSimulation trapdoorGenerating finished.
+SearchAlgorithmSimulation search start.
+tree time:10ms
+map.size():6000, count:6000
+sequential time:119ms
+SearchAlgorithmSimulation search end.
+requestNumber:5
+leafNodeCount:142
+containsCount:31
+computeCount:697
+pruneCount:207
+requestNumber:5	priorityQueue.size():5
+----------------------------------------------------------------------------------
+----------------------------------------------------------------------------------
+documentNumber:6000	keywordNumber:10	requestNumber:5	dictSize:4000
+documentNumber:6000	keywordNumber:10	requestNumber:5	dictSize:4000
+
+TrapdoorGeneratingSimulation trapdoorGenerating start.
+generate trapdoor cost:0ms
+TrapdoorGeneratingSimulation trapdoorGenerating finished.
+SearchAlgorithmSimulation search start.
+tree time:10ms
+map.size():6000, count:6000
+sequential time:130ms
+SearchAlgorithmSimulation search end.
+requestNumber:5
+leafNodeCount:122
+containsCount:40
+computeCount:697
+pruneCount:227
+requestNumber:5	priorityQueue.size():5
+----------------------------------------------------------------------------------
+----------------------------------------------------------------------------------
+documentNumber:6000	keywordNumber:20	requestNumber:5	dictSize:4000
+documentNumber:6000	keywordNumber:20	requestNumber:5	dictSize:4000
+
+TrapdoorGeneratingSimulation trapdoorGenerating start.
+generate trapdoor cost:0ms
+TrapdoorGeneratingSimulation trapdoorGenerating finished.
+SearchAlgorithmSimulation search start.
+tree time:10ms
+map.size():6000, count:6000
+sequential time:120ms
+SearchAlgorithmSimulation search end.
+requestNumber:5
+leafNodeCount:62
+containsCount:23
+computeCount:527
+pruneCount:202
+requestNumber:5	priorityQueue.size():5
+----------------------------------------------------------------------------------
+----------------------------------------------------------------------------------
+documentNumber:6000	keywordNumber:30	requestNumber:5	dictSize:4000
+documentNumber:6000	keywordNumber:30	requestNumber:5	dictSize:4000
+
+TrapdoorGeneratingSimulation trapdoorGenerating start.
+generate trapdoor cost:0ms
+TrapdoorGeneratingSimulation trapdoorGenerating finished.
+SearchAlgorithmSimulation search start.
+tree time:10ms
+map.size():6000, count:6000
+sequential time:120ms
+SearchAlgorithmSimulation search end.
+requestNumber:5
+leafNodeCount:52
+containsCount:23
+computeCount:517
+pruneCount:207
+requestNumber:5	priorityQueue.size():5
+----------------------------------------------------------------------------------
+----------------------------------------------------------------------------------
+documentNumber:6000	keywordNumber:40	requestNumber:5	dictSize:4000
+documentNumber:6000	keywordNumber:40	requestNumber:5	dictSize:4000
+
+TrapdoorGeneratingSimulation trapdoorGenerating start.
+generate trapdoor cost:0ms
+TrapdoorGeneratingSimulation trapdoorGenerating finished.
+SearchAlgorithmSimulation search start.
+tree time:10ms
+map.size():6000, count:6000
+sequential time:110ms
+SearchAlgorithmSimulation search end.
+requestNumber:5
+leafNodeCount:54
+containsCount:24
+computeCount:523
+pruneCount:208
+requestNumber:5	priorityQueue.size():5
+----------------------------------------------------------------------------------
+----------------------------------------------------------------------------------
+documentNumber:6000	keywordNumber:50	requestNumber:5	dictSize:4000
+documentNumber:6000	keywordNumber:50	requestNumber:5	dictSize:4000
+
+TrapdoorGeneratingSimulation trapdoorGenerating start.
+generate trapdoor cost:0ms
+TrapdoorGeneratingSimulation trapdoorGenerating finished.
+SearchAlgorithmSimulation search start.
+tree time:10ms
+map.size():6000, count:6000
+sequential time:120ms
+SearchAlgorithmSimulation search end.
+requestNumber:5
+leafNodeCount:74
+containsCount:38
+computeCount:583
+pruneCount:218
+requestNumber:5	priorityQueue.size():5
+----------------------------------------------------------------------------------
+----------------------------------------------------------------------------------
+documentNumber:6000	keywordNumber:5	requestNumber:10	dictSize:4000
+documentNumber:6000	keywordNumber:5	requestNumber:10	dictSize:4000
+
+TrapdoorGeneratingSimulation trapdoorGenerating start.
+generate trapdoor cost:0ms
+TrapdoorGeneratingSimulation trapdoorGenerating finished.
+SearchAlgorithmSimulation search start.
+tree time:30ms
+map.size():6000, count:6000
+sequential time:120ms
+SearchAlgorithmSimulation search end.
+requestNumber:10
+leafNodeCount:236
+containsCount:46
+computeCount:969
+pruneCount:249
+requestNumber:10	priorityQueue.size():10
+----------------------------------------------------------------------------------
+----------------------------------------------------------------------------------
+documentNumber:6000	keywordNumber:10	requestNumber:10	dictSize:4000
+documentNumber:6000	keywordNumber:10	requestNumber:10	dictSize:4000
+
+TrapdoorGeneratingSimulation trapdoorGenerating start.
+generate trapdoor cost:0ms
+TrapdoorGeneratingSimulation trapdoorGenerating finished.
+SearchAlgorithmSimulation search start.
+tree time:20ms
+map.size():6000, count:6000
+sequential time:121ms
+SearchAlgorithmSimulation search end.
+requestNumber:10
+leafNodeCount:208
+containsCount:66
+computeCount:953
+pruneCount:269
+requestNumber:10	priorityQueue.size():10
+----------------------------------------------------------------------------------
+----------------------------------------------------------------------------------
+documentNumber:6000	keywordNumber:20	requestNumber:10	dictSize:4000
+documentNumber:6000	keywordNumber:20	requestNumber:10	dictSize:4000
+
+TrapdoorGeneratingSimulation trapdoorGenerating start.
+generate trapdoor cost:0ms
+TrapdoorGeneratingSimulation trapdoorGenerating finished.
+SearchAlgorithmSimulation search start.
+tree time:30ms
+map.size():6000, count:6000
+sequential time:120ms
+SearchAlgorithmSimulation search end.
+requestNumber:10
+leafNodeCount:140
+containsCount:57
+computeCount:819
+pruneCount:270
+requestNumber:10	priorityQueue.size():10
+----------------------------------------------------------------------------------
+----------------------------------------------------------------------------------
+documentNumber:6000	keywordNumber:30	requestNumber:10	dictSize:4000
+documentNumber:6000	keywordNumber:30	requestNumber:10	dictSize:4000
+
+TrapdoorGeneratingSimulation trapdoorGenerating start.
+generate trapdoor cost:0ms
+TrapdoorGeneratingSimulation trapdoorGenerating finished.
+SearchAlgorithmSimulation search start.
+tree time:20ms
+map.size():6000, count:6000
+sequential time:120ms
+SearchAlgorithmSimulation search end.
+requestNumber:10
+leafNodeCount:136
+containsCount:60
+computeCount:815
+pruneCount:272
+requestNumber:10	priorityQueue.size():10
+----------------------------------------------------------------------------------
+----------------------------------------------------------------------------------
+documentNumber:6000	keywordNumber:40	requestNumber:10	dictSize:4000
+documentNumber:6000	keywordNumber:40	requestNumber:10	dictSize:4000
+
+TrapdoorGeneratingSimulation trapdoorGenerating start.
+generate trapdoor cost:0ms
+TrapdoorGeneratingSimulation trapdoorGenerating finished.
+SearchAlgorithmSimulation search start.
+tree time:30ms
+map.size():6000, count:6000
+sequential time:110ms
+SearchAlgorithmSimulation search end.
+requestNumber:10
+leafNodeCount:142
+containsCount:66
+computeCount:825
+pruneCount:271
+requestNumber:10	priorityQueue.size():10
+----------------------------------------------------------------------------------
+----------------------------------------------------------------------------------
+documentNumber:6000	keywordNumber:50	requestNumber:10	dictSize:4000
+documentNumber:6000	keywordNumber:50	requestNumber:10	dictSize:4000
+
+TrapdoorGeneratingSimulation trapdoorGenerating start.
+generate trapdoor cost:0ms
+TrapdoorGeneratingSimulation trapdoorGenerating finished.
+SearchAlgorithmSimulation search start.
+tree time:30ms
+map.size():6000, count:6000
+sequential time:130ms
+SearchAlgorithmSimulation search end.
+requestNumber:10
+leafNodeCount:168
+containsCount:82
+computeCount:961
+pruneCount:313
+requestNumber:10	priorityQueue.size():10
+----------------------------------------------------------------------------------
+----------------------------------------------------------------------------------
+documentNumber:6000	keywordNumber:5	requestNumber:20	dictSize:4000
+documentNumber:6000	keywordNumber:5	requestNumber:20	dictSize:4000
+
+TrapdoorGeneratingSimulation trapdoorGenerating start.
+generate trapdoor cost:0ms
+TrapdoorGeneratingSimulation trapdoorGenerating finished.
+SearchAlgorithmSimulation search start.
+tree time:40ms
+map.size():6000, count:6000
+sequential time:140ms
+SearchAlgorithmSimulation search end.
+requestNumber:20
+leafNodeCount:386
+containsCount:74
+computeCount:1441
+pruneCount:335
+requestNumber:20	priorityQueue.size():20
+----------------------------------------------------------------------------------
+----------------------------------------------------------------------------------
+documentNumber:6000	keywordNumber:10	requestNumber:20	dictSize:4000
+documentNumber:6000	keywordNumber:10	requestNumber:20	dictSize:4000
+
+TrapdoorGeneratingSimulation trapdoorGenerating start.
+generate trapdoor cost:0ms
+TrapdoorGeneratingSimulation trapdoorGenerating finished.
+SearchAlgorithmSimulation search start.
+tree time:50ms
+map.size():6000, count:6000
+sequential time:140ms
+SearchAlgorithmSimulation search end.
+requestNumber:20
+leafNodeCount:340
+containsCount:101
+computeCount:1397
+pruneCount:359
+requestNumber:20	priorityQueue.size():20
+----------------------------------------------------------------------------------
+----------------------------------------------------------------------------------
+documentNumber:6000	keywordNumber:20	requestNumber:20	dictSize:4000
+documentNumber:6000	keywordNumber:20	requestNumber:20	dictSize:4000
+
+TrapdoorGeneratingSimulation trapdoorGenerating start.
+generate trapdoor cost:0ms
+TrapdoorGeneratingSimulation trapdoorGenerating finished.
+SearchAlgorithmSimulation search start.
+tree time:40ms
+map.size():6000, count:6000
+sequential time:140ms
+SearchAlgorithmSimulation search end.
+requestNumber:20
+leafNodeCount:254
+containsCount:92
+computeCount:1247
+pruneCount:370
+requestNumber:20	priorityQueue.size():20
+----------------------------------------------------------------------------------
+----------------------------------------------------------------------------------
+documentNumber:6000	keywordNumber:30	requestNumber:20	dictSize:4000
+documentNumber:6000	keywordNumber:30	requestNumber:20	dictSize:4000
+
+TrapdoorGeneratingSimulation trapdoorGenerating start.
+generate trapdoor cost:0ms
+TrapdoorGeneratingSimulation trapdoorGenerating finished.
+SearchAlgorithmSimulation search start.
+tree time:40ms
+map.size():6000, count:6000
+sequential time:130ms
+SearchAlgorithmSimulation search end.
+requestNumber:20
+leafNodeCount:224
+containsCount:96
+computeCount:1203
+pruneCount:378
+requestNumber:20	priorityQueue.size():20
+----------------------------------------------------------------------------------
+----------------------------------------------------------------------------------
+documentNumber:6000	keywordNumber:40	requestNumber:20	dictSize:4000
+documentNumber:6000	keywordNumber:40	requestNumber:20	dictSize:4000
+
+TrapdoorGeneratingSimulation trapdoorGenerating start.
+generate trapdoor cost:0ms
+TrapdoorGeneratingSimulation trapdoorGenerating finished.
+SearchAlgorithmSimulation search start.
+tree time:50ms
+map.size():6000, count:6000
+sequential time:150ms
+SearchAlgorithmSimulation search end.
+requestNumber:20
+leafNodeCount:240
+containsCount:112
+computeCount:1231
+pruneCount:376
+requestNumber:20	priorityQueue.size():20
+----------------------------------------------------------------------------------
+----------------------------------------------------------------------------------
+documentNumber:6000	keywordNumber:50	requestNumber:20	dictSize:4000
+documentNumber:6000	keywordNumber:50	requestNumber:20	dictSize:4000
+
+TrapdoorGeneratingSimulation trapdoorGenerating start.
+generate trapdoor cost:0ms
+TrapdoorGeneratingSimulation trapdoorGenerating finished.
+SearchAlgorithmSimulation search start.
+tree time:60ms
+map.size():6000, count:6000
+sequential time:140ms
+SearchAlgorithmSimulation search end.
+requestNumber:20
+leafNodeCount:288
+containsCount:137
+computeCount:1445
+pruneCount:435
+requestNumber:20	priorityQueue.size():20
+----------------------------------------------------------------------------------
+----------------------------------------------------------------------------------
+documentNumber:6000	keywordNumber:5	requestNumber:30	dictSize:4000
+documentNumber:6000	keywordNumber:5	requestNumber:30	dictSize:4000
+
+TrapdoorGeneratingSimulation trapdoorGenerating start.
+generate trapdoor cost:0ms
+TrapdoorGeneratingSimulation trapdoorGenerating finished.
+SearchAlgorithmSimulation search start.
+tree time:60ms
+map.size():6000, count:6000
+sequential time:153ms
+SearchAlgorithmSimulation search end.
+requestNumber:30
+leafNodeCount:566
+containsCount:103
+computeCount:1941
+pruneCount:405
+requestNumber:30	priorityQueue.size():30
+----------------------------------------------------------------------------------
+----------------------------------------------------------------------------------
+documentNumber:6000	keywordNumber:10	requestNumber:30	dictSize:4000
+documentNumber:6000	keywordNumber:10	requestNumber:30	dictSize:4000
+
+TrapdoorGeneratingSimulation trapdoorGenerating start.
+generate trapdoor cost:0ms
+TrapdoorGeneratingSimulation trapdoorGenerating finished.
+SearchAlgorithmSimulation search start.
+tree time:60ms
+map.size():6000, count:6000
+sequential time:160ms
+SearchAlgorithmSimulation search end.
+requestNumber:30
+leafNodeCount:426
+containsCount:125
+computeCount:1715
+pruneCount:432
+requestNumber:30	priorityQueue.size():30
+----------------------------------------------------------------------------------
+----------------------------------------------------------------------------------
+documentNumber:6000	keywordNumber:20	requestNumber:30	dictSize:4000
+documentNumber:6000	keywordNumber:20	requestNumber:30	dictSize:4000
+
+TrapdoorGeneratingSimulation trapdoorGenerating start.
+generate trapdoor cost:0ms
+TrapdoorGeneratingSimulation trapdoorGenerating finished.
+SearchAlgorithmSimulation search start.
+tree time:60ms
+map.size():6000, count:6000
+sequential time:150ms
+SearchAlgorithmSimulation search end.
+requestNumber:30
+leafNodeCount:370
+containsCount:131
+computeCount:1609
+pruneCount:435
+requestNumber:30	priorityQueue.size():30
+----------------------------------------------------------------------------------
+----------------------------------------------------------------------------------
+documentNumber:6000	keywordNumber:30	requestNumber:30	dictSize:4000
+documentNumber:6000	keywordNumber:30	requestNumber:30	dictSize:4000
+
+TrapdoorGeneratingSimulation trapdoorGenerating start.
+generate trapdoor cost:0ms
+TrapdoorGeneratingSimulation trapdoorGenerating finished.
+SearchAlgorithmSimulation search start.
+tree time:60ms
+map.size():6000, count:6000
+sequential time:140ms
+SearchAlgorithmSimulation search end.
+requestNumber:30
+leafNodeCount:342
+containsCount:136
+computeCount:1567
+pruneCount:442
+requestNumber:30	priorityQueue.size():30
+----------------------------------------------------------------------------------
+----------------------------------------------------------------------------------
+documentNumber:6000	keywordNumber:40	requestNumber:30	dictSize:4000
+documentNumber:6000	keywordNumber:40	requestNumber:30	dictSize:4000
+
+TrapdoorGeneratingSimulation trapdoorGenerating start.
+generate trapdoor cost:0ms
+TrapdoorGeneratingSimulation trapdoorGenerating finished.
+SearchAlgorithmSimulation search start.
+tree time:60ms
+map.size():6000, count:6000
+sequential time:170ms
+SearchAlgorithmSimulation search end.
+requestNumber:30
+leafNodeCount:332
+containsCount:147
+computeCount:1555
+pruneCount:446
+requestNumber:30	priorityQueue.size():30
+----------------------------------------------------------------------------------
+----------------------------------------------------------------------------------
+documentNumber:6000	keywordNumber:50	requestNumber:30	dictSize:4000
+documentNumber:6000	keywordNumber:50	requestNumber:30	dictSize:4000
+
+TrapdoorGeneratingSimulation trapdoorGenerating start.
+generate trapdoor cost:0ms
+TrapdoorGeneratingSimulation trapdoorGenerating finished.
+SearchAlgorithmSimulation search start.
+tree time:87ms
+map.size():6000, count:6000
+sequential time:424ms
+SearchAlgorithmSimulation search end.
+requestNumber:30
+leafNodeCount:386
+containsCount:186
+computeCount:1791
+pruneCount:510
+requestNumber:30	priorityQueue.size():30
+----------------------------------------------------------------------------------
+----------------------------------------------------------------------------------
+documentNumber:6000	keywordNumber:5	requestNumber:40	dictSize:4000
+documentNumber:6000	keywordNumber:5	requestNumber:40	dictSize:4000
+
+TrapdoorGeneratingSimulation trapdoorGenerating start.
+generate trapdoor cost:0ms
+TrapdoorGeneratingSimulation trapdoorGenerating finished.
+SearchAlgorithmSimulation search start.
+tree time:90ms
+map.size():6000, count:6000
+sequential time:180ms
+SearchAlgorithmSimulation search end.
+requestNumber:40
+leafNodeCount:744
+containsCount:133
+computeCount:2407
+pruneCount:460
+requestNumber:40	priorityQueue.size():40
+----------------------------------------------------------------------------------
+----------------------------------------------------------------------------------
+documentNumber:6000	keywordNumber:10	requestNumber:40	dictSize:4000
+documentNumber:6000	keywordNumber:10	requestNumber:40	dictSize:4000
+
+TrapdoorGeneratingSimulation trapdoorGenerating start.
+generate trapdoor cost:0ms
+TrapdoorGeneratingSimulation trapdoorGenerating finished.
+SearchAlgorithmSimulation search start.
+tree time:90ms
+map.size():6000, count:6000
+sequential time:190ms
+SearchAlgorithmSimulation search end.
+requestNumber:40
+leafNodeCount:584
+containsCount:168
+computeCount:2255
+pruneCount:544
+requestNumber:40	priorityQueue.size():40
+----------------------------------------------------------------------------------
+----------------------------------------------------------------------------------
+documentNumber:6000	keywordNumber:20	requestNumber:40	dictSize:4000
+documentNumber:6000	keywordNumber:20	requestNumber:40	dictSize:4000
+
+TrapdoorGeneratingSimulation trapdoorGenerating start.
+generate trapdoor cost:0ms
+TrapdoorGeneratingSimulation trapdoorGenerating finished.
+SearchAlgorithmSimulation search start.
+tree time:90ms
+map.size():6000, count:6000
+sequential time:180ms
+SearchAlgorithmSimulation search end.
+requestNumber:40
+leafNodeCount:478
+containsCount:179
+computeCount:1957
+pruneCount:501
+requestNumber:40	priorityQueue.size():40
+----------------------------------------------------------------------------------
+----------------------------------------------------------------------------------
+documentNumber:6000	keywordNumber:30	requestNumber:40	dictSize:4000
+documentNumber:6000	keywordNumber:30	requestNumber:40	dictSize:4000
+
+TrapdoorGeneratingSimulation trapdoorGenerating start.
+generate trapdoor cost:0ms
+TrapdoorGeneratingSimulation trapdoorGenerating finished.
+SearchAlgorithmSimulation search start.
+tree time:100ms
+map.size():6000, count:6000
+sequential time:180ms
+SearchAlgorithmSimulation search end.
+requestNumber:40
+leafNodeCount:460
+containsCount:189
+computeCount:1937
+pruneCount:509
+requestNumber:40	priorityQueue.size():40
+----------------------------------------------------------------------------------
+----------------------------------------------------------------------------------
+documentNumber:6000	keywordNumber:40	requestNumber:40	dictSize:4000
+documentNumber:6000	keywordNumber:40	requestNumber:40	dictSize:4000
+
+TrapdoorGeneratingSimulation trapdoorGenerating start.
+generate trapdoor cost:0ms
+TrapdoorGeneratingSimulation trapdoorGenerating finished.
+SearchAlgorithmSimulation search start.
+tree time:90ms
+map.size():6000, count:6000
+sequential time:190ms
+SearchAlgorithmSimulation search end.
+requestNumber:40
+leafNodeCount:432
+containsCount:194
+computeCount:1891
+pruneCount:514
+requestNumber:40	priorityQueue.size():40
+----------------------------------------------------------------------------------
+----------------------------------------------------------------------------------
+documentNumber:6000	keywordNumber:50	requestNumber:40	dictSize:4000
+documentNumber:6000	keywordNumber:50	requestNumber:40	dictSize:4000
+
+TrapdoorGeneratingSimulation trapdoorGenerating start.
+generate trapdoor cost:0ms
+TrapdoorGeneratingSimulation trapdoorGenerating finished.
+SearchAlgorithmSimulation search start.
+tree time:110ms
+map.size():6000, count:6000
+sequential time:210ms
+SearchAlgorithmSimulation search end.
+requestNumber:40
+leafNodeCount:484
+containsCount:228
+computeCount:2109
+pruneCount:571
+requestNumber:40	priorityQueue.size():40
+----------------------------------------------------------------------------------
+----------------------------------------------------------------------------------
+documentNumber:6000	keywordNumber:5	requestNumber:50	dictSize:4000
+documentNumber:6000	keywordNumber:5	requestNumber:50	dictSize:4000
+
+TrapdoorGeneratingSimulation trapdoorGenerating start.
+generate trapdoor cost:0ms
+TrapdoorGeneratingSimulation trapdoorGenerating finished.
+SearchAlgorithmSimulation search start.
+tree time:100ms
+map.size():6000, count:6000
+sequential time:215ms
+SearchAlgorithmSimulation search end.
+requestNumber:50
+leafNodeCount:880
+containsCount:149
+computeCount:2719
+pruneCount:480
+requestNumber:50	priorityQueue.size():50
+----------------------------------------------------------------------------------
+----------------------------------------------------------------------------------
+documentNumber:6000	keywordNumber:10	requestNumber:50	dictSize:4000
+documentNumber:6000	keywordNumber:10	requestNumber:50	dictSize:4000
+
+TrapdoorGeneratingSimulation trapdoorGenerating start.
+generate trapdoor cost:0ms
+TrapdoorGeneratingSimulation trapdoorGenerating finished.
+SearchAlgorithmSimulation search start.
+tree time:110ms
+map.size():6000, count:6000
+sequential time:210ms
+SearchAlgorithmSimulation search end.
+requestNumber:50
+leafNodeCount:686
+containsCount:196
+computeCount:2595
+pruneCount:612
+requestNumber:50	priorityQueue.size():50
+----------------------------------------------------------------------------------
+----------------------------------------------------------------------------------
+documentNumber:6000	keywordNumber:20	requestNumber:50	dictSize:4000
+documentNumber:6000	keywordNumber:20	requestNumber:50	dictSize:4000
+
+TrapdoorGeneratingSimulation trapdoorGenerating start.
+generate trapdoor cost:0ms
+TrapdoorGeneratingSimulation trapdoorGenerating finished.
+SearchAlgorithmSimulation search start.
+tree time:110ms
+map.size():6000, count:6000
+sequential time:200ms
+SearchAlgorithmSimulation search end.
+requestNumber:50
+leafNodeCount:552
+containsCount:212
+computeCount:2215
+pruneCount:556
+requestNumber:50	priorityQueue.size():50
+----------------------------------------------------------------------------------
+----------------------------------------------------------------------------------
+documentNumber:6000	keywordNumber:30	requestNumber:50	dictSize:4000
+documentNumber:6000	keywordNumber:30	requestNumber:50	dictSize:4000
+
+TrapdoorGeneratingSimulation trapdoorGenerating start.
+generate trapdoor cost:0ms
+TrapdoorGeneratingSimulation trapdoorGenerating finished.
+SearchAlgorithmSimulation search start.
+tree time:120ms
+map.size():6000, count:6000
+sequential time:210ms
+SearchAlgorithmSimulation search end.
+requestNumber:50
+leafNodeCount:552
+containsCount:229
+computeCount:2219
+pruneCount:558
+requestNumber:50	priorityQueue.size():50
+----------------------------------------------------------------------------------
+----------------------------------------------------------------------------------
+documentNumber:6000	keywordNumber:40	requestNumber:50	dictSize:4000
+documentNumber:6000	keywordNumber:40	requestNumber:50	dictSize:4000
+
+TrapdoorGeneratingSimulation trapdoorGenerating start.
+generate trapdoor cost:0ms
+TrapdoorGeneratingSimulation trapdoorGenerating finished.
+SearchAlgorithmSimulation search start.
+tree time:110ms
+map.size():6000, count:6000
+sequential time:190ms
+SearchAlgorithmSimulation search end.
+requestNumber:50
+leafNodeCount:516
+containsCount:235
+computeCount:2179
+pruneCount:574
+requestNumber:50	priorityQueue.size():50
+----------------------------------------------------------------------------------
+----------------------------------------------------------------------------------
+documentNumber:6000	keywordNumber:50	requestNumber:50	dictSize:4000
+documentNumber:6000	keywordNumber:50	requestNumber:50	dictSize:4000
+
+TrapdoorGeneratingSimulation trapdoorGenerating start.
+generate trapdoor cost:0ms
+TrapdoorGeneratingSimulation trapdoorGenerating finished.
+SearchAlgorithmSimulation search start.
+tree time:130ms
+map.size():6000, count:6000
+sequential time:210ms
+SearchAlgorithmSimulation search end.
+requestNumber:50
+leafNodeCount:560
+containsCount:260
+computeCount:2349
+pruneCount:615
+requestNumber:50	priorityQueue.size():50
+----------------------------------------------------------------------------------
+-1hours-14minutes-15seconds
+Sun Mar 18 17:22:54 CST 2018
+
+Process finished with exit code 0

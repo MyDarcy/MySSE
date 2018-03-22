@@ -107,7 +107,7 @@ public class HACTreeIndexBuildingSimulation {
 	}
 
 	public HACTreeNode buildHACTreeIndex() throws NoSuchAlgorithmException {
-		System.out.println("HACTreeIndexBuildingSimulation buildHACTreeIndex start.");
+//		System.out.println("HACTreeIndexBuildingSimulation buildHACTreeIndex start.");
 		long start = System.currentTimeMillis();
 
 		maxComparator = new Comparator<HacTreeNodePairScore>() {

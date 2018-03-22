@@ -3,6 +3,7 @@ package com.frobisher.linux.ordinary.pv;
 
 import Jama.Matrix;
 import com.frobisher.linux.utils.DocumentGenerators;
+//import com.frobisher.linux.utils.StemLemmatizations;
 import com.frobisher.linux.utils.TextRankUtils;
 
 import javax.crypto.Cipher;
@@ -16,6 +17,7 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 
 /*
@@ -32,17 +34,30 @@ public class Initialization {
 	public int DICTIONARY_SIZE;
 	// 添加用于混淆的冗余关键词的数目
 	public final int DUMMY_KEYWORD_NUMBER = 10;
-	public int DOC_NUMBER = 40;
-
+	public int DOC_NUMBER = 1000;
+//
 //	// 项目目录. 密钥目录. 明文文件目录. 密文文件目录
-	public static String BASE = "D:\\MrDarcy\\ForGraduationWorks\\Code\\SSE";
-	public static String SECRET_KEY_DIR = BASE + "\\doc\\muse\\extend\\key\\aesKey.dat";
-	public String BASE_PLAIN_DIR = BASE + "\\doc\\muse\\extend\\plain";
-	public String BASE_ENCRYPTED_DIR = BASE + "\\doc\\muse\\extend\\encrypted";
-	public String PLAIN_DIR = BASE_PLAIN_DIR + DOC_NUMBER;
-	public String ENCRYPTED_DIR = BASE_ENCRYPTED_DIR + DOC_NUMBER;
-	public String TEXTRANK_WORD_WEIGHT_DIR = "D:\\MrDarcy\\ForGraduationWorks\\Code" +
-			"\\TextRank-master\\textrank\\doc\\100\\keywords";
+//	public static String BASE = "D:\\MrDarcy\\ForGraduationWorks\\Code\\SSE";
+//	public static String SECRET_KEY_DIR = BASE + "\\doc\\muse\\extend\\key\\aesKey.dat";
+//	public String BASE_PLAIN_DIR = BASE + "\\doc\\muse\\extend\\plain";
+//	public String BASE_ENCRYPTED_DIR = BASE + "\\doc\\muse\\extend\\encrypted";
+//	public String PLAIN_DIR = BASE_PLAIN_DIR + DOC_NUMBER;
+//	public String ENCRYPTED_DIR = BASE_ENCRYPTED_DIR + DOC_NUMBER;
+//    public String TEXTRANK_WORD_WEIGHT_DIR = "D:\\MrDarcy\\ForGraduationWorks\\Code"
+//		+ "\\TextRank-master\\textrank\\doc\\" + DOC_NUMBER + "\\tf_idf_keywords_20";
+//
+//	public static String BASE = "D:\\MrDarcy\\ForGraduationWorks\\Code" +
+//			"\\TextRank-master\\textrank\\doc\\";
+//
+//	public static String SECRET_KEY_DIR = "D:\\MrDarcy\\ForGraduationWorks\\Code\\SSE"
+//			+ "\\doc\\muse\\extend\\key\\aesKey.dat";
+//
+//	public String BASE_PLAIN_DIR = BASE + DOC_NUMBER + "\\tf_idf_keywords_20";
+//	public String BASE_ENCRYPTED_DIR = BASE + DOC_NUMBER + "\\encrypted";
+//	public String PLAIN_DIR = BASE_PLAIN_DIR;
+//	public String ENCRYPTED_DIR = BASE_ENCRYPTED_DIR;
+
+
 
 //	public int DUMMY_KEYWORD_NUMBER = 2;
 //	public static String BASE = "D:\\MrDarcy\\ForGraduationWorks\\Code\\SSE";
@@ -57,14 +72,29 @@ public class Initialization {
 //	public String ENCRYPTED_DIR = BASE + "\\doc\\muse\\extend\\encrypted" + DOC_NUMBER;
 //
 //	public String TEXTRANK_WORD_WEIGHT_DIR = "D:\\MrDarcy\\ForGraduationWorks\\Code" +
-//			"\\TextRank-master\\textrank\\doc\\100\\keywords";
+//			"\\TextRank-master\\textrank\\doc\\100\\tf_idf_keywords_10";
 
 
 	// linux.
-//	public static /*final*/ String BASE = "/home/zqhe/data";
-//	public static /*final*/ String SECRET_KEY_DIR = BASE + "/doc/muse/pv/key/aesKey.dat";
-//	public static /*final*/ String PLAIN_DIR = BASE + "/doc/muse/pv/plain500";
-//	public static /*final*/ String ENCRYPTED_DIR = BASE + "/doc/muse/pv/encrypted500";
+
+	public static String BASE = "/home/zqhe/data";
+	public static String SECRET_KEY_DIR = BASE + "/doc/muse/pv/key/aesKey.dat";
+	public String BASE_PLAIN_DIR = BASE + "/doc/muse/pv/plain";
+	public String BASE_ENCRYPTED_DIR = BASE + "/doc/muse/pv/encrypted";
+	public String PLAIN_DIR = BASE_PLAIN_DIR + DOC_NUMBER;
+	public String ENCRYPTED_DIR = BASE_ENCRYPTED_DIR + DOC_NUMBER;
+
+	  /*
+	   * linux 下的
+	   */
+//	public static String BASE = "/home/zqhe/data/doc/textrank/";
+//	public static String SECRET_KEY_DIR = "/home/zqhe/data/doc/textrank/key/aesKey.dat";
+//	public String BASE_PLAIN_DIR = BASE + DOC_NUMBER + "/tf_idf_keywords_20";
+//	public String BASE_ENCRYPTED_DIR = BASE + DOC_NUMBER + "/encrypted";
+//	public String PLAIN_DIR = BASE_PLAIN_DIR;
+//	public String ENCRYPTED_DIR = BASE_ENCRYPTED_DIR;
+	public String TEXTRANK_WORD_WEIGHT_DIR = "/home/zqhe/data/doc/textrank/"
+			+ DOC_NUMBER + "/tf_idf_keywords_20";
 
 	public static String SEPERATOR;
 
@@ -264,6 +294,8 @@ public class Initialization {
 				for (String line : allLines) {
 					//Matcher matcher = WORD_PATTERN.matcher(line);
 					// reset要匹配的字符串.
+					//
+//					line = StemLemmatizations.stemLemmatization(line.toLowerCase());
 					matcher = matcher.reset(line);
 					while (matcher.find()) {
 						// 忽略大小写.
@@ -315,30 +347,34 @@ public class Initialization {
 			duplicateNumberOfDocumentContainsKeyword.put(new String(entry.getKey()), new Integer(entry.getValue()));
 		}
 		List<Map.Entry<String, Integer>> duplicate = new ArrayList<>(duplicateNumberOfDocumentContainsKeyword.entrySet());
-		Collections.sort(duplicate, new Comparator<Map.Entry<String, Integer>>() {
-			@Override
-			public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
-				if (Integer.compare(o1.getValue(), o2.getValue()) > 0) {
-					return -1;
-				} else if (Integer.compare(o1.getValue(), o2.getValue()) == 0) {
-					return 0;
-				} else {
-					return 1;
-				}
-			}
-		});
-
-		System.out.println("keyword - documentNumber");
-		System.out.println(duplicate);
+//		Collections.sort(duplicate, new Comparator<Map.Entry<String, Integer>>() {
+//			@Override
+//			public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
+//				if (Integer.compare(o1.getValue(), o2.getValue()) > 0) {
+//					return -1;
+//				} else if (Integer.compare(o1.getValue(), o2.getValue()) == 0) {
+//					return 0;
+//				} else {
+//					return 1;
+//				}
+//			}
+//		});
+//
+//		System.out.println("keyword - documentNumber");
+//		System.out.println(duplicate);
 
 		// 测试关键词频率map中的结果是否和fileLength中数值相等.
-		boolean result = testInfo(fileLength, keywordFrequencyInDocument);
-		System.out.println("testInfo:" + result);
+//		boolean result = testInfo(fileLength, keywordFrequencyInDocument);
+//		System.out.println("testInfo:" + result);
 
 		List<String> dict = globalDictSet.stream().sorted().collect(toList());
 
 		System.out.println("initialization dict.size():" + dict.size());
-		System.out.println(dict);
+		// 去掉以数字开头的任意字符;
+		dict = dict.stream().filter((number) -> !number.matches("\\d+.*")).collect(toList());
+		dict = dict.stream().filter((word) -> word.length() >= 2).collect(toList());
+		System.out.println("initialization dict.size():" + dict.size());
+//		System.out.println(dict);
 
 		// 初始化字典的长度和字典本身.
 		this.lengthOfDict = dict.size();
@@ -399,9 +435,10 @@ public class Initialization {
 
 		//String textrankFileName = "D:\\MrDarcy\\ForGraduationWorks\\Code\\TextRank-master\\textrank\\doc\\10000\\keywords";
 		File parentFile = new File(TEXTRANK_WORD_WEIGHT_DIR);
-		Map<String, Map<String, Double>> fileTextRankMap = TextRankUtils.textRankAllFilesToMap(parentFile.getAbsolutePath());
+		Map<String, Map<String, Double>> fileTextRankMap =
+				TextRankUtils.textRankAllFilesToMap(parentFile.getAbsolutePath());
 
-
+		fileLength = TextRankUtils.textRankFileLength(parentFile.getAbsolutePath());
 
 		Set<String> dictSet = new HashSet<>();
 
@@ -566,12 +603,20 @@ public class Initialization {
 		System.out.println(mySecretKey);
 
 		long start = System.currentTimeMillis();
-		mySecretKey.M1.transpose();
-		System.out.println("Matrix transpose time consume:" + (System.currentTimeMillis() - start) + "ms");
-		start = System.currentTimeMillis();
-		mySecretKey.M1.inverse();
-		System.out.println("Matrix reverse time consume:" + (System.currentTimeMillis() - start) + "ms");
+//		mySecretKey.M1.transpose();
+//		System.out.println("Matrix transpose time consume:" + (System.currentTimeMillis() - start) + "ms");
+//		start = System.currentTimeMillis();
+//		mySecretKey.M1.inverse();
+//		System.out.println("Matrix reverse time consume:" + (System.currentTimeMillis() - start) + "ms");
 
+		Random random = new Random();
+		Set<String> querySet = new HashSet<>(20);
+		int queryNumber = 20;
+		while (querySet.size() < queryNumber) {
+			querySet.add(initialization.dict.get(random.nextInt(initialization.dict.size())));
+		}
+		String query = querySet.stream().collect(joining(" "));
+		System.out.println("query:" + query);
 
 		System.out.println();
 		System.out.println(Initialization.secretKey);

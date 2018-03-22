@@ -36,11 +36,12 @@ public class TrapdoorGenerating {
 	}
 
 	/**
-	 * @param query
+	 * @param queryList
 	 * @return
 	 */
-	public Trapdoor generateTrapdoor(String query) {
-		System.out.println("TrapdoorGenerating trapdoorGenerating start.");
+	public Trapdoor generateTrapdoor(List<String> queryList) { // String query
+		System.out.println("\nTrapdoorGenerating trapdoorGenerating start.");
+		System.out.println("KeywordNumber:" + queryList.size());
 		long start = System.currentTimeMillis();
 
 		/**
@@ -52,27 +53,36 @@ public class TrapdoorGenerating {
 			interestModel.put(str, 0);
 		}
 
-		interestModel.put("church", 4);
-		interestModel.put("china", 9);
-		interestModel.put("hospital", 2);
-		interestModel.put("performance", 5);
-		interestModel.put("british", 17);
-		interestModel.put("interview", 3);
-		interestModel.put("democratic", 5);
-		interestModel.put("citizenship", 4);
-		interestModel.put("broadcasting", 2);
-		interestModel.put("voice", 1);
-		interestModel.put("official", 4);
-		interestModel.put("military", 7);
+		Random random = new Random();
+
+//		interestModel.put("church", 4);
+//		interestModel.put("china", 9);
+//		interestModel.put("hospital", 2);
+//		interestModel.put("performance", 5);
+//		interestModel.put("british", 17);
+//		interestModel.put("interview", 3);
+//		interestModel.put("democratic", 5);
+//		interestModel.put("citizenship", 4);
+//		interestModel.put("broadcasting", 2);
+//		interestModel.put("voice", 1);
+//		interestModel.put("official", 4);
+//		interestModel.put("military", 7);
 
 
 		/**
 		 * 先根据重要性进行排序.这里重要性是根据用户指定的来生成的.
 		 */
 		List<String> keywordList = new ArrayList<>();
-		Matcher matcher = Initialization.WORD_PATTERN.matcher(query);
-		while (matcher.find()) {
-			keywordList.add(matcher.group().toLowerCase());
+//		Matcher matcher = Initialization.WORD_PATTERN.matcher(query);
+//		while (matcher.find()) {
+//			String keyword = matcher.group().toLowerCase();
+//			keywordList.add(keyword);
+//			interestModel.put(keyword, 1 + random.nextInt(20));
+//		}
+
+		for (String keyword : queryList) {
+			keywordList.add(keyword);
+			interestModel.put(keyword, 1 + random.nextInt(20));
 		}
 
 		Matrix Q = new Matrix(initialization.DICTIONARY_SIZE + initialization.DUMMY_KEYWORD_NUMBER, 1);
@@ -98,7 +108,7 @@ public class TrapdoorGenerating {
 			int index = keywordList.indexOf(item.getKey());
 			if (index != -1) {
 				double pFactor = hyperIncreasingSequence[count++];
-				System.out.printf("%-20s%-15d%.8f\n", item.getKey(), interestModel.get(item.getKey()), pFactor);
+//				System.out.printf("%-20s%-15d%.8f\n", item.getKey(), interestModel.get(item.getKey()), pFactor);
 				preferenceFactors.put(item.getKey(), pFactor);
 				// 找不到, 那么构建查询陷门也用不到此关键词
 			}
@@ -115,7 +125,7 @@ public class TrapdoorGenerating {
 		china               9              6341892.87149841
 		british             17             38051349.95250095
 		 */
-		System.out.println();
+//		System.out.println();
 		// Map<String, Double> idfs = generateIDFs(keywordList);
 
 		for (int i = 0; i < keywordList.size(); i++) {
@@ -123,7 +133,7 @@ public class TrapdoorGenerating {
 			int index = initialization.dict.indexOf(keyword);
 			if (index != -1) {
 				Double preferenceFacotr = preferenceFactors.get(keyword);
-				System.out.printf("%-20s%-15s%.8f\n", keyword, "preference", preferenceFacotr);
+//				System.out.printf("%-20s%-15s%.8f\n", keyword, "preference", preferenceFacotr);
 				/*Q.set(index, 0, idfs.get(keyword));*/
 
 				Q.set(index, 0, preferenceFacotr);
@@ -156,12 +166,6 @@ public class TrapdoorGenerating {
 			}
 		}
 
-		/*System.out.println("Q Qa Qb transponse.");
-		MatrixUitls.print(Q.transpose());*/
-
-
-		Random random = new Random(31);
-
 		Matrix qa = new Matrix(initialization.DICTIONARY_SIZE + initialization.DUMMY_KEYWORD_NUMBER, 1);
 		Matrix qb = new Matrix(initialization.DICTIONARY_SIZE + initialization.DUMMY_KEYWORD_NUMBER, 1);
 
@@ -180,16 +184,9 @@ public class TrapdoorGenerating {
 			}
 		}
 
-		/*MatrixUitls.print(qa.transpose());
-		MatrixUitls.print(qb.transpose());*/
-
-		/*System.out.println(mySecretKey.M1.getRowDimension() + "\t" + mySecretKey.M2.getColumnDimension());
-		System.out.println(inverseM1.getRowDimension() + "\t" +inverseM2.getColumnDimension());
-		System.out.println(qa.getRowDimension() + "\t" +qb.getColumnDimension());*/
-
 		Matrix part1 = AuxiliaryMatrix.M1Inverse.times(qa);
 		Matrix part2 = AuxiliaryMatrix.M2Inverse.times(qb);
-		System.out.println("generate trapdoor total time:" + (System.currentTimeMillis() - start));
+		System.out.println("generate trapdoor total time:" + (System.currentTimeMillis() - start) + "ms");
 		System.out.println("TrapdoorGenerating trapdoorGenerating finished.");
 		return new Trapdoor(part1, part2);
 	}

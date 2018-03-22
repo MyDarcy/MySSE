@@ -41,8 +41,9 @@ public class TrapdoorGeneratingSimulation {
 	 * @return
 	 */
 	public Trapdoor generateTrapdoor(List<List<Integer>> keywordsIndex) {
-		System.out.println("TrapdoorGenerating trapdoorGenerating start.");
+		System.out.println("\nTrapdoorGenerating trapdoorGenerating start.");
 		long start = System.currentTimeMillis();
+		long nanoStart = System.nanoTime();
 		Random random = new Random(31);
 		double[] Q = new double[initialization.simulationDictSize];
 
@@ -158,6 +159,7 @@ public class TrapdoorGeneratingSimulation {
 
 		double[] part1 = DiagonalMatrixUtils.times(AuxiliaryMatrix.M1Inverse, qa);
 		double[] part2 = DiagonalMatrixUtils.times(AuxiliaryMatrix.M2Inverse, qb);
+		System.out.println("nano:" + (System.nanoTime() - nanoStart) + "ns");
 		System.out.println("generate trapdoor total time:" + (System.currentTimeMillis() - start) + "ms");
 		System.out.println("TrapdoorGenerating trapdoorGenerating finished.");
 		return new Trapdoor(part1, part2);

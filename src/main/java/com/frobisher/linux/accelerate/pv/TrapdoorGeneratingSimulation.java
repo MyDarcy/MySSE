@@ -40,8 +40,9 @@ public class TrapdoorGeneratingSimulation {
 	 * @return
 	 */
 	public Trapdoor generateTrapdoor(List<Integer> keywordsIndex) {
-		System.out.println("TrapdoorGeneratingSimulation trapdoorGenerating start.");
+		System.out.println("\nTrapdoorGeneratingSimulation trapdoorGenerating start.");
 		long start = System.currentTimeMillis();
+		long nanoStart = System.nanoTime();
 
 		/**
 		 * 关键词的偏好因子.
@@ -165,6 +166,7 @@ public class TrapdoorGeneratingSimulation {
 
 		double[] part1 = DiagonalMatrixUtils.times(AuxiliaryMatrix.M1Inverse, qa);
 		double[] part2 = DiagonalMatrixUtils.times(AuxiliaryMatrix.M2Inverse, qb);
+		System.out.println("nano:" + (System.nanoTime() - nanoStart) + "ns");
 		System.out.println("generate trapdoor cost:" + (System.currentTimeMillis() - start) + "ms");
 		System.out.println("TrapdoorGeneratingSimulation trapdoorGenerating finished.");
 		return new Trapdoor(part1, part2);

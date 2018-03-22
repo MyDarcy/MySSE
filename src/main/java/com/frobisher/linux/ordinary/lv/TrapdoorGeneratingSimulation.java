@@ -1,10 +1,6 @@
 package com.frobisher.linux.ordinary.lv;
 
 import Jama.Matrix;
-import com.frobisher.linux.ordinary.pv.AuxiliaryMatrix;
-import com.frobisher.linux.ordinary.pv.Initialization;
-import com.frobisher.linux.ordinary.pv.MySecretKey;
-import com.frobisher.linux.ordinary.pv.Trapdoor;
 import com.frobisher.linux.utils.MathUtils;
 
 import java.io.IOException;
@@ -43,7 +39,7 @@ public class TrapdoorGeneratingSimulation {
 	 * @return
 	 */
 	public Trapdoor generateTrapdoor(List<List<Integer>> keywordsIndex) {
-		System.out.println("TrapdoorGenerating trapdoorGenerating start.");
+		System.out.println("\nTrapdoorGenerating trapdoorGenerating start.");
 		long start = System.currentTimeMillis();
 		Random random = new Random(31);
 		Matrix Q = new Matrix(initialization.simulationDictSize, 1);

@@ -33,7 +33,6 @@ public class SearchAlgorithmSimulation {
 	 * @return
 	 */
 	public PriorityQueue<HACTreeNode> search(HACTreeNode root, Trapdoor trapdoor, int requestNumber) {
-		System.out.println("SearchAlgorithmSimulation search start.");
 		minComparator = new Comparator<HACTreeNode>() {
 			@Override
 			public int compare(HACTreeNode o1, HACTreeNode o2) {
@@ -65,9 +64,9 @@ public class SearchAlgorithmSimulation {
 			}
 		};
 
+		System.out.println("SearchAlgorithmSimulation search start.");
 		nodeScoreMapForThreshold = new HashMap<>(requestNumber);
-
-		allDocumentSocreQueue = new PriorityQueue<>(maxComparator);
+//		allDocumentSocreQueue = new PriorityQueue<>(maxComparator);
 		PriorityQueue<HACTreeNode> minHeap = new PriorityQueue<>(minComparator);
 
 		long start = System.currentTimeMillis();
@@ -76,12 +75,12 @@ public class SearchAlgorithmSimulation {
 
 		List<HACTreeNode> leafNodes = new ArrayList<>();
 		getLeafNodes(root, leafNodes);
-		System.out.println("leafNodes.size():" + leafNodes.size());
+//		System.out.println("leafNodes.size():" + leafNodes.size());
 		PriorityQueue<HACTreeNode> minHeap2 = new PriorityQueue<>(minComparator);
 		start = System.currentTimeMillis();
 		sequential(leafNodes, trapdoor, requestNumber, minHeap2);
 		System.out.println("sequential time:" + (System.currentTimeMillis() - start) + "ms");
-		System.out.println("minHeap2.size():" + minHeap2.size());
+//		System.out.println("minHeap2.size():" + minHeap2.size());
 //		while (!minHeap2.isEmpty()) {
 //			HACTreeNode node = minHeap2.poll();
 //			System.out.println(node.fileDescriptor + "\t\t" + scoreForPruning(node, trapdoor));
@@ -206,9 +205,11 @@ public class SearchAlgorithmSimulation {
 //					  System.out.println("new thresholdScore:" + thresholdScore);
 					}
 				}
-			} else {
-//				System.out.println("leaf node not add for score < " + PRUNE_THRESHOLD_SCORE);
 			}
+
+//			else {
+////				System.out.println("leaf node not add for score < " + PRUNE_THRESHOLD_SCORE);
+//			}
 
 			// 非叶子结点。
 		} else {

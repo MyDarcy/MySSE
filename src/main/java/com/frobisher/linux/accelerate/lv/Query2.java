@@ -31,7 +31,7 @@ public class Query2 {
 			hacTreeIndexBuilding.encryptFiles();
 			hacTreeIndexBuilding.generateAuxiliaryMatrix();
 			HACTreeNode root = hacTreeIndexBuilding.buildHACTreeIndex();
-			System.out.println("HACTreeIndexBuilding.encryptHACTreeIndex start...");
+			System.out.println("\nHACTreeIndexBuilding.encryptHACTreeIndex start...");
 			long start = System.currentTimeMillis();
 			hacTreeIndexBuilding.encryptHACTreeIndex(root);
 			System.out.println("time:" + (System.currentTimeMillis() - start) + "ms");
