@@ -124,6 +124,7 @@ public class TrapdoorGeneratingSimulation {
 		}
 
 		// 最后一位要要设置为 -s 即and连接的关键词的权重。
+		System.out.println("-s:" + -s);
 		Q.set(initialization.simulationDictSize - 1, 0, -s);
 
 		// Q 更新为 rQ

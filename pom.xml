@@ -255,13 +255,13 @@
 							<!--<mainClass>com.frobisher.linux.ordinary.pv.QuerySimulation</mainClass>-->
 							<!--<mainClass>com.frobisher.linux.ordinary.pv.Query2</mainClass>-->
 							<!--<mainClass>com.frobisher.linux.ordinary.pv.QuerySimulation</mainClass>-->
-							<!--<mainClass>com.frobisher.linux.ordinary.lv.QuerySimulation</mainClass>-->
+							<mainClass>com.frobisher.linux.ordinary.lv.QuerySimulation</mainClass>
 							<!--<mainClass>com.frobisher.linux.accelerate.pv.QuerySimulation</mainClass>-->
 							<!--<mainClass>com.frobisher.linux.accelerate.lv.QuerySimulation</mainClass>-->
 							<!--<mainClass>com.frobisher.linux.ordinary.pv.Query2</mainClass>-->
 							<!--<mainClass>com.frobisher.linux.accelerate.pv.Query2</mainClass>-->
 							<!--<mainClass>com.frobisher.linux.ordinary.pv.Query2</mainClass>-->
-							<mainClass>com.frobisher.auxiliary.MatrixTrasposeInverseTimeTest</mainClass>
+							<!--<mainClass>com.frobisher.auxiliary.MatrixTrasposeInverseTimeTest</mainClass>-->
 						</manifest>
 					</archive>
 				</configuration>

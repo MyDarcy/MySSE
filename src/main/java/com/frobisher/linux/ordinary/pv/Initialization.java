@@ -37,14 +37,14 @@ public class Initialization {
 	public int DOC_NUMBER = 1000;
 //
 //	// 项目目录. 密钥目录. 明文文件目录. 密文文件目录
-//	public static String BASE = "D:\\MrDarcy\\ForGraduationWorks\\Code\\SSE";
-//	public static String SECRET_KEY_DIR = BASE + "\\doc\\muse\\extend\\key\\aesKey.dat";
-//	public String BASE_PLAIN_DIR = BASE + "\\doc\\muse\\extend\\plain";
-//	public String BASE_ENCRYPTED_DIR = BASE + "\\doc\\muse\\extend\\encrypted";
-//	public String PLAIN_DIR = BASE_PLAIN_DIR + DOC_NUMBER;
-//	public String ENCRYPTED_DIR = BASE_ENCRYPTED_DIR + DOC_NUMBER;
-//    public String TEXTRANK_WORD_WEIGHT_DIR = "D:\\MrDarcy\\ForGraduationWorks\\Code"
-//		+ "\\TextRank-master\\textrank\\doc\\" + DOC_NUMBER + "\\tf_idf_keywords_20";
+	public static String BASE = "D:\\MrDarcy\\ForGraduationWorks\\Code\\SSE";
+	public static String SECRET_KEY_DIR = BASE + "\\doc\\muse\\extend\\key\\aesKey.dat";
+	public String BASE_PLAIN_DIR = BASE + "\\doc\\muse\\extend\\plain";
+	public String BASE_ENCRYPTED_DIR = BASE + "\\doc\\muse\\extend\\encrypted";
+	public String PLAIN_DIR = BASE_PLAIN_DIR + DOC_NUMBER;
+	public String ENCRYPTED_DIR = BASE_ENCRYPTED_DIR + DOC_NUMBER;
+    public String TEXTRANK_WORD_WEIGHT_DIR = "D:\\MrDarcy\\ForGraduationWorks\\Code"
+		+ "\\TextRank-master\\textrank\\doc\\" + DOC_NUMBER + "\\tf_idf_keywords_20";
 //
 //	public static String BASE = "D:\\MrDarcy\\ForGraduationWorks\\Code" +
 //			"\\TextRank-master\\textrank\\doc\\";
@@ -77,12 +77,12 @@ public class Initialization {
 
 	// linux.
 
-	public static String BASE = "/home/zqhe/data";
-	public static String SECRET_KEY_DIR = BASE + "/doc/muse/pv/key/aesKey.dat";
-	public String BASE_PLAIN_DIR = BASE + "/doc/muse/pv/plain";
-	public String BASE_ENCRYPTED_DIR = BASE + "/doc/muse/pv/encrypted";
-	public String PLAIN_DIR = BASE_PLAIN_DIR + DOC_NUMBER;
-	public String ENCRYPTED_DIR = BASE_ENCRYPTED_DIR + DOC_NUMBER;
+//	public static String BASE = "/home/zqhe/data";
+//	public static String SECRET_KEY_DIR = BASE + "/doc/muse/pv/key/aesKey.dat";
+//	public String BASE_PLAIN_DIR = BASE + "/doc/muse/pv/plain";
+//	public String BASE_ENCRYPTED_DIR = BASE + "/doc/muse/pv/encrypted";
+//	public String PLAIN_DIR = BASE_PLAIN_DIR + DOC_NUMBER;
+//	public String ENCRYPTED_DIR = BASE_ENCRYPTED_DIR + DOC_NUMBER;
 
 	  /*
 	   * linux 下的
@@ -93,8 +93,8 @@ public class Initialization {
 //	public String BASE_ENCRYPTED_DIR = BASE + DOC_NUMBER + "/encrypted";
 //	public String PLAIN_DIR = BASE_PLAIN_DIR;
 //	public String ENCRYPTED_DIR = BASE_ENCRYPTED_DIR;
-	public String TEXTRANK_WORD_WEIGHT_DIR = "/home/zqhe/data/doc/textrank/"
-			+ DOC_NUMBER + "/tf_idf_keywords_20";
+//	public String TEXTRANK_WORD_WEIGHT_DIR = "/home/zqhe/data/doc/textrank/"
+//			+ DOC_NUMBER + "/tf_idf_keywords_20";
 
 	public static String SEPERATOR;
 

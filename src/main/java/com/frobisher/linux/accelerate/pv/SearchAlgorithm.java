@@ -1,6 +1,7 @@
 package com.frobisher.linux.accelerate.pv;
 
 import com.frobisher.linux.accelerate.DiagonalMatrixUtils;
+import com.frobisher.linux.utils.ByteArrayUtils;
 
 import java.util.*;
 
@@ -32,7 +33,7 @@ public class SearchAlgorithm {
 	 * @param requestNumber
 	 * @return
 	 */
-	public PriorityQueue<HACTreeNode> search(HACTreeNode root, Trapdoor trapdoor, int requestNumber) {
+	public SearchResult search(HACTreeNode root, Trapdoor trapdoor, int requestNumber) {
 
 		minComparator = new Comparator<HACTreeNode>() {
 			@Override
@@ -107,13 +108,20 @@ public class SearchAlgorithm {
 
 //		System.out.println("\nresult document-score.");
 		PriorityQueue<HACTreeNode> result = new PriorityQueue<>(maxComparator);
+		byte[] resultXorBytes = new byte[32];
 		while (!maxHeap.isEmpty()) {
 			HACTreeNode node = maxHeap.poll();
 			result.add(node);
+			resultXorBytes = ByteArrayUtils.xorArrays(resultXorBytes, node.digest.digest());
+//			System.out.println(node.digest.digest().length);;
 //			System.out.printf("%-60s%.8f\n", node.fileDescriptor,scoreForPruning(node, trapdoor));
 		}
 
-		return result;
+		SearchResult searchResult = new SearchResult();
+		searchResult.byteXorResults = resultXorBytes;
+		searchResult.result = result;
+
+		return searchResult;
 	}
 
 	private void getLeafNodes(HACTreeNode root, List<HACTreeNode> leafNodes) {

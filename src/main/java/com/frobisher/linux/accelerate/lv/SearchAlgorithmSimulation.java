@@ -3,6 +3,8 @@ package com.frobisher.linux.accelerate.lv;
 import com.frobisher.linux.accelerate.DiagonalMatrixUtils;
 
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /*
  * author: darcy
@@ -64,11 +66,10 @@ public class SearchAlgorithmSimulation {
 				}
 			}
 		};
+//		allDocumentSocreQueue = new PriorityQueue<>(maxComparator);
 
 		System.out.println("\nSearchAlgorithmSimulation search start.");
-
 		nodeScoreMapForThreshold = new HashMap<>(requestNumber);
-//		allDocumentSocreQueue = new PriorityQueue<>(maxComparator);
 		PriorityQueue<HACTreeNode> minHeap = new PriorityQueue<>(minComparator);
 
 		long start = System.currentTimeMillis();
@@ -107,6 +108,37 @@ public class SearchAlgorithmSimulation {
 //		}
 
 //		System.out.println("\nresult document-score.");
+
+
+		PriorityQueue<HACTreeNode> temp1 = new PriorityQueue<>(maxComparator);
+		temp1.addAll(minHeap);
+		PriorityQueue<HACTreeNode> temp2 = new PriorityQueue<>(maxComparator);
+		temp2.addAll(minHeap2);
+
+//		System.out.println("tree - sequential");
+//		final List<Boolean> b = Arrays.asList(true);
+//		IntStream.range(0, temp1.size()).forEach((i) -> {
+//			HACTreeNode n1 = temp1.poll();
+//			HACTreeNode n2 = temp2.poll();
+////			System.out.println(n1.fileDescriptor + "\t" + n2.fileDescriptor);
+//			b.set(0, b.get(0) & n1.fileDescriptor.equals(n2.fileDescriptor));
+//		});
+//		System.out.println("b:" + b.get(0));
+
+		List<String> l1 = temp1.stream().map((node) -> node.fileDescriptor).sorted().collect(Collectors.toList());
+		List<String> l2 = temp2.stream().map((node) -> node.fileDescriptor).sorted().collect(Collectors.toList());
+
+		String str1 = temp1.stream().map((node) -> node.fileDescriptor).sorted().collect(Collectors.joining(" "));
+		String str2 = temp2.stream().map((node) -> node.fileDescriptor).sorted().collect(Collectors.joining(" "));
+
+		boolean eq = IntStream.range(0, l1.size()).allMatch((i) -> l1.get(i).equals(l2.get(i)));
+		System.out.println("after eq:" + eq);
+		Set<String> s1 = new HashSet<>(l1);
+		s1.retainAll(l2);
+		System.out.println(str1);
+		System.out.println(str2);
+		System.out.println("after inter:" + s1.size() + "  l1.size():" + l1.size());
+
 		PriorityQueue<HACTreeNode> result = new PriorityQueue<>(maxComparator);
 		while (!maxHeap.isEmpty()) {
 			HACTreeNode node = maxHeap.poll();
@@ -165,11 +197,6 @@ public class SearchAlgorithmSimulation {
 		// 是叶子结点.
 		if (root.left == null && root.right == null) {
 			leafNodeCount++;
-			/*if (allDocumentSocreQueue.contains(root)) {
-				containsCount++;
-			}
-			allDocumentSocreQueue.add(root);*/
-
 			double scoreForPrune = scoreForPruning(root, trapdoor);
 			computeCount++;
 			if (!nodeScoreMapForThreshold.containsKey(root)) {
@@ -178,7 +205,6 @@ public class SearchAlgorithmSimulation {
 
 			// 并且候选结果集合中没有top-K个元素.
 			int size = minHeap.size();
-
 			// 因为contains的关键词在文档向量中都是置1的, 而查询向量中相关位置处是超递增序列，至少是从1开始的。
 			if (scoreForPrune >= PRUNE_THRESHOLD_SCORE) {
 				if (size < requestNumber - 1) {
@@ -228,7 +254,7 @@ public class SearchAlgorithmSimulation {
 			double score = scoreForPruning(root, trapdoor);
 			computeCount++;
 //			System.out.printf("%-10s\t%.8f\t%-20s\t%.8f\n", "score", score, "thresholdScore", thresholdScore);
-			if (score > thresholdScore || minHeap.size() < requestNumber) {
+			if (score > thresholdScore) {
 				if (root.left != null) {
 //					System.out.println("left");
 					dfs(root.left, trapdoor, requestNumber, minHeap);

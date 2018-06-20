@@ -23,6 +23,28 @@ import static java.util.stream.Collectors.toList;
 
 public class HACTreeIndexBuildingSimulation {
 
+	// 秘密钥
+	public MySecretKey mySecretKey;
+	public Map<Integer, byte[]> fileBytesMap = new HashMap<>();
+	public Comparator<HacTreeNodePairScore> maxComparator;
+	public Initialization initialization;
+
+	// 实例块中初始化maxComparator。
+	{
+		maxComparator = new Comparator<HacTreeNodePairScore>() {
+			@Override
+			public int compare(HacTreeNodePairScore nodePairScore1, HacTreeNodePairScore nodePairScore2) {
+				if (Double.compare(nodePairScore1.score, nodePairScore2.score) > 0) {
+					return -1;
+				} else if (Double.compare(nodePairScore1.score, nodePairScore2.score) < 0) {
+					return 1;
+				} else {
+					return 0;
+				}
+			}
+		};
+	}
+
 	static class HacTreeNodePairScore {
 		HACTreeNode node1;
 		HACTreeNode node2;
@@ -34,12 +56,6 @@ public class HACTreeIndexBuildingSimulation {
 			this.score = score;
 		}
 	}
-
-	// 秘密钥
-	public MySecretKey mySecretKey;
-	public Map<Integer, byte[]> fileBytesMap = new HashMap<>();
-	public Comparator<HacTreeNodePairScore> maxComparator;
-	public Initialization initialization;
 
 	public HACTreeIndexBuildingSimulation(MySecretKey mySecretKey) {
 		this.mySecretKey = mySecretKey;
@@ -109,20 +125,6 @@ public class HACTreeIndexBuildingSimulation {
 	public HACTreeNode buildHACTreeIndex() throws NoSuchAlgorithmException {
 //		System.out.println("HACTreeIndexBuildingSimulation buildHACTreeIndex start.");
 		long start = System.currentTimeMillis();
-
-		maxComparator = new Comparator<HacTreeNodePairScore>() {
-			@Override
-			public int compare(HacTreeNodePairScore nodePairScore1, HacTreeNodePairScore nodePairScore2) {
-				if (Double.compare(nodePairScore1.score, nodePairScore2.score) > 0) {
-					return -1;
-				} else if (Double.compare(nodePairScore1.score, nodePairScore2.score) < 0) {
-					return 1;
-				} else {
-					return 0;
-				}
-			}
-		};
-
 		Set<HACTreeNode> currentProcessingHACTreeNodeSet = new HashSet<>();
 		Set<HACTreeNode> newGeneratedHACTreeNodeSet = new HashSet<>();
 
@@ -154,7 +156,7 @@ public class HACTreeIndexBuildingSimulation {
 		}
 
 //		System.out.println("start construct hac-tree.");
-		int round = 1;
+//		int round = 1;
 		while (currentProcessingHACTreeNodeSet.size() > 1) {
 //			System.out.println("the " + (round++) + "'s round to build tree.");
 
@@ -162,8 +164,6 @@ public class HACTreeIndexBuildingSimulation {
 			Set<HACTreeNode> managedNodeSet = new HashSet<>();
 
 			while (currentProcessingHACTreeNodeSet.size() > 1) {
-				//HACTreeNodePair mostCorrespondNodePair = findMostCorrespondNodePair(currentProcessingHACTreeNodeSet);
-
 				HacTreeNodePairScore mostSimilarNodePair = maxHeap.poll();
 				// 最相关的两个节点有节点是已经处理过了。
 				if (managedNodeSet.contains(mostSimilarNodePair.node1)
@@ -247,8 +247,6 @@ public class HACTreeIndexBuildingSimulation {
 		// 加密剪枝子向量.
 		double[] paEncrypted = DiagonalMatrixUtils.times(AuxiliaryMatrix.M1Transpose, pa);
 		double[] pbEncrypted = DiagonalMatrixUtils.times(AuxiliaryMatrix.M2Transpose, pb);
-//		Arrays.toString(paEncrypted);
-//		Arrays.toString(pbEncrypted);
 
 		root.pruningVectorPart1 = paEncrypted;
 		root.pruningVectorPart2 = pbEncrypted;

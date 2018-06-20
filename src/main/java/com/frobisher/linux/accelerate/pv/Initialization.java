@@ -37,7 +37,7 @@ public class Initialization {
 	public int DICTIONARY_SIZE;
 	// 添加用于混淆的冗余关键词的数目
 	public int DUMMY_KEYWORD_NUMBER = 10;
-	public int DOC_NUMBER = 1000;
+	public int DOC_NUMBER = 100;
 
 	// 项目目录. 密钥目录. 明文文件目录. 密文文件目录. 40个文件
 
@@ -46,24 +46,24 @@ public class Initialization {
 //	public static final String PLAIN_DIR = BASE + "\\doc\\muse\\extend\\plain40";
 //	public static final String ENCRYPTED_DIR = BASE + "\\doc\\muse\\extend\\encrypted40";
 
-//	public static String BASE = "D:\\MrDarcy\\ForGraduationWorks\\Code\\SSE";
-//	public static String SECRET_KEY_DIR = BASE + "\\doc\\muse\\extend\\key\\aesKey.dat";
-//	public String BASE_PLAIN_DIR = BASE + "\\doc\\muse\\extend\\plain";
-//	public String BASE_ENCRYPTED_DIR = BASE + "\\doc\\muse\\extend\\encrypted";
-//	public String PLAIN_DIR = BASE_PLAIN_DIR + DOC_NUMBER;
-//	public String ENCRYPTED_DIR =  BASE_ENCRYPTED_DIR + DOC_NUMBER;
-//	public String TEXTRANK_WORD_WEIGHT_DIR = "D:\\MrDarcy\\ForGraduationWorks\\Code" +
-//			"\\TextRank-master\\textrank\\doc\\" + DOC_NUMBER + "\\keywords";
-
-
-	public String TEXTRANK_WORD_WEIGHT_DIR = "/home/zqhe/data/doc/textrank/"
-			+ DOC_NUMBER + "/tf_idf_keywords_20";
-	public static String BASE = "/home/zqhe/data";
-	public static String SECRET_KEY_DIR = BASE + "/doc/muse/pv/key/aesKey.dat";
-	public String BASE_PLAIN_DIR = BASE + "/doc/muse/pv/plain";
-	public String BASE_ENCRYPTED_DIR = BASE + "/doc/muse/pv/encrypted";
+	public static String BASE = "D:\\MrDarcy\\ForGraduationWorks\\Code\\SSE";
+	public static String SECRET_KEY_DIR = BASE + "\\doc\\muse\\extend\\key\\aesKey.dat";
+	public String BASE_PLAIN_DIR = BASE + "\\doc\\muse\\extend\\plain";
+	public String BASE_ENCRYPTED_DIR = BASE + "\\doc\\muse\\extend\\encrypted";
 	public String PLAIN_DIR = BASE_PLAIN_DIR + DOC_NUMBER;
-	public String ENCRYPTED_DIR = BASE_ENCRYPTED_DIR + DOC_NUMBER;
+	public String ENCRYPTED_DIR =  BASE_ENCRYPTED_DIR + DOC_NUMBER;
+	public String TEXTRANK_WORD_WEIGHT_DIR = "D:\\MrDarcy\\ForGraduationWorks\\Code" +
+			"\\TextRank-master\\textrank\\doc\\" + DOC_NUMBER + "\\keywords";
+
+
+//	public String TEXTRANK_WORD_WEIGHT_DIR = "/home/zqhe/data/doc/textrank/"
+//			+ DOC_NUMBER + "/tf_idf_keywords_20";
+//	public static String BASE = "/home/zqhe/data";
+//	public static String SECRET_KEY_DIR = BASE + "/doc/muse/pv/key/aesKey.dat";
+//	public String BASE_PLAIN_DIR = BASE + "/doc/muse/pv/plain";
+//	public String BASE_ENCRYPTED_DIR = BASE + "/doc/muse/pv/encrypted";
+//	public String PLAIN_DIR = BASE_PLAIN_DIR + DOC_NUMBER;
+//	public String ENCRYPTED_DIR = BASE_ENCRYPTED_DIR + DOC_NUMBER;
 
 	// 明文文件目录 	密文文件目录. 16个文件
 	/*public static final String PLAIN_DIR = BASE + "\\doc\\plvmuse\\tf_idf_base_1\\plain";

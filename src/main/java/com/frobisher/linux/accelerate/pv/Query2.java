@@ -1,6 +1,7 @@
 package com.frobisher.linux.accelerate.pv;
 
 import com.frobisher.linux.accelerate.DiagonalMatrixUtils;
+import com.frobisher.linux.utils.ByteArrayUtils;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
@@ -8,6 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.security.InvalidKeyException;
+import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -54,17 +56,18 @@ public class Query2 {
 			int requestNumber1 = 15;
 			// int requestNumber = 6;
 
-			List<Integer> requestNumberList = new ArrayList<>();
+			/*List<Integer> requestNumberList = new ArrayList<>();
 			int low = (int) Math.ceil(initialization.DOC_NUMBER * 0.01);
 			int high = (int) Math.ceil(initialization.DOC_NUMBER * 0.1);
 			for (int i = low; i <= high; i += low) {
 				requestNumberList.add(i);
-			}
+			}*/
 
-			// Arrays.asList(5, 10, 15, 20, 25, 30, 40, 50, 60, 80)
+			List<Integer> requestNumberList = Arrays.asList(5, 10, 20, 30, 40, 50);
 			for (int requestNumber : requestNumberList) {
 				SearchAlgorithm searchAlgorithm = new SearchAlgorithm();
-				PriorityQueue<HACTreeNode> priorityQueue = searchAlgorithm.search(root, trapdoor, requestNumber);
+				SearchResult searchResult = searchAlgorithm.search(root, trapdoor, requestNumber);
+				PriorityQueue<HACTreeNode> priorityQueue = searchResult.result;
 				System.out.println("Query2 priorityQueue.size():" + priorityQueue.size());
 				Map<String, Double> nodeScoreMap = new HashMap<>();
 				for (HACTreeNode node : priorityQueue) {
@@ -76,7 +79,11 @@ public class Query2 {
 				System.out.println("\n requestNumber:" + requestNumber + "\t" + query);
 
 				// 验证搜索结果是否包含特定的文档。
-				searchResultVerify(initialization, filenameList, keywordPatternStr, nodeScoreMap);
+//				searchResultVerify(initialization, filenameList, keywordPatternStr, nodeScoreMap);
+
+
+				verify(initialization, mySecretKey, searchResult);
+
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -89,6 +96,38 @@ public class Query2 {
 		} catch (BadPaddingException e) {
 			e.printStackTrace();
 		}
+	}
+
+	private static void verify(Initialization initialization, MySecretKey mySecretKey, SearchResult searchResult) throws IOException, BadPaddingException, InvalidKeyException, IllegalBlockSizeException, NoSuchAlgorithmException {
+		System.out.println();
+		long start = System.currentTimeMillis();
+		PriorityQueue<HACTreeNode> result = searchResult.result;
+
+		byte[] resultBytes = new byte[searchResult.result.peek().digest.digest().length];
+		while (!result.isEmpty()) {
+			HACTreeNode node = result.poll();
+			System.out.println(node.fileDescriptor);
+			String filename = node.fileDescriptor;
+			filename = filename.substring(0, filename.lastIndexOf("."));
+			String encryptedFileName = initialization.ENCRYPTED_DIR
+					+ Initialization.SEPERATOR + "encrypted_" + filename + ".dat";
+
+			byte[] encryptedBytes = Files.readAllBytes(new File(encryptedFileName).toPath());
+			byte[] decryptedBytes = EncryptionUtils.decrypt(encryptedBytes);
+
+			MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
+			byte[] keyBytes = mySecretKey.secretKey.getEncoded();
+
+			byte[] bytes = new byte[keyBytes.length + decryptedBytes.length];
+			System.arraycopy(keyBytes, 0, bytes, 0, keyBytes.length);
+			System.arraycopy(decryptedBytes, 0, bytes, keyBytes.length, decryptedBytes.length);
+			messageDigest.update(bytes);
+
+			resultBytes = ByteArrayUtils.xorArrays(resultBytes, messageDigest.digest());
+		}
+		System.out.println(Arrays.equals(resultBytes, searchResult.byteXorResults));
+		System.out.println("verify result:" + (System.currentTimeMillis() - start) + "ms");
+		System.out.println();
 	}
 
 	public static void testAdjustify() {
@@ -153,7 +192,8 @@ public class Query2 {
 							+ "\trequestNumber:" + requestNumber + "\tkeywordNumber:" + keywordNumber
 							+ "\tDictionarySize:" + initialization.dict.size());
 					SearchAlgorithm searchAlgorithm = new SearchAlgorithm();
-					PriorityQueue<HACTreeNode> priorityQueue = searchAlgorithm.search(root, trapdoor, requestNumber);
+					SearchResult searchResult = searchAlgorithm.search(root, trapdoor, requestNumber);
+					PriorityQueue<HACTreeNode> priorityQueue = searchResult.result;
 					System.out.println("QUERY:" + query + "\nrequestNumber:" + requestNumber + "\npriorityQueue:" + priorityQueue.size());
 					printDash();
 //						Map<String, Double> nodeScoreMap = new HashMap<>();
@@ -231,7 +271,8 @@ public class Query2 {
 					for (int requestNumber : requestNumberList) {
 						System.out.println("QUERY:" + query);
 						SearchAlgorithm searchAlgorithm = new SearchAlgorithm();
-						PriorityQueue<HACTreeNode> priorityQueue = searchAlgorithm.search(root, trapdoor, requestNumber);
+						SearchResult searchResult = searchAlgorithm.search(root, trapdoor, requestNumber);
+						PriorityQueue<HACTreeNode> priorityQueue = searchResult.result;
 						System.out.println("requestNumber:"+ requestNumber + "\tpriorityQueue.size():" + priorityQueue.size());
 						printDash();
 						Map<String, Double> nodeScoreMap = new HashMap<>();
@@ -339,8 +380,9 @@ public class Query2 {
 		System.out.println(new Date());
 		long start = System.currentTimeMillis();
 
-		testAdjustify();
+//		testAdjustify();
 //		testWithTextRank();
+		test();
 
 		long end = System.currentTimeMillis();
 		long s = (start - end) / 1000;

@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
+import java.util.stream.IntStream;
 
 import static java.util.stream.Collectors.toList;
 
@@ -18,13 +19,13 @@ import static java.util.stream.Collectors.toList;
 */
 public class QuerySimulation {
 
-	public static void test2() {
+	public static void test() {
 		try {
 			Initialization initialization = new Initialization();
 			// 没有写textrank和plain文档分离的版本。
 			// 只是new def了两个函数。
 			MySecretKey mySecretKey = initialization.getMySecretKeySimulation(2, 4,
-					4000, 6000);
+					1000, 3000);
 
 			// 这个的问题在于fileLength没有统计出来，生成消息摘要会出现问题。
 //			MySecretKey mySecretKey = initialization.getMySecretKeyWithTextRank();
@@ -33,7 +34,7 @@ public class QuerySimulation {
 			hacTreeIndexBuilding.generateAuxiliaryMatrix();
 //			// 基于TextRank.
 //			HACTreeNode root = hacTreeIndexBuilding.buildHACTreeIndexWithTextRank();
-			System.out.println("HACTreeIndexBuilding build & encrypt index start...");
+			System.out.println("HACTreeIndexBuilding build & encrypt index start.");
 			long start = System.currentTimeMillis();
 			HACTreeNode root = hacTreeIndexBuilding.buildHACTreeIndex();
 //				System.out.println("HACTreeIndexBuilding.encryptHACTreeIndex start...");
@@ -42,6 +43,13 @@ public class QuerySimulation {
 //				System.out.println("time:" + (System.currentTimeMillis() - start) + "ms");
 			System.out.println("build & encrypt cost:" + (System.currentTimeMillis() - start) + "ms");
 			System.out.println("HACTreeIndexBuilding build & encrypt index end.");
+
+			System.out.println("\nHACTreeIndexBuilding build & encrypt sequential-index start.");
+			start = System.currentTimeMillis();
+			List<HACTreeNode> sequentialIndex = hacTreeIndexBuilding.buildSequentialIndex();
+			sequentialIndex = hacTreeIndexBuilding.encryptSequentialIndex(sequentialIndex);
+			System.out.println("build & encrypt cost:" + (System.currentTimeMillis() - start) + "ms");
+			System.out.println("HACTreeIndexBuilding build & encrypt sequential-index end.");
 
 			int orNumbers = 5;
 			int andNumbers = 2;
@@ -57,7 +65,7 @@ public class QuerySimulation {
 			List<Integer> requestNumberList = new ArrayList<>();
 //			int low = (int) Math.ceil(initialization.simulationDocumentNumber * 0.001);
 //			int high = (int) Math.ceil(initialization.simulationDocumentNumber * 0.01);
-			int low = 5;
+			int low = 10;
 			int high = 50;
 			for (int i = low; i <= high; i += low) {
 				requestNumberList.add(i);
@@ -73,12 +81,65 @@ public class QuerySimulation {
 				for (HACTreeNode node : priorityQueue) {
 					nodeScoreMap.put(node.fileDescriptor, scoreForPruning(node, trapdoor));
 				}
-				List<String> filenameList = priorityQueue.stream().map((node) -> node.fileDescriptor).collect(toList());
+//				List<String> filenameList = priorityQueue.stream().map((node) -> node.fileDescriptor).collect(toList());
 
 				System.out.println("\nrequestNumber:" + requestNumber + "\t" + keywordsIndex);
 
+				PriorityQueue<HACTreeNode> sequentialSearchResult = searchAlgorithm.sequentialSearch(sequentialIndex, trapdoor, requestNumber);
+				Map<String, Double> nodeScoreMapSequential = new HashMap<>();
+				for (HACTreeNode node : sequentialSearchResult) {
+					nodeScoreMapSequential.put(node.fileDescriptor, scoreForPruning(node, trapdoor));
+				}
+
+				List<HACTreeNode> treeSequentialIndex = new ArrayList<>(initialization.simulationDocumentNumber);
+				searchAlgorithm.getLeafNodes(root, treeSequentialIndex);
+				PriorityQueue<HACTreeNode> treeSequentialSearchResult = searchAlgorithm.sequentialSearch(treeSequentialIndex, trapdoor, requestNumber);
+				Map<String, Double> nodeScoreMapTreeSequential = new HashMap<>();
+				for (HACTreeNode node : treeSequentialSearchResult) {
+					nodeScoreMapTreeSequential.put(node.fileDescriptor, scoreForPruning(node, trapdoor));
+				}
+
+				System.out.println("sequential  tree-sequential:"  + sequentialIndex.size() + "\t" + treeSequentialIndex.size());
+
+				List<String> filenameList = priorityQueue.stream().map((node) -> node.fileDescriptor).collect(toList());
+				List<String> filenameList2 = sequentialSearchResult.stream().map((node) -> node.fileDescriptor).collect(toList());
+				List<String> filenameList3 = treeSequentialSearchResult.stream().map((node) -> node.fileDescriptor).collect(toList());
+//				System.out.println("tree-sequential test.");
+//				if (filenameList.size() == filenameList2.size()) {
+//					IntStream.range(0, filenameList.size()).forEach((i) -> {
+//						String name1 = filenameList.get(i);
+////						String name2 = filenameList2.get(i);
+//						String name3 = filenameList3.get(i);
+//						System.out.println(name1 + "\t" + nodeScoreMap.get(name1) + "\t\t\t\t" + name3 + "\t" + nodeScoreMapTreeSequential.get(name3) + "\t" + name1.equals(name3));
+////						System.out.println(name3 + "\t" + nodeScoreMapTreeSequential.get(name3) + "\t\t\t\t" + name2 + "\t" + nodeScoreMapSequential.get(name2) + "\t" + name3.equals(name2));
+//					});
+//					boolean b = IntStream.range(0, filenameList.size()).allMatch((i) -> filenameList.get(i).equals(filenameList3.get(i)));
+//					System.out.println(b);
+//				} else {
+//					System.out.println("false");
+//				}
+
+				Set<String> s1 = new HashSet<String>(filenameList);
+				s1.retainAll(new HashSet<>(filenameList2));
+				System.out.println("common:" + s1.size() + "\t" + (filenameList.size() == s1.size()));
+
+				System.out.println("sequential   tree-sequential");
+				List<String> filenameList22 = sequentialSearchResult.stream().map((node) -> node.fileDescriptor).sorted().collect(toList());
+				List<String> filenameList33 = treeSequentialSearchResult.stream().map((node) -> node.fileDescriptor).sorted().collect(toList());
+				if (filenameList2.size() == filenameList3.size()) {
+					boolean b = IntStream.range(0, filenameList22.size()).allMatch((i) -> filenameList22.get(i).equals(filenameList33.get(i)));
+					System.out.println(b);
+				}
+
+				s1.clear();
+				s1.addAll(filenameList22);
+				s1.retainAll(filenameList33);
+				System.out.println("common:" + s1.size() + "\t" + (filenameList2.size() == s1.size()));
+
+
+
 				// 验证搜索结果是否包含特定的文档。
-				searchResultVerify(initialization, filenameList, keywordsIndex, nodeScoreMap);
+//				searchResultVerify(initialization, filenameList, keywordsIndex, nodeScoreMap);
 			}
 
 		} catch (IOException e) {
@@ -111,14 +172,16 @@ public class QuerySimulation {
 		int j = 0;
 		while (j < orNumbers) {
 			int queryIndex = random.nextInt(initialization.simulationDictSize - 1);
-			orKeywordsIndex.add(queryIndex);
-			j++;
+			if (queryIndex != initialization.simulationDictSize - 1) {
+				orKeywordsIndex.add(queryIndex);
+				j++;
+			}
 		}
 
 		j = 0;
 		while (j < andNumbers) {
 			int queryIndex = random.nextInt(initialization.simulationDictSize - 1);
-			if (orKeywordsIndex.indexOf(queryIndex) == -1) {
+			if (queryIndex != initialization.simulationDictSize - 1 && orKeywordsIndex.indexOf(queryIndex) == -1) {
 				andKeywordsIndex.add(queryIndex);
 				j++;
 			}
@@ -127,7 +190,8 @@ public class QuerySimulation {
 		j = 0;
 		while (j < notNumbers) {
 			int queryIndex = random.nextInt(initialization.simulationDictSize - 1);
-			if (orKeywordsIndex.indexOf(queryIndex) == -1
+			if (queryIndex != initialization.simulationDictSize - 1
+					&& orKeywordsIndex.indexOf(queryIndex) == -1
 					&& andKeywordsIndex.indexOf(queryIndex) == -1) {
 				notKeywordsIndex.add(queryIndex);
 				j++;
@@ -171,6 +235,13 @@ public class QuerySimulation {
 				System.out.println("build & encrypt cost:" + (System.currentTimeMillis() - start) + "ms");
 				System.out.println("HACTreeIndexBuilding build & encrypt index end.");
 
+				System.out.println("\nHACTreeIndexBuilding build & encrypt sequential-index start.");
+				start = System.currentTimeMillis();
+				List<HACTreeNode> sequentialIndex = hacTreeIndexBuilding.buildSequentialIndex();
+				sequentialIndex = hacTreeIndexBuilding.encryptSequentialIndex(sequentialIndex);
+				System.out.println("build & encrypt cost:" + (System.currentTimeMillis() - start) + "ms");
+				System.out.println("HACTreeIndexBuilding build & encrypt sequential-index end.");
+
 				Random random = new Random(31);
 
 				// attention, 和 prefer版本不同
@@ -187,7 +258,34 @@ public class QuerySimulation {
 				Trapdoor trapdoor = trapdoorGenerating.generateTrapdoor(keywordsIndex);
 				SearchAlgorithmSimulation searchAlgorithm = new SearchAlgorithmSimulation();
 				PriorityQueue<HACTreeNode> priorityQueue = searchAlgorithm.search(root, trapdoor, requestNumber);
-				System.out.println("requestNumber:"+ requestNumber + "\tpriorityQueue.size():" + priorityQueue.size());
+				System.out.println("requestNumber:" + requestNumber + "\tpriorityQueue.size():" + priorityQueue.size());
+
+				PriorityQueue<HACTreeNode> sequentialSearchResult = searchAlgorithm.sequentialSearch(sequentialIndex, trapdoor, requestNumber);
+
+				Map<String, Double> nodeScoreMap = new HashMap<>();
+				for (HACTreeNode node : priorityQueue) {
+					nodeScoreMap.put(node.fileDescriptor, scoreForPruning(node, trapdoor));
+				}
+
+				Map<String, Double> nodeScoreMapSequential = new HashMap<>();
+				for (HACTreeNode node : sequentialSearchResult) {
+					nodeScoreMapSequential.put(node.fileDescriptor, scoreForPruning(node, trapdoor));
+				}
+
+				List<String> filenameList = priorityQueue.stream().map((node) -> node.fileDescriptor).collect(toList());
+				List<String> filenameList2 = sequentialSearchResult.stream().map((node) -> node.fileDescriptor).collect(toList());
+				if (filenameList.size() == filenameList2.size()) {
+//					IntStream.range(0, filenameList.size()).forEach((ii) -> {
+//						String name1 = filenameList.get(ii);
+//						String name2 = filenameList2.get(ii);
+//						System.out.println(name1 + "\t" + nodeScoreMap.get(name1) + "\t\t\t\t" + name2 + "\t" + nodeScoreMapSequential.get(name2) + "\t" + name1.equals(name2));
+//					});
+					boolean b = IntStream.range(0, filenameList.size()).allMatch((ii) -> filenameList.get(ii).equals(filenameList2.get(ii)));
+					System.out.println(b);
+				} else {
+					System.out.println("false");
+				}
+
 				printDash();
 //				Map<String, Double> nodeScoreMap = new HashMap<>();
 //				for (HACTreeNode node : priorityQueue) {
@@ -242,6 +340,13 @@ public class QuerySimulation {
 				System.out.println("build & encrypt cost:" + (System.currentTimeMillis() - start) + "ms");
 				System.out.println("HACTreeIndexBuilding build & encrypt index end.");
 
+				System.out.println("\nHACTreeIndexBuilding build & encrypt sequential-index start.");
+				start = System.currentTimeMillis();
+				List<HACTreeNode> sequentialIndex = hacTreeIndexBuilding.buildSequentialIndex();
+				sequentialIndex = hacTreeIndexBuilding.encryptSequentialIndex(sequentialIndex);
+				System.out.println("build & encrypt cost:" + (System.currentTimeMillis() - start) + "ms");
+				System.out.println("HACTreeIndexBuilding build & encrypt sequential-index end.");
+
 				int andNumbers = 2;
 				int notNumbers = 3;
 				int orNumbers = keywordNumber - andNumbers - notNumbers;
@@ -252,7 +357,34 @@ public class QuerySimulation {
 				Trapdoor trapdoor = trapdoorGenerating.generateTrapdoor(keywordsIndex);
 				SearchAlgorithmSimulation searchAlgorithm = new SearchAlgorithmSimulation();
 				PriorityQueue<HACTreeNode> priorityQueue = searchAlgorithm.search(root, trapdoor, requestNumber);
-				System.out.println("requestNumber:"+ requestNumber + "\tpriorityQueue.size():" + priorityQueue.size());
+				System.out.println("requestNumber:" + requestNumber + "\tpriorityQueue.size():" + priorityQueue.size());
+
+				PriorityQueue<HACTreeNode> sequentialSearchResult = searchAlgorithm.sequentialSearch(sequentialIndex, trapdoor, requestNumber);
+
+				Map<String, Double> nodeScoreMap = new HashMap<>();
+				for (HACTreeNode node : priorityQueue) {
+					nodeScoreMap.put(node.fileDescriptor, scoreForPruning(node, trapdoor));
+				}
+
+				Map<String, Double> nodeScoreMapSequential = new HashMap<>();
+				for (HACTreeNode node : sequentialSearchResult) {
+					nodeScoreMapSequential.put(node.fileDescriptor, scoreForPruning(node, trapdoor));
+				}
+
+				List<String> filenameList = priorityQueue.stream().map((node) -> node.fileDescriptor).collect(toList());
+				List<String> filenameList2 = sequentialSearchResult.stream().map((node) -> node.fileDescriptor).collect(toList());
+				if (filenameList.size() == filenameList2.size()) {
+					/*IntStream.range(0, filenameList.size()).forEach((ii) -> {
+						String name1 = filenameList.get(ii);
+						String name2 = filenameList2.get(ii);
+						System.out.println(name1 + "\t" + nodeScoreMap.get(name1) + "\t\t\t\t" + name2 + "\t" + nodeScoreMapSequential.get(name2) + "\t" + name1.equals(name2));
+					});*/
+					boolean b = IntStream.range(0, filenameList.size()).allMatch((ii) -> filenameList.get(ii).equals(filenameList2.get(ii)));
+					System.out.println(b);
+				} else {
+					System.out.println("false");
+				}
+
 				printDash();
 //				Map<String, Double> nodeScoreMap = new HashMap<>();
 //				for (HACTreeNode node : priorityQueue) {
@@ -302,6 +434,13 @@ public class QuerySimulation {
 			System.out.println("build & encrypt cost:" + (System.currentTimeMillis() - start) + "ms");
 			System.out.println("HACTreeIndexBuilding build & encrypt index end.");
 
+			System.out.println("\nHACTreeIndexBuilding build & encrypt sequential-index start.");
+			start = System.currentTimeMillis();
+			List<HACTreeNode> sequentialIndex = hacTreeIndexBuilding.buildSequentialIndex();
+			sequentialIndex = hacTreeIndexBuilding.encryptSequentialIndex(sequentialIndex);
+			System.out.println("build & encrypt cost:" + (System.currentTimeMillis() - start) + "ms");
+			System.out.println("HACTreeIndexBuilding build & encrypt sequential-index end.");
+
 			List<Integer> requestNumberList = Arrays.asList(5, 10, 20, 30, 40, 50);
 			List<Integer> keywordNumberList = Arrays.asList(5, 10, 20, 30, 40, 50);
 //			List<Integer> requestNumberList = Arrays.asList(5, 10, 15, 20, 25);
@@ -332,6 +471,33 @@ public class QuerySimulation {
 					SearchAlgorithmSimulation searchAlgorithm = new SearchAlgorithmSimulation();
 					PriorityQueue<HACTreeNode> priorityQueue = searchAlgorithm.search(root, trapdoor, requestNumber);
 					System.out.println("requestNumber:"+ requestNumber + "\tpriorityQueue.size():" + priorityQueue.size());
+
+					PriorityQueue<HACTreeNode> sequentialSearchResult = searchAlgorithm.sequentialSearch(sequentialIndex, trapdoor, requestNumber);
+
+					Map<String, Double> nodeScoreMap = new HashMap<>();
+					for (HACTreeNode node : priorityQueue) {
+						nodeScoreMap.put(node.fileDescriptor, scoreForPruning(node, trapdoor));
+					}
+
+					Map<String, Double> nodeScoreMapSequential = new HashMap<>();
+					for (HACTreeNode node : sequentialSearchResult) {
+						nodeScoreMapSequential.put(node.fileDescriptor, scoreForPruning(node, trapdoor));
+					}
+
+					List<String> filenameList = priorityQueue.stream().map((node) -> node.fileDescriptor).collect(toList());
+					List<String> filenameList2 = sequentialSearchResult.stream().map((node) -> node.fileDescriptor).collect(toList());
+					if (filenameList.size() == filenameList2.size()) {
+//						IntStream.range(0, filenameList.size()).forEach((ii) -> {
+//							String name1 = filenameList.get(ii);
+//							String name2 = filenameList2.get(ii);
+//							System.out.println(name1 + "\t" + nodeScoreMap.get(name1) + "\t\t\t\t" + name2 + "\t" + nodeScoreMapSequential.get(name2) + "\t" + name1.equals(name2));
+//						});
+						boolean b = IntStream.range(0, filenameList.size()).allMatch((ii) -> filenameList.get(ii).equals(filenameList2.get(ii)));
+						System.out.println(b);
+					} else {
+						System.out.println("false");
+					}
+
 					printDash();
 //					Map<String, Double> nodeScoreMap = new HashMap<>();
 //					for (HACTreeNode node : priorityQueue) {
@@ -398,23 +564,23 @@ public class QuerySimulation {
 		System.out.println(new Date());
 		long start = System.currentTimeMillis();
 
-//		test2();
-		System.out.println("testWithFixedDocumentNumberKeywordNumberRequestNumber");
-		testWithFixedDocumentNumberKeywordNumberRequestNumber(6000, 20, 20);
-//		testWithFixedDocumentNumberKeywordNumberRequestNumber(600, 20, 20);
-		System.out.println();
-		System.out.println();
-		System.out.println();
-		System.out.println("testWithFixedDictSizeKeywordNumberRequestNumber");
-		testWithFixedDictSizeKeywordNumberRequestNumber(4000, 20, 20);
-//		testWithFixedDictSizeKeywordNumberRequestNumber(400, 20, 20);
-
-		System.out.println();
-		System.out.println();
-		System.out.println();
-		System.out.println("testWithFixedDocumentNumberFixedDictSize");
-		testWithFixedDocumentNumberFixedDictSize(6000, 4000);
-//		testWithFixedDocumentNumberFixedDictSize(600, 400);
+		test();
+//		System.out.println("testWithFixedDocumentNumberKeywordNumberRequestNumber");
+//		testWithFixedDocumentNumberKeywordNumberRequestNumber(6000, 20, 20);
+////		testWithFixedDocumentNumberKeywordNumberRequestNumber(600, 20, 20);
+//		System.out.println();
+//		System.out.println();
+//		System.out.println();
+//		System.out.println("testWithFixedDictSizeKeywordNumberRequestNumber");
+//		testWithFixedDictSizeKeywordNumberRequestNumber(4000, 20, 20);
+////		testWithFixedDictSizeKeywordNumberRequestNumber(400, 20, 20);
+//
+//		System.out.println();
+//		System.out.println();
+//		System.out.println();
+//		System.out.println("testWithFixedDocumentNumberFixedDictSize");
+//		testWithFixedDocumentNumberFixedDictSize(6000, 4000);
+////		testWithFixedDocumentNumberFixedDictSize(600, 400);
 
 		long end = System.currentTimeMillis();
 		long s = (start - end) / 1000;

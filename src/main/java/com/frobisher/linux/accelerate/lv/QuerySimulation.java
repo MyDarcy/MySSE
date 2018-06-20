@@ -18,7 +18,7 @@ import static java.util.stream.Collectors.toList;
 */
 public class QuerySimulation {
 
-	public static void test2() {
+	public static void test() {
 		try {
 			Initialization initialization = new Initialization();
 			// 没有写textrank和plain文档分离的版本。
@@ -26,7 +26,7 @@ public class QuerySimulation {
 
 			// 如果文档数比较短小，那么逻辑检索就会需要搜索整棵树，因为满足条件的文档不会特别多。
 			MySecretKey mySecretKey = initialization.getMySecretKeySimulation(
-					2, 4,2000, 6000);
+					2, 4,2000, 4000);
 
 			// 这个的问题在于fileLength没有统计出来，生成消息摘要会出现问题。
 //			MySecretKey mySecretKey = initialization.getMySecretKeyWithTextRank();
@@ -340,7 +340,7 @@ public class QuerySimulation {
 		j = 0;
 		while (j < andNumbers) {
 			int queryIndex = random.nextInt(initialization.simulationDictSize - 1);
-			if (orKeywordsIndex.indexOf(queryIndex) == -1) {
+			if (queryIndex != initialization.simulationDictSize - 1 && orKeywordsIndex.indexOf(queryIndex) == -1) {
 				andKeywordsIndex.add(queryIndex);
 				j++;
 			}
@@ -349,7 +349,7 @@ public class QuerySimulation {
 		j = 0;
 		while (j < notNumbers) {
 			int queryIndex = random.nextInt(initialization.simulationDictSize - 1);
-			if (orKeywordsIndex.indexOf(queryIndex) == -1
+			if (queryIndex != initialization.simulationDictSize - 1 && orKeywordsIndex.indexOf(queryIndex) == -1
 					&& andKeywordsIndex.indexOf(queryIndex) == -1) {
 				notKeywordsIndex.add(queryIndex);
 				j++;
@@ -390,23 +390,23 @@ public class QuerySimulation {
 		System.out.println(new Date());
 		long start = System.currentTimeMillis();
 
-//		test2();
-		System.out.println("testWithFixedDictSizeKeywordNumberRequestNumber");
-		testWithFixedDictSizeKeywordNumberRequestNumber(4000, 20, 20);
-//		testWithFixedDocumentNumberKeywordNumberRequestNumber(600,20, 20);
-		System.out.println();
-		System.out.println();
-		System.out.println();
-		System.out.println("testWithFixedDocumentNumberKeywordNumberRequestNumber");
-		testWithFixedDocumentNumberKeywordNumberRequestNumber(6000,20, 20);
-//		testWithFixedDictSizeKeywordNumberRequestNumber(400, 20, 20);
-
-		System.out.println();
-		System.out.println();
-		System.out.println();
-		System.out.println("testWithFixedDocumentNumberFixedDictSize");
-		testWithFixedDocumentNumberDictSize(6000, 4000);
-//		testWithFixedDocumentNumberDictSize(600, 400);
+		test();
+//		System.out.println("testWithFixedDictSizeKeywordNumberRequestNumber");
+//		testWithFixedDictSizeKeywordNumberRequestNumber(4000, 20, 20);
+////		testWithFixedDocumentNumberKeywordNumberRequestNumber(600,20, 20);
+//		System.out.println();
+//		System.out.println();
+//		System.out.println();
+//		System.out.println("testWithFixedDocumentNumberKeywordNumberRequestNumber");
+//		testWithFixedDocumentNumberKeywordNumberRequestNumber(6000,20, 20);
+////		testWithFixedDictSizeKeywordNumberRequestNumber(400, 20, 20);
+//
+//		System.out.println();
+//		System.out.println();
+//		System.out.println();
+//		System.out.println("testWithFixedDocumentNumberFixedDictSize");
+//		testWithFixedDocumentNumberDictSize(6000, 4000);
+////		testWithFixedDocumentNumberDictSize(600, 400);
 
 		long end = System.currentTimeMillis();
 		long s = (start - end) / 1000;

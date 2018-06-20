@@ -11,6 +11,9 @@ import java.util.*;
  *
  * NCP-DFS 非候选深度优先搜索算法.
 */
+
+
+
 public class SearchAlgorithmSimulation {
 
 	double thresholdScore = Double.NEGATIVE_INFINITY;
@@ -23,6 +26,11 @@ public class SearchAlgorithmSimulation {
 	private int pruneCount = 0;
 
 	private Map<HACTreeNode, Double> nodeScoreMapForThreshold;
+
+	static class SearchResult {
+		public byte[] byteXorResults;
+		public PriorityQueue<HACTreeNode> result;
+	}
 
 	/**
 	 * 实现方式1: 采用堆的性性质.
@@ -105,14 +113,29 @@ public class SearchAlgorithmSimulation {
 //		}
 
 //		System.out.println("\nresult document-score.");
+
+
 		PriorityQueue<HACTreeNode> result = new PriorityQueue<>(maxComparator);
 		while (!maxHeap.isEmpty()) {
 			HACTreeNode node = maxHeap.poll();
 			result.add(node);
+
 //			System.out.printf("%-60s%.8f\n", node.fileDescriptor,scoreForPruning(node, trapdoor));
 		}
 
 		return result;
+	}
+
+
+
+	public static byte[] xorArrays(byte[] a, byte[] b) {
+		byte[] xor = new byte[a.length];
+
+		for (int i = 0; i < a.length; i++) {
+			xor[i] = (byte) (a[i] ^ b[i]);
+		}
+
+		return xor;
 	}
 
 	private void sequential(List<HACTreeNode> leafNodes, Trapdoor trapdoor, int requestNumber, PriorityQueue<HACTreeNode> minHeap) {

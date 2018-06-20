@@ -1,6 +1,8 @@
 package com.frobisher.linux.ordinary.lv;
 
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /*
  * author: darcy
@@ -31,6 +33,7 @@ public class SearchAlgorithmSimulation {
 	 * @return
 	 */
 	public PriorityQueue<HACTreeNode> search(HACTreeNode root, Trapdoor trapdoor, int requestNumber) {
+		System.out.println("\nSearchAlgorithmSimulation search start.");
 		minComparator = new Comparator<HACTreeNode>() {
 			@Override
 			public int compare(HACTreeNode o1, HACTreeNode o2) {
@@ -85,6 +88,7 @@ public class SearchAlgorithmSimulation {
 		// 服务器端排序，然后返回top-K个最相关的文档.
 
 		System.out.println("SearchAlgorithmSimulation search end.");
+
 		System.out.println("requestNumber:" + requestNumber);
 		System.out.println("leafNodeCount:" + leafNodeCount);
 		System.out.println("containsCount:" + containsCount);
@@ -99,6 +103,37 @@ public class SearchAlgorithmSimulation {
 //		}
 
 //		System.out.println("\nresult document-score.");
+
+
+		PriorityQueue<HACTreeNode> temp1 = new PriorityQueue<>(maxComparator);
+		temp1.addAll(minHeap);
+		PriorityQueue<HACTreeNode> temp2 = new PriorityQueue<>(maxComparator);
+		temp2.addAll(minHeap2);
+
+		System.out.println("tree - sequential");
+//		final List<Boolean> b = Arrays.asList(true);
+//		IntStream.range(0, temp1.size()).forEach((i) -> {
+//			HACTreeNode n1 = temp1.poll();
+//			HACTreeNode n2 = temp2.poll();
+////			System.out.println(n1.fileDescriptor + "\t" + n2.fileDescriptor);
+//			b.set(0, b.get(0) & n1.fileDescriptor.equals(n2.fileDescriptor));
+//		});
+//		System.out.println("b:" + b.get(0));
+
+		List<String> l1 = temp1.stream().map((node) -> node.fileDescriptor).sorted().collect(Collectors.toList());
+		List<String> l2 = temp2.stream().map((node) -> node.fileDescriptor).sorted().collect(Collectors.toList());
+
+		String str1 = temp1.stream().map((node) -> node.fileDescriptor).sorted().collect(Collectors.joining(" "));
+		String str2 = temp2.stream().map((node) -> node.fileDescriptor).sorted().collect(Collectors.joining(" "));
+
+		boolean eq = IntStream.range(0, l1.size()).allMatch((i) -> l1.get(i).equals(l2.get(i)));
+		System.out.println("after eq:" + eq);
+		Set<String> s1 = new HashSet<>(l1);
+		s1.retainAll(l2);
+		System.out.println(str1);
+		System.out.println(str2);
+		System.out.println("after inter:" + s1.size() + "  l1.size():" + l1.size());
+
 		PriorityQueue<HACTreeNode> result = new PriorityQueue<>(maxComparator);
 		while (!maxHeap.isEmpty()) {
 			HACTreeNode node = maxHeap.poll();
@@ -111,7 +146,24 @@ public class SearchAlgorithmSimulation {
 		return result;
 	}
 
-	private void sequential(List<HACTreeNode> leafNodes, Trapdoor trapdoor, int requestNumber, PriorityQueue<HACTreeNode> minHeap) {
+	public PriorityQueue<HACTreeNode> sequentialSearch(List<HACTreeNode> leafNodes, Trapdoor trapdoor, int requestNumber) {
+		System.out.println("\nSearchAlgorithmSimulation sequentialSearch start.");
+		PriorityQueue<HACTreeNode> minHeap2 = new PriorityQueue<>(minComparator);
+		long start = System.currentTimeMillis();
+		sequential(leafNodes, trapdoor, requestNumber, minHeap2);
+		System.out.println("sequential search time:" + (System.currentTimeMillis() - start) + "ms");
+		System.out.println("SearchAlgorithmSimulation sequentialSearch end.");
+		PriorityQueue<HACTreeNode> maxHeap = new PriorityQueue<>(maxComparator);
+		maxHeap.addAll(minHeap2);
+		PriorityQueue<HACTreeNode> result = new PriorityQueue<>(maxComparator);
+		while (!maxHeap.isEmpty()) {
+			HACTreeNode node = maxHeap.poll();
+			result.add(node);
+		}
+		return result;
+	}
+
+	public void sequential(List<HACTreeNode> leafNodes, Trapdoor trapdoor, int requestNumber, PriorityQueue<HACTreeNode> minHeap) {
 		Map<HACTreeNode, Double> map = new HashMap<>();
 		int count = 0;
 		for (int i = 0; i < leafNodes.size(); i++) {
@@ -133,7 +185,7 @@ public class SearchAlgorithmSimulation {
 		System.out.println("map.size():" + map.size() + ", count:" + count);
 	}
 
-	private void getLeafNodes(HACTreeNode root, List<HACTreeNode> leafNodes) {
+	public void getLeafNodes(HACTreeNode root, List<HACTreeNode> leafNodes) {
 		if (root.left == null && root.right == null) {
 			leafNodes.add(root);
 			return;
@@ -148,7 +200,8 @@ public class SearchAlgorithmSimulation {
 		}
 	}
 
-	public static final double PRUNE_THRESHOLD_SCORE = 0.0004;
+//	public static final double PRUNE_THRESHOLD_SCORE = 1;
+	public static final double PRUNE_THRESHOLD_SCORE = 0;
 
 	private void dfs(HACTreeNode root, Trapdoor trapdoor, int requestNumber, PriorityQueue<HACTreeNode> minHeap) {
 		// 是叶子结点.
@@ -209,11 +262,12 @@ public class SearchAlgorithmSimulation {
 //			else {
 ////				System.out.println("leaf node not add for score < 0.0004");
 //			}
+
 		} else {
 			double score = scoreForPruning(root, trapdoor);
 			computeCount++;
 //			System.out.printf("%-10s\t%.8f\t%-20s\t%.8f\n", "score", score, "thresholdScore", thresholdScore);
-			if (score > thresholdScore) {
+//			if (score > PRUNE_THRESHOLD_SCORE) {
 				if (root.left != null) {
 //					System.out.println("left");
 					dfs(root.left, trapdoor, requestNumber, minHeap);
@@ -222,11 +276,13 @@ public class SearchAlgorithmSimulation {
 //					System.out.println("right");
 					dfs(root.right, trapdoor, requestNumber, minHeap);
 				}
-			} else {
-//				System.out.println("score:" + score + " no bigger than thresholdScore:" + thresholdScore);
-				pruneCount++;
-//				System.out.println();
-			}
+//			}
+//
+//			else {
+////				System.out.println("score:" + score + " no bigger than thresholdScore:" + thresholdScore);
+//				pruneCount++;
+////				System.out.println();
+//			}
 		}
 	}
 

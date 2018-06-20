@@ -31,7 +31,6 @@ public class SearchAlgorithmSimulation {
 	 * @return
 	 */
 	public PriorityQueue<HACTreeNode> search(HACTreeNode root, Trapdoor trapdoor, int requestNumber) {
-		System.out.println("\nSearchAlgorithmSimulation search start.");
 		minComparator = new Comparator<HACTreeNode>() {
 			@Override
 			public int compare(HACTreeNode o1, HACTreeNode o2) {
@@ -62,10 +61,10 @@ public class SearchAlgorithmSimulation {
 				}
 			}
 		};
+//		allDocumentSocreQueue = new PriorityQueue<>(maxComparator);
 
+		System.out.println("\nSearchAlgorithmSimulation search start.");
 		nodeScoreMapForThreshold = new HashMap<>(requestNumber);
-
-		allDocumentSocreQueue = new PriorityQueue<>(maxComparator);
 		PriorityQueue<HACTreeNode> minHeap = new PriorityQueue<>(minComparator);
 
 		long start = System.currentTimeMillis();
@@ -74,12 +73,12 @@ public class SearchAlgorithmSimulation {
 
 		List<HACTreeNode> leafNodes = new ArrayList<>();
 		getLeafNodes(root, leafNodes);
-		System.out.println("leafNodes.size():" + leafNodes.size());
+//		System.out.println("leafNodes.size():" + leafNodes.size());
 		PriorityQueue<HACTreeNode> minHeap2 = new PriorityQueue<>(minComparator);
 		start = System.currentTimeMillis();
 		sequential(leafNodes, trapdoor, requestNumber, minHeap2);
 		System.out.println("sequential time:" + (System.currentTimeMillis() - start) + "ms");
-		System.out.println("minHeap2.size():" + minHeap2.size());
+//		System.out.println("minHeap2.size():" + minHeap2.size());
 
 		PriorityQueue<HACTreeNode> maxHeap = new PriorityQueue<>(maxComparator);
 		maxHeap.addAll(minHeap);
@@ -111,7 +110,24 @@ public class SearchAlgorithmSimulation {
 		return result;
 	}
 
-	private void sequential(List<HACTreeNode> leafNodes, Trapdoor trapdoor, int requestNumber, PriorityQueue<HACTreeNode> minHeap) {
+	public PriorityQueue<HACTreeNode> sequentialSearch(List<HACTreeNode> leafNodes, Trapdoor trapdoor, int requestNumber) {
+		System.out.println("\nSearchAlgorithmSimulation sequentialSearch start.");
+		PriorityQueue<HACTreeNode> minHeap2 = new PriorityQueue<>(minComparator);
+		long start = System.currentTimeMillis();
+		sequential(leafNodes, trapdoor, requestNumber, minHeap2);
+		System.out.println("sequential search time:" + (System.currentTimeMillis() - start) + "ms");
+		System.out.println("SearchAlgorithmSimulation sequentialSearch end.");
+		PriorityQueue<HACTreeNode> maxHeap = new PriorityQueue<>(maxComparator);
+		maxHeap.addAll(minHeap2);
+		PriorityQueue<HACTreeNode> result = new PriorityQueue<>(maxComparator);
+		while (!maxHeap.isEmpty()) {
+			HACTreeNode node = maxHeap.poll();
+			result.add(node);
+		}
+		return result;
+	}
+
+	public void sequential(List<HACTreeNode> leafNodes, Trapdoor trapdoor, int requestNumber, PriorityQueue<HACTreeNode> minHeap) {
 		Map<HACTreeNode, Double> map = new HashMap<>();
 		int count = 0;
 		for (int i = 0; i < leafNodes.size(); i++) {
@@ -133,7 +149,7 @@ public class SearchAlgorithmSimulation {
 		System.out.println("map.size():" + map.size() + ", count:" + count);
 	}
 
-	private void getLeafNodes(HACTreeNode root, List<HACTreeNode> leafNodes) {
+	public void getLeafNodes(HACTreeNode root, List<HACTreeNode> leafNodes) {
 		if (root.left == null && root.right == null) {
 			leafNodes.add(root);
 			return;
@@ -204,12 +220,22 @@ public class SearchAlgorithmSimulation {
 //					  System.out.println("new thresholdSocre:" + thresholdScore);
 					}
 				}
-			} else {
-//				System.out.println("leaf node not add for score < 0.0004");
 			}
+
+//			else {
+////				System.out.println("leaf node not add for score < 0.0004");
+//			}
+
 		} else {
-			double score = scoreForPruning(root, trapdoor);
-			computeCount++;
+			double score = 0.0;
+			if (nodeScoreMapForThreshold.containsKey(root)) {
+				thresholdScore = nodeScoreMapForThreshold.get(root);
+				containsCount++;
+			} else {
+				score = scoreForPruning(root, trapdoor);
+				computeCount++;
+			}
+
 //			System.out.printf("%-10s\t%.8f\t%-20s\t%.8f\n", "score", score, "thresholdScore", thresholdScore);
 			if (score > thresholdScore) {
 				if (root.left != null) {

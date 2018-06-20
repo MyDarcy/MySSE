@@ -1,0 +1,93 @@
+Sun Apr 08 16:57:36 CST 2018
+com.frobisher.linux.ordinary.pv.QuerySimulation search.
+HACTreeIndexBuilding generateAuxiliaryMatirx start.
+two transpose:681ms
+two inverse:182037ms
+transpose & inverse time:182718ms
+HACTreeIndexBuilding generateAuxiliaryMatrix finished.
+
+HACTreeIndexBuilding build & encrypt index start.
+build & encrypt cost:217712ms
+HACTreeIndexBuilding build & encrypt index end.
+
+HACTreeIndexBuilding build & encrypt sequential-index start.
+build & encrypt cost:77060ms
+HACTreeIndexBuilding build & encrypt sequential-index end.
+
+TrapdoorGenerating trapdoorGenerating start.
+generate trapdoor total time:46ms
+TrapdoorGenerating trapdoorGenerating finished.
+
+
+SearchAlgorithmSimulation search start.
+tree time:57ms
+map.size():2000, count:2000
+sequential time:131ms
+SearchAlgorithmSimulation search end.
+requestNumber:10
+leafNodeCount:90
+containsCount:42
+computeCount:399
+pruneCount:110
+requestNumber:10	priorityQueue.size():10
+----------------------------------------------------------------------------------
+
+
+SearchAlgorithmSimulation search start.
+tree time:78ms
+map.size():2000, count:2000
+sequential time:127ms
+SearchAlgorithmSimulation search end.
+requestNumber:20
+leafNodeCount:164
+containsCount:77
+computeCount:583
+pruneCount:128
+requestNumber:20	priorityQueue.size():20
+----------------------------------------------------------------------------------
+
+
+SearchAlgorithmSimulation search start.
+tree time:98ms
+map.size():2000, count:2000
+sequential time:166ms
+SearchAlgorithmSimulation search end.
+requestNumber:30
+leafNodeCount:218
+containsCount:107
+computeCount:711
+pruneCount:138
+requestNumber:30	priorityQueue.size():30
+----------------------------------------------------------------------------------
+
+
+SearchAlgorithmSimulation search start.
+tree time:143ms
+map.size():2000, count:2000
+sequential time:210ms
+SearchAlgorithmSimulation search end.
+requestNumber:40
+leafNodeCount:278
+containsCount:146
+computeCount:855
+pruneCount:150
+requestNumber:40	priorityQueue.size():40
+----------------------------------------------------------------------------------
+
+
+SearchAlgorithmSimulation search start.
+tree time:171ms
+map.size():2000, count:2000
+sequential time:228ms
+SearchAlgorithmSimulation search end.
+requestNumber:50
+leafNodeCount:318
+containsCount:167
+computeCount:981
+pruneCount:173
+requestNumber:50	priorityQueue.size():50
+----------------------------------------------------------------------------------
+0hours-8minutes-1seconds
+Sun Apr 08 17:05:38 CST 2018
+
+Process finished with exit code 0

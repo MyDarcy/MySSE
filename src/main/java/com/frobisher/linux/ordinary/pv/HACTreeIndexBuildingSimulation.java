@@ -21,7 +21,6 @@ import static java.util.stream.Collectors.toList;
 */
 
 
-
 public class HACTreeIndexBuildingSimulation {
 
 	// 秘密钥
@@ -103,7 +102,7 @@ public class HACTreeIndexBuildingSimulation {
 	 * @throws IllegalBlockSizeException
 	 */
 	public void encryptFiles() throws IOException, BadPaddingException, InvalidKeyException, IllegalBlockSizeException {
-		System.out.println("HACTreeIndexBuilding encryptFiles start.");
+//		System.out.println("HACTreeIndexBuilding encryptFiles start.");
 		long start = System.currentTimeMillis();
 		for (int i = 0; i < initialization.simulationDocuments.size(); i++) {
 			Matrix matrix = initialization.simulationDocuments.get(i);
@@ -122,18 +121,81 @@ public class HACTreeIndexBuildingSimulation {
 //		System.out.println("HACTreeIndexBuilding encryptFiles finish.");
 	}
 
+	public List<HACTreeNode> buildSequentialIndex() throws NoSuchAlgorithmException {
+
+		List<HACTreeNode> sequentialIndex = new ArrayList<>(initialization.simulationDocumentNumber);
+		for (int i = 0; i < initialization.simulationDocumentNumber; i++) {
+			Matrix P = initialization.simulationDocuments.get(i);
+			double[] sample = distribution.sample(initialization.simulationDummykeywordIndexSet.size());
+			int indexCount = 0;
+			for (int index : initialization.simulationDummykeywordIndexSet) {
+				P.set(index, 0, sample[indexCount++]);
+			}
+			// 获取消息摘要.
+			MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
+			byte[] keyBytes = mySecretKey.secretKey.getEncoded();
+
+			byte[] fileBytes = fileBytesMap.get(i);
+			byte[] bytes = new byte[keyBytes.length + fileBytes.length];
+			System.arraycopy(keyBytes, 0, bytes, 0, keyBytes.length);
+			System.arraycopy(fileBytes, 0, bytes, keyBytes.length, fileBytes.length);
+			messageDigest.update(bytes);
+
+			HACTreeNode currentNode = new HACTreeNode(P, P, 1,
+					null, null, String.valueOf(i), messageDigest);
+			sequentialIndex.add(currentNode);
+		}
+
+		return sequentialIndex;
+	}
+
+	public List<HACTreeNode> encryptSequentialIndex(List<HACTreeNode> sequentialIndex) {
+		for (int i = 0; i < sequentialIndex.size(); i++) {
+			HACTreeNode root = sequentialIndex.get(i);
+
+			// 获取可逆矩阵加密后的Matrix.
+			Matrix pa = new Matrix(initialization.simulationDictSize, 1);
+			Matrix pb = new Matrix(initialization.simulationDictSize, 1);
+			Matrix P = root.pruningVector;
+			for (int j = 0; j < initialization.simulationDictSize; j++) {
+				// 置0时候相加
+				if (!mySecretKey.S.get(j)) {
+					double v1 = random.nextDouble();
+					// 不是简单的v1和 p-v1,
+					pa.set(j, 0, P.get(j, 0) * v1);
+					pb.set(j, 0, P.get(j, 0) * (1 - v1));
+
+					// 置1时候相等。
+				} else {
+					pa.set(j, 0, P.get(j, 0));
+					pb.set(j, 0, P.get(j, 0));
+				}
+			}
+
+			// new matrix.
+			Matrix paEncrypted = AuxiliaryMatrix.M1Transpose.times(pa);
+			Matrix pbEncrypted = AuxiliaryMatrix.M2Transpose.times(pb);
+
+			root.pruningVectorPart1 = paEncrypted;
+			root.pruningVectorPart2 = pbEncrypted;
+			root.pruningVector = null;
+			root.clusterCenterVector = null;
+			root.numberOfNodeInCurrentCluster = 0;
+		}
+
+		return sequentialIndex;
+	}
+
 	public HACTreeNode buildHACTreeIndex() throws NoSuchAlgorithmException {
 //		System.out.println("HACTreeIndexBuilding buildHACTreeIndex start.");
 		long start = System.currentTimeMillis();
 		Set<HACTreeNode> currentProcessingHACTreeNodeSet = new HashSet<>();
 		Set<HACTreeNode> newGeneratedHACTreeNodeSet = new HashSet<>();
 
-		PriorityQueue<Double> tfIdfMinHeap = new PriorityQueue<>(20, Double::compare);
-		PriorityQueue<Double> tfIdfMaxHeap = new PriorityQueue<>(20, Comparator.reverseOrder());
-
+//		PriorityQueue<Double> tfIdfMinHeap = new PriorityQueue<>(20, Double::compare);
+//		PriorityQueue<Double> tfIdfMaxHeap = new PriorityQueue<>(20, Comparator.reverseOrder());
 		for (int i = 0; i < initialization.simulationDocumentNumber; i++) {
 			// System.out.println(files[i].getName());
-
 			Matrix P = initialization.simulationDocuments.get(i);
 			double[] sample = distribution.sample(initialization.simulationDummykeywordIndexSet.size());
 			int indexCount = 0;
@@ -153,15 +215,11 @@ public class HACTreeIndexBuildingSimulation {
 			HACTreeNode currentNode = new HACTreeNode(P, P, 1,
 					null, null, String.valueOf(i), messageDigest);
 
-			/*HACTreeNode currentNode = new HACTreeNode(P, P, 1,
-					null, null, files[i].getName(), files[i].getName());*/
-			/*System.out.println(currentNode);*/
-
 			currentProcessingHACTreeNodeSet.add(currentNode);
 		}
 
 //		System.out.println("start construct hac-tree.");
-		int round = 1;
+//		int round = 1;
 		while (currentProcessingHACTreeNodeSet.size() > 1) {
 //			System.out.println("the " + (round++) + "'s round to build tree.");
 
@@ -169,8 +227,6 @@ public class HACTreeIndexBuildingSimulation {
 			Set<HACTreeNode> managedNodeSet = new HashSet<>();
 
 			while (currentProcessingHACTreeNodeSet.size() > 1) {
-				//HACTreeNodePair mostCorrespondNodePair = findMostCorrespondNodePair(currentProcessingHACTreeNodeSet);
-
 				HacTreeNodePairScore mostSimilarNodePair = maxHeap.poll();
 				// 最相关的两个节点有节点是已经处理过了。
 				if (managedNodeSet.contains(mostSimilarNodePair.node1)
@@ -220,6 +276,10 @@ public class HACTreeIndexBuildingSimulation {
 		return parent;
 	}
 
+	/**
+	 *
+	 * @param root
+	 */
 	public void encryptHACTreeIndex(HACTreeNode root) {
 		if (root == null) {
 			return;
@@ -265,7 +325,8 @@ public class HACTreeIndexBuildingSimulation {
 //		System.out.println("getPriorityQueue start.");
 		long start = System.currentTimeMillis();
 		List<HACTreeNode> list = hacTreeNodePairScoreSet.stream().collect(toList());
-		PriorityQueue<HacTreeNodePairScore> maxHeap = new PriorityQueue<>(maxComparator);
+		int n = list.size();
+		PriorityQueue<HacTreeNodePairScore> maxHeap = new PriorityQueue<>(n * (n - 1) / 2 + 1, maxComparator);
 		for (int i = 0; i < list.size(); i++) {
 			for (int j = i + 1; j < list.size(); j++) {
 				maxHeap.add(new HacTreeNodePairScore(list.get(i), list.get(j),
@@ -392,35 +453,3 @@ public class HACTreeIndexBuildingSimulation {
 		System.out.println(0.156131 / 0.041386);
 	}
 }
-/*
-frequency           1         docNumber           2
-protesters          TF-IDF              0.00133977
-
-frequency           11        docNumber           1
-chemical            TF-IDF              0.00587010
-
-frequency           1         docNumber           8
-left                TF-IDF              0.00066989
-
-frequency           1         docNumber           2
-5                   TF-IDF              0.00133977
-
-frequency           1         docNumber           1
-turning             TF-IDF              0.00172757
-
-frequency           6         docNumber           1
-inspectors          TF-IDF              0.00482296
-
-frequency           1         docNumber           4
-9                   TF-IDF              0.00098136
-
-frequency           1         docNumber           1
-returns             TF-IDF              0.00172757
-
-frequency           1         docNumber           1
-wing                TF-IDF              0.00172757
-
-frequency           1         docNumber           2
-shortly             TF-IDF              0.00133977
-
- */
